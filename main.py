@@ -1,9 +1,9 @@
 import tornado.ioloop
 import settings
-
+from handlers.squeeze import LandingHandler
 
 application = tornado.web.Application([
-    (r"/", PreHandler),
+    (r"/", LandingHandler),
 ], debug=settings.DEBUG, static_path = settings.STATIC_PATH, template_path =  settings.TEMPLATE_PATH,
         cookie_secret=settings.COOKIE_SECRET)
 
