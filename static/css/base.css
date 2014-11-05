@@ -1,16 +1,5 @@
 body{
-    font-family:"Ubuntu",sans-serif;
-    font-size:1.05em;
-    color:#f5f5f5;
-    overflow-x:hidden;
-    position:relative;
-    padding-top:80px;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    -ms-background-size: cover;
-    background-size: cover;
-    font-weight: 300
+
 }
 
 html, body,header{
@@ -18,20 +7,31 @@ html, body,header{
 }
 
 #top{
-background:#f5f5f5 url(../img/bg-index.jpg) no-repeat center;
-height:900px;
+    background:#f5f5f5 url(../img/bg-index.jpg) no-repeat center;
+    height:900px;
+    font-family:"Ubuntu",sans-serif;
+    font-size:1.05em;
+    color:#f5f5f5;
+    overflow-x:hidden;
+    position:relative;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    -ms-background-size: cover;
+    background-size: cover;
+    font-weight: 300
 }
 #bottom{
  background-color:#2D87AA;
- height:900px;
 }
 #emotion{
-background:url(../img/giftbox.png) no-repeat center;
-height:257px;
-width:400px;
+    position: relative;
+    left: 30px;
+    top: 100px;
 }
+
 #logotext{
-background:url(../img/title.png) no-repeat center;
-height:236px;
-width:600px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
 }
