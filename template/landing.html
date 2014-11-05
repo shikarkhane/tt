@@ -20,14 +20,33 @@
 <body>
 <section id="top">
     <div id="emotion">
-        <img src="/static/img/giftbox.png" class="img-responsive"/>
+        <!--h1>What are you <br/>thinking of ?</h1-->
+        <img src="/static/img/giftbox.png" class="img-responsive">
     </div>
 </section>
     <section id="bottom">
+        <div class="lower">
         <div id="logodiv">
             <img id="logotext" src="/static/img/title.png" class="img-responsive">
         </div>
-        <div id="invite"></div>
+        <div>
+            <div id="invite" class="well well-lg">
+                    <div class="teaser-text">
+                        <p>Be the first to grab a spot at our upcoming launch</p>
+                    </div>
+                    <div class="input-group">
+                      <input id="email" type="text" placeholder="joe@tinktime.com" class="form-control">
+                      <span id="inviteme" class="input-group-addon">invite me!</span>
+                    </div>
+                    <div class="teaser-text">
+                        <p>don't worry, no spam!</p>
+                    </div>
+             </div>
+        </div>
+    </div>
     </section>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="/static/js/utility.js"></script>
+<script src="/static/js/invite.js"></script>
 </body>

@@ -8,3 +8,4 @@ TEMPLATE_PATH = os.path.join(DIRNAME, 'template')
 COOKIE_SECRET = '12345678'
 ADMIN_EMAILS = ['shikarkhane@gmail.com']
 DEBUG_LOG = 'feeder.log'
+SUBSCRIBER_FILE='subscriber_list.txt'

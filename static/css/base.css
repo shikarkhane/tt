@@ -1,5 +1,5 @@
 body{
-
+    font-color: #FFFFFF;
 }
 
 html, body,header{
@@ -34,4 +34,32 @@ html, body,header{
     display: block;
     margin-left: auto;
     margin-right: auto;
+}
+
+#invite{
+    border: 2px solid #96c3d5;
+    max-width: 600px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.well{
+    background-color:#2D87AA;
+}
+
+.lower{
+    padding-top:40px;
+    padding-bottom:40px;
+}
+
+#inviteme{
+    background-color: #f9d746;
+    color: #4D4D4D;
+}
+
+.teaser-text{
+text-align: center;
+vertical-align: middle;
+color: #c0dbe5;
 }

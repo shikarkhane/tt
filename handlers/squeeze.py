@@ -14,3 +14,10 @@ class LandingHandler(tornado.web.RequestHandler):
             self.render('landing.html')
         except Exception,e:
             logging.exception(e)
+    def post(self, email):
+        '''store the email in flat file'''
+        try:
+            with open(settings.SUBSCRIBER_FILE, "a") as f:
+                f.write("{0}\n".format(email))
+        except Exception,e:
+            logging.exception(e)

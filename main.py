@@ -4,6 +4,7 @@ from handlers.squeeze import LandingHandler
 
 application = tornado.web.Application([
     (r"/", LandingHandler),
+    (r"/subscribe/(\w+[\.]?\w+[@]\w+[\.]\w+)/", LandingHandler),
 ], debug=settings.DEBUG, static_path = settings.STATIC_PATH, template_path =  settings.TEMPLATE_PATH,
         cookie_secret=settings.COOKIE_SECRET)
 
