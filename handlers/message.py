@@ -9,14 +9,14 @@ class MessageHandler(tornado.web.RequestHandler):
     '''
     messages sent, deleted, listed
     '''
-    def get(self):
+    def get(self, message_id):
         try:
             self.write("message get")
         except Exception,e:
             logging.exception(e)
     def post(self):
         try:
-            self.write("message posted")
+            self.write("writing msg to receiver feed")
         except Exception,e:
             logging.exception(e)
     def delete(self):
@@ -24,17 +24,22 @@ class MessageHandler(tornado.web.RequestHandler):
             self.write("message deleted")
         except Exception,e:
             logging.exception(e)
-class UnreadHandler(tornado.web.RequestHandler):
+class QueueWriter(tornado.web.RequestHandler):
     '''
-    unread messages sent, listed
+    write message to queue
     '''
-    def get(self):
-        try:
-            self.write("unread message get")
-        except Exception,e:
-            logging.exception(e)
     def post(self):
         try:
-            self.write("unread message posted")
+            self.write("writing msg to queue")
+        except Exception,e:
+            logging.exception(e)
+class QueueListener(tornado.web.RequestHandler):
+    '''
+    methods here put the messages into receivers feed storage
+    and send push notification to receivers phone via notify queue
+    '''
+    def post(self):
+        try:
+            self.write("on call back from queue, will call messagehandler.post and push notify reciever phone")
         except Exception,e:
             logging.exception(e)
