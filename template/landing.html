@@ -27,24 +27,25 @@
 </script>
 </head>
 <body>
-<div>
-    <div>
+<div class="main-container">
+    <div class="top-container">
         <div class="top-image">
-            <img src="/static/img/bg-index.jpg" class="img-responsive">
+                <div>
+                    <img src="/static/img/bg-index.jpg" class="img-responsive">
+                </div>
+                <div class="license">
+                    <a href="https://www.flickr.com/photos/jonathankosread/" target="_blank">
+                        <span class="glyphicon glyphicon-info-sign"></span>
+                        <small>Some rights reserved by Jonathan Kos-Read</small>
+                    </a>
+                </div>
         </div>
-        <div class="license">
-            <a href="https://www.flickr.com/photos/jonathankosread/" target="_blank">
-                <span class="glyphicon glyphicon-info-sign"></span>
-                <small>Some rights reserved by Jonathan Kos-Read</small>
-            </a>
-        </div>
-        <!--div id="emotion" class="pull-left">
-            <!--h1>What are you <br/>thinking of ?</h1>
+        <div class="emotion">
+            <h1>What are you <br/>thinking of ?</h1>
             <img src="/static/img/giftbox.png" class="img-responsive">
-        </div-->
+        </div>
     </div>
-</div>
-    <div id="bottom">
+    <div id="bottom" class="bottom-container">
         <div class="lower">
         <div id="logodiv">
             <img id="logotext" src="/static/img/title.png" class="img-responsive">
@@ -69,6 +70,8 @@
         </div>
     </div>
     </div>
+
+</div>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 <script src="/static/js/utility.js"></script>

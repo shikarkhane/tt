@@ -10,12 +10,20 @@ html, body,header{
 #bottom{
  background-color:#2D87AA;
 }
-#emotion{
-    position: relative;
-    left: 30px;
-    top: 100px;
-}
 
+.top-image{
+    position: relative;
+}
+.emotion{
+    position: relative;
+    top: -750px;
+    left: 50px;
+    background: rgba(204, 204, 204, 0.5);
+    padding: 15px;
+    border-radius: 25px;
+    width: 350px;
+    height: 400px;
+}
 #logotext{
     display: block;
     margin-left: auto;
@@ -59,3 +67,4 @@ border-radius: 4px;
 .license{
     margin-top: -30px;
 }
+
