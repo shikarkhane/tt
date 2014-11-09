@@ -6,21 +6,7 @@ html, body,header{
     height: 100%;
 }
 
-#top{
-    background:#f5f5f5 url(../img/bg-index.jpg) no-repeat center;
-    height:900px;
-    font-family:"Ubuntu",sans-serif;
-    font-size:1.05em;
-    color:#f5f5f5;
-    overflow-x:hidden;
-    position:relative;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    -ms-background-size: cover;
-    background-size: cover;
-    font-weight: 300
-}
+
 #bottom{
  background-color:#2D87AA;
 }
@@ -68,4 +54,8 @@ color: #c0dbe5;
 .teaser-email{
 border: .5px solid #96c3d5;
 border-radius: 4px;
+}
+
+.license{
+    margin-top: -30px;
 }
