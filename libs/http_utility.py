@@ -1,5 +1,6 @@
 import urllib2
 import json
+import settings
 
 def http_get(url):
     req = urllib2.Request(url)
@@ -7,6 +8,7 @@ def http_get(url):
     out = urllib2.urlopen(req)
     return out.read()
 def http_post(url, json_data):
+    url = "{0}{1}".format(settings.SERVERNAME, url)
     req = urllib2.Request(url, json.dumps(json_data))
     req.get_method = lambda: 'POST'
     out = urllib2.urlopen(req)
