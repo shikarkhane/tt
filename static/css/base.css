@@ -1,5 +1,11 @@
+@font-face {
+    font-family: 'nexalight'; /*a name to be used later*/
+    src: url('../fonts/NexaLight.otf') format("opentype"); /*URL to font*/
+}
+
 body{
-    font-color: #FFFFFF;
+    color: #FFFFFF;
+    font-family: 'nexalight';
 }
 
 html, body,header{
@@ -7,16 +13,19 @@ html, body,header{
 }
 
 
-#bottom{
+.bottom{
  background-color:#2D87AA;
+
 }
 
-.top-image{
+.top{
     position: relative;
 }
+
 .emotion{
-    position: relative;
-    top: -750px;
+    position: absolute;
+    z-index:2;
+    top: 150px;
     left: 50px;
     background: rgba(204, 204, 204, 0.5);
     padding: 15px;

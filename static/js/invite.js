@@ -1,6 +1,6 @@
 $(document).ready(function()
 {
-    $('#email').attr('placeholder') = 'joe@tinktime.com';
+    $('#email').attr('placeholder','joe@tinktime.com');
 });
 
 $(document).on('click', "#inviteme", function(event) {
