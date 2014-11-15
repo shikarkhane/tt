@@ -3,7 +3,7 @@ import settings
 import logging
 from db._message import Message
 import json
-from libs.http_utility import http_post
+from libs.http_utility import http_call
 
 # Log everything, and send it to stderr.
 logging.basicConfig(filename=settings.DEBUG_LOG,level=logging.ERROR,format='%(asctime)s %(message)s')
@@ -35,7 +35,7 @@ class QueueWriter(tornado.web.RequestHandler):
         try:
             data = json.loads(self.request.body)
             # todo : write to queue, till then pass it on to listener
-            http_post('/message-listener/', data)
+            http_call('/message-listener/', data, 'POST', True)
             self.write("writing msg to queue")
         except Exception,e:
             logging.exception(e)
@@ -48,7 +48,7 @@ class QueueListener(tornado.web.RequestHandler):
         try:
             data = json.loads(self.request.body)
             # todo: call push notify
-            http_post('/message/', data)
+            http_call('/message/', data, 'POST', True)
             self.write("on call back from queue, will call messagehandler.post and push notify reciever phone")
         except Exception,e:
             logging.exception(e)
