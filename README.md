@@ -10,6 +10,5 @@ will be stored in hash map
 
 set A:B:20141112101523 "gif1|hello"
 
-2. Get all messages received by B in Nov 2014
-
-keys *:B:201411*
+lpush sender:A:user "A:B:20141112101523"
+lpush receiver:B:user "A:B:20141112101523"

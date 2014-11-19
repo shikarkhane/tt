@@ -3,6 +3,7 @@ import settings
 from handlers.squeeze import LandingHandler
 from handlers.pa import PreAlphaHandler
 from handlers.message import QueueListener, QueueWriter, MessageHandler
+from handlers.feed import FeedHandler
 import redis
 
 pool = [redis.ConnectionPool(host=s["server"], port=s["port"], db=0) for s in settings.REDIS_SHARDS]
@@ -14,6 +15,7 @@ application = tornado.web.Application([
     (r"/message-queue/", QueueWriter),
     (r"/message-listener/", QueueListener),
     (r"/message/", MessageHandler),
+    (r"/feed/", FeedHandler),
 ], debug=settings.DEBUG, static_path = settings.STATIC_PATH, template_path = settings.TEMPLATE_PATH,
         cookie_secret=settings.COOKIE_SECRET, db_connection_pool=pool)
 
