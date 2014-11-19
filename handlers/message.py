@@ -1,9 +1,9 @@
 import tornado.web
 import settings
 import logging
-from db._message import Message, Message_Data
 import json
 from libs.http_utility import http_call
+from libs.message import save_message
 
 # Log everything, and send it to stderr.
 logging.basicConfig(filename=settings.DEBUG_LOG,level=logging.ERROR,format='%(asctime)s %(message)s')
@@ -20,8 +20,7 @@ class MessageHandler(tornado.web.RequestHandler):
     def post(self):
         try:
             d = json.loads(self.request.body)
-            m = Message(d["from_user"], d["to_user"], d["send_timestamp"], d["trinket_id"], d["text"])
-            Message_Data(self.application.settings["db_connection_pool"]).save(m)
+            r = save_message(self.application.settings["db_connection_pool"], d)
             self.write("writing msg to receiver feed")
         except Exception,e:
             logging.exception(e)
