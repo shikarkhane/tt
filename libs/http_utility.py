@@ -1,5 +1,4 @@
 import urllib2
-import urllib
 import json
 import settings
 from tornado.httpclient import AsyncHTTPClient

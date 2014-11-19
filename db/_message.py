@@ -1,7 +1,7 @@
-import redis
 import settings
 from libs.string_utility import split_by_first_occurance
-from libs.keys_utility import create_key
+from libs.keys_utility import message_key, sender_key, receiver_key
+from libs.shards_utility import Shard
 
 class Message():
     def __init__(self, *args):
@@ -25,22 +25,29 @@ class Message():
         self.trinket_id = int(vl[0])
         self.text = vl[1]
 class Message_Data():
-    def __init__(self):
-        self.r = redis.StrictRedis(host=settings.REDIS_SERVER, port=settings.REDIS_PORT, db=0)
+    def __init__(self, connection_pool):
+        self.r = Shard(connection_pool).get_server
     def save(self, msg):
-        key = create_key(msg.from_user, msg.to_user, msg.send_timestamp)
+        '''save msg as message-key plus save message-key in a senders list and receivers list'''
+        mk = message_key(msg.from_user, msg.to_user, msg.send_timestamp)
+        sk = sender_key(msg.from_user)
+        rk = receiver_key(msg.to_user)
+
         val = '{0}|{1}'.format(msg.text, msg.trinket_id)
-        if self.r.setnx( key,val):
-            return key
+
+        if self.r(mk).setnx( mk,val):
+            self.r(sk).rpush(sk, mk)
+            self.r(rk).rpush(rk, mk)
+            return mk
         else:
             return None
     def get(self, from_user, to_user, send_timestamp):
-        k = create_key(from_user, to_user, send_timestamp)
+        k = message_key(from_user, to_user, send_timestamp)
         return self.get_by_key(k)
     def get_by_key(self, k):
-        return Message(k, self.r.get(k))
+        return Message(k, self.r(k).get(k))
     def get_all_for_user(self, to_user):
-        msg_keys = self.r.keys('{0}:*:{1}:*'.format(settings.MESSAGE_KEY_PREFIX, to_user))
-        msgs = [(Message(mk, self.r.get(mk))) for mk in msg_keys]
-        return msgs
+        rk = receiver_key(to_user)
+        count = self.r(rk).llen(rk)
+        return [ self.get_by_key(i) for i in self.r(rk).lrange(rk, 0, count)]
 

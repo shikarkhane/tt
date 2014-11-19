@@ -10,6 +10,5 @@ COOKIE_SECRET = '12345678'
 ADMIN_EMAILS = ['nikhil@tinktime.com']
 DEBUG_LOG = 'feeder.log'
 SUBSCRIBER_FILE='subscriber_list.txt'
-REDIS_SERVER = 'localhost'
-REDIS_PORT = 6379
-MESSAGE_KEY_PREFIX = 'message'
+REDIS_SHARDS = [{"server": 'localhost', "port":6379},{"server": 'localhost', "port":6381}]
+
