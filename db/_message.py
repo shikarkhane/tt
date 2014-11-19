@@ -1,9 +1,8 @@
-import settings
-from libs.string_utility import split_by_first_occurance
+import json
 from libs.keys_utility import message_key, sender_key, receiver_key
 from libs.shards_utility import Shard
 
-class Message():
+class Message(object):
     def __init__(self, *args):
         '''allow initizing the object using parameters or a single json '''
         if len(args) == 2:
@@ -18,12 +17,16 @@ class Message():
         self.trinket_id = int(trinket_id)
     def set_by_key_value(self, key, value):
         kl = key.split(':')
-        vl = split_by_first_occurance(value, '|')
+        vl = json.loads(value)
         self.from_user = kl[1]
         self.to_user = kl[2]
         self.send_timestamp = long(kl[3])
-        self.trinket_id = int(vl[0])
-        self.text = vl[1]
+        self.trinket_id = int(vl["trinket_id"])
+        self.text = vl["text"]
+class Value(object):
+    def __init__(self, trinket_id, text):
+        self.trinket_id = trinket_id
+        self.text = text
 class Message_Data():
     def __init__(self, connection_pool):
         self.r = Shard(connection_pool).get_server
@@ -33,9 +36,9 @@ class Message_Data():
         sk = sender_key(msg.from_user)
         rk = receiver_key(msg.to_user)
 
-        val = '{0}|{1}'.format(msg.text, msg.trinket_id)
+        val = Value(trinket_id=msg.trinket_id, text=msg.text)
 
-        if self.r(mk).setnx( mk,val):
+        if self.r(mk).setnx( mk,json.dumps(val.__dict__)):
             self.r(sk).rpush(sk, mk)
             self.r(rk).rpush(rk, mk)
             return mk

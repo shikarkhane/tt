@@ -1,7 +1,7 @@
 import tornado.web
 import settings
 import logging
-from db._message import Message
+from db._message import Message, Message_Data
 import json
 from libs.http_utility import http_call
 
@@ -19,6 +19,9 @@ class MessageHandler(tornado.web.RequestHandler):
             logging.exception(e)
     def post(self):
         try:
+            d = json.loads(self.request.body)
+            m = Message(d["from_user"], d["to_user"], d["send_timestamp"], d["trinket_id"], d["text"])
+            Message_Data(self.application.settings["db_connection_pool"]).save(m)
             self.write("writing msg to receiver feed")
         except Exception,e:
             logging.exception(e)
