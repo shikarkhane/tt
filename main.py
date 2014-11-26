@@ -1,7 +1,7 @@
 import tornado.ioloop
 import settings
 from handlers.squeeze import LandingHandler
-from handlers.pa import pa_FeedHandler, pa_Handler
+from handlers.pa import pa_FeedHandler, pa_Handler, pa_GetFeedHandler
 from handlers.message import QueueListener, QueueWriter, MessageHandler
 from handlers.feed import FeedHandler
 import redis
@@ -13,6 +13,7 @@ application = tornado.web.Application([
     (r"/subscribe/(\w+[\.]?\w+[@]\w+[\.]\w+)/", LandingHandler),
     (r"/pre-alpha/1618/", pa_Handler),
     (r"/pre-alpha/feed/8161/", pa_FeedHandler),
+    (r"/pre-alpha/feed/8161/(\S+)/", pa_GetFeedHandler),
     (r"/message-queue/", QueueWriter),
     (r"/message-listener/", QueueListener),
     (r"/message/", MessageHandler),

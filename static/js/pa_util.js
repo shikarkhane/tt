@@ -24,3 +24,12 @@ $(document).on('click', "#sendbtn", function(event) {
                 $('#senddiv').addClass('alert-danger');
             });
 });
+
+$(document).on('click', "#getfeed", function(event) {
+    event.preventDefault();
+    var o = new Object();
+    var to_user = $('#to').val().replace(/\s+/g, '');
+
+    var url = get_servername_from_url() + 'pre-alpha/feed/8161/' + to_user + '/';
+    window.location = url;
+});
