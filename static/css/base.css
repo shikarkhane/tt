@@ -15,18 +15,28 @@ html, body,header{
 
 .bottom{
  background-color:#2D87AA;
-
+padding-top: 30px;
+padding-bottom: 30px;
 }
 
 .top{
     position: relative;
 }
 
-.emotion{
+.emotion-lg{
     position: absolute;
     z-index:2;
     top: 150px;
     left: 50px;
+}
+
+
+.center-it{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+.emotion{
     background: rgba(204, 204, 204, 0.5);
     padding: 15px;
     border-radius: 25px;
