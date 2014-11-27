@@ -4,3 +4,5 @@ def sender_key(from_user):
     return 'sender:{0}:user'.format(from_user)
 def receiver_key(to_user):
     return 'receiver:{0}:user'.format(to_user)
+def sms_verify_key(user):
+    return 'smsverify:{0}:user'.format(user)
