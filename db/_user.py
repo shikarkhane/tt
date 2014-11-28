@@ -49,3 +49,7 @@ class Profile_Data():
         return self.get_by_key(k)
     def get_by_key(self, k):
         return Profile(k, self.r(k).get(k))
+    def verified(self, user):
+        p = self.get(user)
+        p.verified = True
+        self.save(p)
