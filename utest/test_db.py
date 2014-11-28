@@ -25,7 +25,6 @@ class Test_Message(unittest.TestCase):
         m = Message(k,v)
         o = [m.from_user, m.to_user, m.send_timestamp, m.trinket_id, m.text, m.seconds_sent]
         self.assertEqual(i, o)
-
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']
     unittest.main()

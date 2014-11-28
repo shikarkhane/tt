@@ -4,6 +4,7 @@ from handlers.squeeze import LandingHandler
 from handlers.pa import pa_FeedHandler, pa_Handler, pa_GetFeedHandler
 from handlers.message import QueueListener, QueueWriter, MessageHandler
 from handlers.feed import FeedHandler
+from handlers.sms import SmsVerifyCodeHandler, VerifyCodeHandler
 import redis
 
 pool = [redis.ConnectionPool(host=s["server"], port=s["port"], db=0) for s in settings.REDIS_SHARDS]
@@ -18,6 +19,8 @@ application = tornado.web.Application([
     (r"/message-listener/", QueueListener),
     (r"/message/", MessageHandler),
     (r"/feed/", FeedHandler),
+    (r"/sms-code/", SmsVerifyCodeHandler),
+    (r"/verify-user/", VerifyCodeHandler),
 ], debug=settings.DEBUG, static_path = settings.STATIC_PATH, template_path = settings.TEMPLATE_PATH,
         cookie_secret=settings.COOKIE_SECRET, db_connection_pool=pool)
 
