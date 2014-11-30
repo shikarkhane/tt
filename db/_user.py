@@ -1,6 +1,7 @@
 import json
 from libs.keys_utility import user_profile_key
 from libs.shards_utility import Shard
+from libs.utility import Date
 
 class Profile(object):
     def __init__(self, *args):
@@ -35,6 +36,9 @@ class Value(object):
 class Profile_Data():
     def __init__(self, connection_pool):
         self.r = Shard(connection_pool).get_server
+    def new_profile(self, user):
+        # todo: fill in registration date and other specifics
+        return Profile(user, False, Date().get_utcnow_number(), None, None, None)
     def save(self, p):
         '''save profile'''
         k = user_profile_key(p.user)
@@ -48,8 +52,14 @@ class Profile_Data():
         k = user_profile_key(user)
         return self.get_by_key(k)
     def get_by_key(self, k):
-        return Profile(k, self.r(k).get(k))
+        r = self.r(k).get(k)
+        if r:
+            return Profile(k, r)
+        else:
+            return False
     def verified(self, user):
         p = self.get(user)
+        if not p:
+            p = self.new_profile(user)
         p.verified = True
         self.save(p)

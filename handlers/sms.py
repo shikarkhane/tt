@@ -22,6 +22,6 @@ class VerifyCodeHandler(tornado.web.RequestHandler):
         try:
             d = json.loads(self.request.body)
             o = verify_sms_verfication_code(self.application.settings["db_connection_pool"],d["to_user"], d["code"])
-            self.write(Response().only_status(o))
+            self.write(json.dumps(Response().only_status(o)))
         except Exception,e:
             logging.exception(e)

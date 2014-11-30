@@ -16,4 +16,5 @@ class Verify():
         if code and o:
             if int(code) == int(o):
                 authenticated = True
+        # todo this is sending NULL ??
         return authenticated
