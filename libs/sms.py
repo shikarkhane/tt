@@ -1,5 +1,6 @@
 from db._sms import Verify
 from utility import get_sms_code
+from user import verified_by_sms_code
 
 from twilio.rest import TwilioRestClient
 
@@ -17,4 +18,7 @@ def send_sms_verfication_code(connection_pool, user):
     Verify(connection_pool).save_code(user, code)
     # send_sms(user, code)
 def verify_sms_verfication_code(connection_pool, user, code):
-    return Verify(connection_pool).verify_code(user, code)
+    r = Verify(connection_pool).verify_code(user, code)
+    if r:
+        verified_by_sms_code(connection_pool, user)
+    return r

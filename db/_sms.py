@@ -16,5 +16,4 @@ class Verify():
         if code and o:
             if int(code) == int(o):
                 authenticated = True
-                # TODO update user key to verified=True
         return authenticated

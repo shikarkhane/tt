@@ -5,22 +5,12 @@ import logging
 # Log everything, and send it to stderr.
 logging.basicConfig(filename=settings.DEBUG_LOG,level=logging.ERROR,format='%(asctime)s %(message)s')
 
-class UserHandler(tornado.web.RequestHandler):
+class UserVerificationHandler(tornado.web.RequestHandler):
     '''
-    user registered, deleted, get
+    check if a user/phone number is verified or not
     '''
     def get(self):
         try:
             self.write("user get")
-        except Exception,e:
-            logging.exception(e)
-    def post(self):
-        try:
-            self.write("user posted")
-        except Exception,e:
-            logging.exception(e)
-    def delete(self):
-        try:
-            self.write("user deleted")
         except Exception,e:
             logging.exception(e)

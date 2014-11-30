@@ -3,6 +3,7 @@ import settings
 import logging
 import json
 from libs.sms import send_sms_verfication_code, verify_sms_verfication_code
+from libs.response_utility import Response
 
 # Log everything, and send it to stderr.
 logging.basicConfig(filename=settings.DEBUG_LOG,level=logging.ERROR,format='%(asctime)s %(message)s')
@@ -20,6 +21,7 @@ class VerifyCodeHandler(tornado.web.RequestHandler):
         '''verify user using code'''
         try:
             d = json.loads(self.request.body)
-            verify_sms_verfication_code(self.application.settings["db_connection_pool"],d["to_user"], d["code"])
+            o = verify_sms_verfication_code(self.application.settings["db_connection_pool"],d["to_user"], d["code"])
+            self.write(Response().only_status(o))
         except Exception,e:
             logging.exception(e)
