@@ -54,6 +54,9 @@ class Message_Data():
         return Message(k, self.r(k).get(k))
     def get_all_for_user(self, to_user):
         rk = receiver_key(to_user)
-        count = self.r(rk).llen(rk)
-        return [ self.get_by_key(i) for i in self.r(rk).lrange(rk, 0, count)]
+        sk = sender_key(to_user)
+        rcount = self.r(rk).llen(rk)
+        scount = self.r(sk).llen(sk)
+        return [ self.get_by_key(i) for i in self.r(rk).lrange(rk, 0, rcount)] + \
+            [ self.get_by_key(i) for i in self.r(sk).lrange(sk, 0, scount)]
 

@@ -13,7 +13,6 @@ class FeedHandler(tornado.web.RequestHandler):
     '''
     def get(self, to_user):
         try:
-            # todo feed should also include sent by "to_user"
             self.write(json.dumps(get_feed(self.application.settings["db_connection_pool"], to_user)))
         except Exception,e:
             logging.exception(e)
