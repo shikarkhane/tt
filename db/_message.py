@@ -57,6 +57,8 @@ class Message_Data():
         sk = sender_key(to_user)
         rcount = self.r(rk).llen(rk)
         scount = self.r(sk).llen(sk)
-        return [ self.get_by_key(i) for i in self.r(rk).lrange(rk, 0, rcount)] + \
+        res = [ self.get_by_key(i) for i in self.r(rk).lrange(rk, 0, rcount)] + \
             [ self.get_by_key(i) for i in self.r(sk).lrange(sk, 0, scount)]
+        res.reverse()
+        return res
 
