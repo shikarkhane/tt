@@ -18,7 +18,7 @@
 
             {% for msg in msgs %}
                   <li class="list-group-item">
-                    {{ msg["from_user"] }} sent you trinket  {{ msg["trinket_id"] }}
+                    {{ msg["from_user"] }} sent you trinket  {{ msg["trinket_name"] }}
                       worth {{ msg["seconds_sent"] }} seconds. <span class="badge">{{ msg["text"] }}</span>
                   </li>
             {% end %}

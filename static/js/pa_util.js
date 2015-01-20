@@ -5,7 +5,7 @@ $(document).on('click', "#sendbtn", function(event) {
     o.from_user = $('#from').val().replace(/\s+/g, '');
     o.to_user = $('#to').val().replace(/\s+/g, '');
     o.seconds_sent = $('#seconds').val().replace(/\s+/g, '');
-    o.trinket_id = $('#trinketid').val().replace(/\s+/g, '');
+    o.trinket_name = $('#trinketid').val().replace(/\s+/g, '');
     o.text = $('#text').val().replace(/\s+/g, '');
     o.send_timestamp = (new Date()).valueOf();
     var url = get_servername_from_url() + 'message-queue/';
