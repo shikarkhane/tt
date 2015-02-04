@@ -19,7 +19,7 @@ application = tornado.web.Application([
     (r"/message-queue/", QueueWriter),
     (r"/message-listener/", QueueListener),
     (r"/message/", MessageHandler),
-    (r"/feed/[\+]?(\S+)/", FeedHandler),
+    (r"/feed/([\+]?\S+)/", FeedHandler),
     (r"/sms-code/", SmsVerifyCodeHandler),
     (r"/verify-user/", VerifyCodeHandler),
     (r"/is-user-verified/", UserVerificationHandler),
