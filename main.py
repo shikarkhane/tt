@@ -5,7 +5,7 @@ from handlers.pa import pa_FeedHandler, pa_Handler, pa_GetFeedHandler
 from handlers.message import QueueListener, QueueWriter, MessageHandler
 from handlers.feed import FeedHandler
 from handlers.sms import SmsVerifyCodeHandler, VerifyCodeHandler
-from handlers.user import UserVerificationHandler
+from handlers.user import UserVerificationHandler, UsersOnNetworkHandler
 import redis
 
 pool = [redis.ConnectionPool(host=s["server"], port=s["port"], db=0) for s in settings.REDIS_SHARDS]
@@ -19,10 +19,11 @@ application = tornado.web.Application([
     (r"/message-queue/", QueueWriter),
     (r"/message-listener/", QueueListener),
     (r"/message/", MessageHandler),
-    (r"/feed/(\S+)/", FeedHandler),
+    (r"/feed/[\+]?(\S+)/", FeedHandler),
     (r"/sms-code/", SmsVerifyCodeHandler),
     (r"/verify-user/", VerifyCodeHandler),
     (r"/is-user-verified/", UserVerificationHandler),
+    (r"/are-on-network/",UsersOnNetworkHandler),
 ], debug=settings.DEBUG, static_path = settings.STATIC_PATH, template_path = settings.TEMPLATE_PATH,
         cookie_secret=settings.COOKIE_SECRET, db_connection_pool=pool)
 
