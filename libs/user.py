@@ -8,8 +8,9 @@ class Contact():
         if device == 'default':
             f_name, l_name, phone, on_network = c['first_name'], c['last_name'], c['phone_number'], is_member
         if device == 'ios':
-            f_name, l_name, phone, on_network = c['name']['givenName'], c['name']['familyName'], \
-                                                c['phoneNumbers'][0]['value'], is_member
+            f_name, l_name, on_network = c['name']['givenName'], c['name']['familyName'], is_member
+            if len(c['phoneNumbers']) > 0:
+                phone = c['phoneNumbers'][0]['value']
         self.first_name = f_name
         self.last_name = l_name
         self.phone_number = self.makePhoneNumber(phone)
