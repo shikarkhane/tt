@@ -11,4 +11,6 @@ ADMIN_EMAILS = ['nikhil@tinktime.com']
 DEBUG_LOG = 'feeder.log'
 SUBSCRIBER_FILE='subscriber_list.txt'
 REDIS_SHARDS = [{"server": 'localhost', "port":6379},{"server": 'localhost', "port":6379}]
-
+TWILIO_ACCOUNT_SID=""
+TWILIO_AUTH_TOKEN=""
+TWILIO_ACCOUNT_NUMBER=""
