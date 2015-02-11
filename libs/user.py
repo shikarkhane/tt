@@ -8,6 +8,7 @@ class Contact():
         if device == 'default':
             f_name, l_name, phone, on_network = c['first_name'], c['last_name'], c['phone_number'], is_member
         if device == 'ios':
+            # todo check if element exists first
             f_name, l_name, on_network = c['name']['givenName'], c['name']['familyName'], is_member
             if len(c['phoneNumbers']) > 0:
                 phone = c['phoneNumbers'][0]['value']
