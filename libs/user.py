@@ -18,6 +18,8 @@ class Contact():
     def setIsMember(self, f):
         self.on_tinktime = f
     def makePhoneNumber(self, pn):
+        if not pn:
+            return pn
         pn = pn.replace('-','').replace(' ', '')
         a = re.compile("^\+[0-9]+$")
         if a.match(pn):
