@@ -10,7 +10,7 @@ class Contact():
         if device == 'ios':
             # todo check if element exists first
             f_name, l_name, on_network = c['name']['givenName'], c['name']['familyName'], is_member
-            if len(c['phoneNumbers']) > 0:
+            if len(c.get('phoneNumbers')) > 0:
                 phone = c['phoneNumbers'][0]['value']
         self.first_name = f_name
         self.last_name = l_name
