@@ -20,12 +20,11 @@ class UserVerificationHandler(tornado.web.RequestHandler):
 class UsersOnNetworkHandler(tornado.web.RequestHandler):
     '''
     1. check array of users are on tinktime network
-    2. format phonenumbers to (+2434234234) format
     3. return first_name, last_name, phone_number, on_tinktime fields
     '''
     def post(self):
         try:
             d = json.loads(self.request.body)
-            self.write(json.dumps(are_on_network(self.application.settings["db_connection_pool"],d["contacts"], d["device"])))
+            self.write(json.dumps(are_on_network(self.application.settings["db_connection_pool"],d["contacts"])))
         except Exception,e:
             logging.exception(e)
