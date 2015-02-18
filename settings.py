@@ -14,3 +14,5 @@ REDIS_SHARDS = [{"server": 'localhost', "port":6379},{"server": 'localhost', "po
 TWILIO_ACCOUNT_SID=""
 TWILIO_AUTH_TOKEN=""
 TWILIO_ACCOUNT_NUMBER=""
+IOS_CERT_FILE_PATH="tinktime-dev.pem"
+IOS_KEY_FILE_PATH="tinktime-devkeyPemFix.pem"

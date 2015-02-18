@@ -1,7 +1,7 @@
 import tornado.web
 import settings
 import logging
-from libs.user import is_user_verified, are_on_network
+from libs.user import is_user_verified, are_on_network, register_push_token
 import json
 
 # Log everything, and send it to stderr.
@@ -25,6 +25,17 @@ class UsersOnNetworkHandler(tornado.web.RequestHandler):
     def post(self):
         try:
             d = json.loads(self.request.body)
-            self.write(json.dumps(are_on_network(self.application.settings["db_connection_pool"],d["contacts"])))
+            self.write(json.dumps(are_on_network(self.application.settings["db_connection_pool"], d["contacts"])))
+        except Exception,e:
+            logging.exception(e)
+class RegisterUserToken(tornado.web.RequestHandler):
+    '''save token from user for push notification
+    '''
+    def post(self, to_user):
+        try:
+            d = json.loads(self.request.body)
+            self.write(json.dumps(register_push_token(self.application.settings["db_connection_pool"],
+                                                      to_user, d["push_token"], d["device_name"],
+                                                      d["device_platform"], d["device_uuid"])))
         except Exception,e:
             logging.exception(e)

@@ -21,3 +21,15 @@ def are_on_network(connection_pool, contacts):
     r = [Contact(c) for c in contacts]
     [i.setIsMember(is_user_verified(connection_pool, i.phone_number)) for i in r if i.phone_number]
     return [(x.__dict__) for x in r]
+def register_push_token(connection_pool, to_user, token, device_name, device_platform, device_uuid):
+    if token:
+        Profile_Data(connection_pool).push_token(to_user, token)
+    if device_platform:
+        Profile_Data(connection_pool).device_info(to_user, device_name, device_platform, device_uuid)
+    return True
+
+def get_push_token(connection_pool, user):
+    p = Profile_Data(connection_pool).get(user)
+    if p:
+        return p.push_token
+    return False
