@@ -52,7 +52,7 @@ class QueueListener(tornado.web.RequestHandler):
             data = json.loads(self.request.body)
             http_call('/message/', data, 'POST', True)
             # todo: queue push notification
-            # generic(data["to_user"])
+            generic(self.application.settings["db_connection_pool"], data["to_user"])
             self.write("on call back from queue, will call messagehandler.post and push notify reciever phone")
         except Exception,e:
             logging.exception(e)

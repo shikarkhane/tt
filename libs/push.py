@@ -1,5 +1,7 @@
 import time
 from apns import APNs, Frame, Payload
+from db._user import Profile_Data
+
 import settings
 
 class Ios():
@@ -11,10 +13,12 @@ class Ios():
         payload = Payload(alert=msg, sound="default", badge=1)
         self.apns.gateway_server.send_notification(token_hex, payload)
 
-def generic(to_user):
+def generic(connection_pool, to_user):
     # todo find device info and token for to_user
-    device = 'ios'
+    p = Profile_Data(connection_pool).get(to_user)
+    device = p.device_platform
     msg = "You have received a tink"
-    token = "edf3d7ca0212685ae7834cbd90dfa02518ee29bc869a66ae4b9b450c2e8e3d17"
-    if device == 'ios':
-        Ios().send_msg(token, msg)
+    token = p.post_token
+    if token:
+        if device == 'ios':
+            Ios().send_msg(token, msg)
