@@ -34,10 +34,10 @@ class Profile(object):
         self.device_name=v.get("device_name")
         self.device_platform=v.get("device_platform")
         self.device_uuid=v.get("device_uuid")
-        self.post_token=v.get("post_token")
+        self.push_token=v.get("push_token")
 class Value(object):
     def __init__(self, verified, registration_date, ip_address, country, language, device_name=None,
-                 device_platform = None, device_uuid = None, post_token = None):
+                 device_platform = None, device_uuid = None, push_token = None):
         self.verified = verified
         self.registration_date = registration_date
         self.ip_address = ip_address
@@ -46,7 +46,7 @@ class Value(object):
         self.device_name = device_name
         self.device_platform = device_platform
         self.device_uuid = device_uuid
-        self.post_token = post_token
+        self.push_token = push_token
 class Profile_Data():
     def __init__(self, connection_pool):
         self.r = Shard(connection_pool).get_server
