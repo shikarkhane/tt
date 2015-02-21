@@ -18,7 +18,7 @@ def generic(connection_pool, to_user):
     p = Profile_Data(connection_pool).get(to_user)
     device = p.device_platform
     msg = "You have received a tink"
-    token = p.post_token
+    token = p.push_token
     if token:
         if device == 'ios':
             Ios().send_msg(token, msg)
