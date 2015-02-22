@@ -59,7 +59,7 @@ class Profile_Data():
         val = Value(verified=p.verified, registration_date=p.registration_date, ip_address=p.ip_address,
                     country=p.country, language=p.language, device_name=p.device_name,
                     device_platform=p.device_platform, device_uuid=p.device_uuid, push_token=p.push_token)
-        if self.r(k).setnx( k,json.dumps(val.__dict__)):
+        if self.r(k).set( k,json.dumps(val.__dict__)):
             return True
         else:
             return False
