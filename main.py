@@ -6,6 +6,7 @@ from handlers.message import QueueListener, QueueWriter, MessageHandler
 from handlers.feed import FeedHandler
 from handlers.sms import SmsVerifyCodeHandler, VerifyCodeHandler
 from handlers.user import UserVerificationHandler, UsersOnNetworkHandler, RegisterUserToken
+from handlers.backoffice import GetAllTrinketsHandler, TrinketsHandler
 import redis
 
 pool = [redis.ConnectionPool(host=s["server"], port=s["port"], db=0) for s in settings.REDIS_SHARDS]
@@ -25,10 +26,12 @@ application = tornado.web.Application([
     (r"/verify-user/", VerifyCodeHandler),
     (r"/is-user-verified/", UserVerificationHandler),
     (r"/are-on-network/",UsersOnNetworkHandler),
+    (r"/bo/trinket/getall/",GetAllTrinketsHandler),
+    (r"/bo/trinket/(\S+)/",TrinketsHandler),
 ], debug=settings.DEBUG, static_path = settings.STATIC_PATH, template_path = settings.TEMPLATE_PATH,
         cookie_secret=settings.COOKIE_SECRET, db_connection_pool=pool)
 
 if __name__ == "__main__":
     #create config file
-    application.listen(8888)
+    application.listen(80)
     tornado.ioloop.IOLoop.instance().start()
