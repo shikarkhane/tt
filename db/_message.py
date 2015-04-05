@@ -9,13 +9,14 @@ class Message(object):
             self.set_by_key_value(*args)
         else:
             self.set_by_values(*args)
-    def set_by_values(self, from_user, to_user, send_timestamp, trinket_name, text, seconds_sent):
+    def set_by_values(self, from_user, to_user, send_timestamp, trinket_name, text, seconds_sent, read):
         self.from_user = from_user
         self.to_user = to_user
         self.send_timestamp = long(send_timestamp)
         self.text = text
         self.trinket_name = trinket_name
         self.seconds_sent = int(seconds_sent)
+        self.read = read
     def set_by_key_value(self, key, value):
         kl = key.split(':')
         vl = json.loads(value)
@@ -25,11 +26,13 @@ class Message(object):
         self.trinket_name = vl["trinket_name"]
         self.text = vl["text"]
         self.seconds_sent = int(vl["seconds_sent"])
+        self.read = vl["read"]
 class Value(object):
-    def __init__(self, trinket_name, text, seconds_sent):
+    def __init__(self, trinket_name, text, seconds_sent, read):
         self.trinket_name = trinket_name
         self.text = text
         self.seconds_sent = seconds_sent
+        self.read = read
 class Message_Data():
     def __init__(self, connection_pool):
         self.r = Shard(connection_pool).get_server
@@ -39,7 +42,8 @@ class Message_Data():
         sk = sender_key(msg.from_user)
         rk = receiver_key(msg.to_user)
 
-        val = Value(trinket_name=msg.trinket_name, text=msg.text, seconds_sent=msg.seconds_sent)
+        val = Value(trinket_name=msg.trinket_name, text=msg.text, seconds_sent=msg.seconds_sent,
+                    read=msg.read)
 
         if self.r(mk).setnx( mk,json.dumps(val.__dict__)):
             self.r(sk).rpush(sk, mk)
