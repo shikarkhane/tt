@@ -11,7 +11,8 @@ class GetAllTrinketsHandler(tornado.web.RequestHandler):
     def get(self):
         '''get all trinkets'''
         try:
-            self.write(json.dumps(get_all_trinkets(self.application.settings["db_connection_pool"])))
+            r = json.dumps(get_all_trinkets(self.application.settings["db_connection_pool"]))
+            self.render("backoffice.html", trinkets=r)
         except Exception,e:
             logging.exception(e)
 
