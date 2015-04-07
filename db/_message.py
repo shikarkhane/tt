@@ -50,7 +50,8 @@ class Message_Data():
             self.r(rk).rpush(rk, mk)
             return mk
         else:
-            return None
+            # if msg exists, just update the msg but dont update the sender or receivers list
+            self.r(mk).set( mk,json.dumps(val.__dict__))
     def get(self, from_user, to_user, send_timestamp):
         k = message_key(from_user, to_user, send_timestamp)
         return self.get_by_key(k)
