@@ -2,38 +2,31 @@ import tornado.web
 import settings
 import logging
 import json
-from libs.trinket import get_all_trinkets
+from libs.trinket import get_all_trinkets, get_img_url, get_swiffy
 
 # Log everything, and send it to stderr.
 logging.basicConfig(filename=settings.DEBUG_LOG,level=logging.ERROR,format='%(asctime)s %(message)s')
 
-class TrinketHandler(tornado.web.RequestHandler):
+class TrinketSwiffyHandler(tornado.web.RequestHandler):
     '''
-    trinket sent, deleted, listed
+    trinket swiffy get
     '''
-    def get(self):
+    def get(self, name):
         try:
-            self.write("trinket get")
-        except Exception,e:
-            logging.exception(e)
-    def post(self):
-        try:
-            self.write("trinket posted")
-        except Exception,e:
-            logging.exception(e)
-    def delete(self):
-        try:
-            self.write("trinket deleted")
+            pool = self.application.settings["db_connection_pool"]
+            s = get_swiffy(pool,name)
+            self.write(json.dumps(s))
         except Exception,e:
             logging.exception(e)
 
-class GetAllTrinketsHandler(tornado.web.RequestHandler):
+class GetAllTrinketsWithImg(tornado.web.RequestHandler):
     def get(self):
-        '''get all trinkets'''
+        '''get all trinkets with thumbnail image urls'''
         try:
-            trinkets = get_all_trinkets(self.application.settings["db_connection_pool"])
+            pool = self.application.settings["db_connection_pool"]
+            trinkets = get_all_trinkets(pool)
             if trinkets:
-                r = [t.split(':')[1] for t in trinkets]
+                r = [{t : get_img_url(pool, t)} for t in trinkets]
             else:
                 r = []
             self.write(json.dumps(r))

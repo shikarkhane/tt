@@ -8,7 +8,9 @@ def receiver_key(to_user):
     return 'receiver:{0}:user'.format(to_user)
 def sms_verify_key(user):
     return 'smsverify:{0}:user'.format(user)
-def trinket_key(name):
-    return 'trinket:{0}'.format(name)
+def trinket_img_key(name):
+    return 'trinket:{0}:img'.format(name)
+def trinket_swiffy_key(name):
+    return 'trinket:{0}:swiffy'.format(name)
 def trinket_list_key():
     return 'trinkets'

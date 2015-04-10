@@ -13,7 +13,7 @@ class BOGetAllTrinketsHandler(tornado.web.RequestHandler):
         try:
             trinkets = get_all_trinkets(self.application.settings["db_connection_pool"])
             if trinkets:
-                r = [t.split(':')[1] for t in trinkets]
+                r = trinkets
             else:
                 r = []
             self.render("backoffice.html", trinkets=r)
