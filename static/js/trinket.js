@@ -49,7 +49,7 @@ $(document).on('click', "#save-new-trinket", function(event) {
     var name = $('#trinket-name').val().replace(/\s+/g, '');
     d = make_json(swiffy);
 
-    blobFile = $('#trinket-thumbnail')[0].files[0]);
+    blobFile = $('#trinket-thumbnail')[0].files[0];
     var fd = new FormData();
     fd.append("thumbnail", blobFile);
 
