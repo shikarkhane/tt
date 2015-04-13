@@ -7,7 +7,7 @@ from handlers.feed import FeedHandler
 from handlers.sms import SmsVerifyCodeHandler, VerifyCodeHandler
 from handlers.user import UserVerificationHandler, UsersOnNetworkHandler, RegisterUserToken
 from handlers.backoffice import BOGetAllTrinketsHandler, BOSaveImg, BOSaveSwiffy
-from handlers.trinket import GetAllTrinketsWithImg
+from handlers.trinket import GetAllTrinketsWithImg, TrinketSwiffyHandler
 import redis
 
 pool = [redis.ConnectionPool(host=s["server"], port=s["port"], db=0) for s in settings.REDIS_SHARDS]
@@ -29,7 +29,7 @@ application = tornado.web.Application([
     (r"/is-user-verified/", UserVerificationHandler),
     (r"/are-on-network/",UsersOnNetworkHandler),
     (r"/trinket-list/",GetAllTrinketsWithImg),
-
+    (r"/trinket-swiffy/(\S+)/",TrinketSwiffyHandler),
     (r"/bo/trinket/getall/",BOGetAllTrinketsHandler),
     (r"/bo/trinket/image/(\S+)/",BOSaveImg),
     (r"/bo/trinket/swiffy/(\S+)/",BOSaveSwiffy),
