@@ -1,6 +1,7 @@
 import json
 from libs.keys_utility import message_key, sender_key, receiver_key
 from libs.shards_utility import Shard
+from operator import itemgetter
 
 class Message(object):
     def __init__(self, *args):
@@ -64,6 +65,6 @@ class Message_Data():
         scount = self.r(sk).llen(sk)
         res = [ self.get_by_key(i) for i in self.r(rk).lrange(rk, 0, rcount)] + \
             [ self.get_by_key(i) for i in self.r(sk).lrange(sk, 0, scount)]
-        res.reverse()
-        return res
+        newlist = sorted(res, key=itemgetter('send_timestamp'), reverse=True)
+        return newlist
 
