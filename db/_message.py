@@ -65,6 +65,6 @@ class Message_Data():
         scount = self.r(sk).llen(sk)
         res = [ self.get_by_key(i) for i in self.r(rk).lrange(rk, 0, rcount)] + \
             [ self.get_by_key(i) for i in self.r(sk).lrange(sk, 0, scount)]
-        newlist = sorted(res, key=itemgetter('send_timestamp'), reverse=True)
+        newlist = sorted(res, key=lambda l:l.send_timestamp, reverse=True)
         return newlist
 
