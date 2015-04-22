@@ -2,8 +2,8 @@ from db._user import Profile_Data
 
 class Contact():
     def __init__(self, c, is_member = False):
-        self.first_name = c['first_name']
-        self.last_name = c['last_name']
+        self.first_name = c['first_name'] if c['first_name'] else ''
+        self.last_name = c['last_name'] if c['last_name'] else ''
         self.phone_number = c['phone_number']
         self.on_tinktime = is_member
     def setIsMember(self, f):
