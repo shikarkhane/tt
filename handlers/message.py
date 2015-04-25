@@ -1,4 +1,4 @@
-import tornado.web
+from tornado.web import *
 import settings
 import logging
 import json
@@ -24,11 +24,13 @@ class MessageHandler(tornado.web.RequestHandler):
     '''
     messages sent, deleted, listed
     '''
+    @asynchronous
     def get(self, message_id):
         try:
             self.write("message get")
         except Exception,e:
             logging.exception(e)
+    @asynchronous
     def post(self):
         try:
             d = json.loads(self.request.body)
@@ -36,6 +38,7 @@ class MessageHandler(tornado.web.RequestHandler):
             self.write("writing msg to receiver feed")
         except Exception,e:
             logging.exception(e)
+    @asynchronous
     def delete(self):
         try:
             self.write("message deleted")
@@ -45,6 +48,8 @@ class QueueWriter(tornado.web.RequestHandler):
     '''
     write message to queue
     '''
+    @asynchronous
+    @gen.engine
     def post(self):
         try:
             data = json.loads(self.request.body)
@@ -58,6 +63,8 @@ class QueueListener(tornado.web.RequestHandler):
     methods here put the messages into receivers feed storage
     and send push notification to receivers phone via notify queue
     '''
+    @asynchronous
+    @gen.engine
     def post(self):
         try:
             data = json.loads(self.request.body)

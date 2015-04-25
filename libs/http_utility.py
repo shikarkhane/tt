@@ -32,6 +32,8 @@ def http_call(url, data = None, method = 'GET', async=True):
 def handle_request(response):
     if response.error:
         print "Error:", response.error
+        logging.exception(response.error)
     else:
         print response.body
+        logging.exception(response.body)
 
