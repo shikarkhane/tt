@@ -2,6 +2,7 @@ import tornado.web
 import settings
 import logging
 from libs.user import is_user_verified, are_on_network, register_push_token
+from libs.response_utility import Response
 import json
 
 # Log everything, and send it to stderr.
@@ -11,10 +12,10 @@ class UserVerificationHandler(tornado.web.RequestHandler):
     '''
     check if a user/phone number is verified or not
     '''
-    def get(self):
+    def get(self, user):
         try:
-            d = json.loads(self.request.body)
-            self.write(json.dumps(is_user_verified(self.application.settings["db_connection_pool"],d["user"])))
+            r = is_user_verified(self.application.settings["db_connection_pool"], user)
+            self.write(json.dumps(Response().only_status(r)))
         except Exception,e:
             logging.exception(e)
 class UsersOnNetworkHandler(tornado.web.RequestHandler):

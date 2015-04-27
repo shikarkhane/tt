@@ -26,7 +26,7 @@ application = tornado.web.Application([
     (r"/push/([\+]?\S+)/", RegisterUserToken),
     (r"/sms-code/", SmsVerifyCodeHandler),
     (r"/verify-user/", VerifyCodeHandler),
-    (r"/is-user-verified/", UserVerificationHandler),
+    (r"/is-user-verified/([\+]?\S+)/", UserVerificationHandler),
     (r"/are-on-network/",UsersOnNetworkHandler),
     (r"/trinket-list/",GetAllTrinketsWithImg),
     (r"/trinket-swiffy/(\S+)/",TrinketSwiffyHandler),
