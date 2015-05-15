@@ -22,6 +22,8 @@ class FeedPageHandler(tornado.web.RequestHandler):
     '''
     def get(self, to_user, page_no, page_size):
         try:
+            page_no = int(page_no)
+            page_size = int(page_size)
             self.write(json.dumps(get_feed_page(self.application.settings["db_connection_pool"],
                                                 to_user, page_no, page_size)))
         except Exception,e:
