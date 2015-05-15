@@ -22,8 +22,8 @@ application = tornado.web.Application([
     (r"/message-listener/", QueueListener),
     (r"/message/", MessageHandler),
     (r"/message-read/", MessageReadHandler),
-    (r"/feed/([\+]?\S+)/", FeedHandler),
     (r"/feed/([\+]?\S+)/page/([0-9]+)/size/([0-9]?)/", FeedPageHandler),
+    (r"/feed/([\+]?\S+)/", FeedHandler),
     (r"/push/([\+]?\S+)/", RegisterUserToken),
     (r"/sms-code/", SmsVerifyCodeHandler),
     (r"/verify-user/", VerifyCodeHandler),
@@ -39,5 +39,5 @@ application = tornado.web.Application([
 
 if __name__ == "__main__":
     #create config file
-    application.listen(8888)
+    application.listen(80)
     tornado.ioloop.IOLoop.instance().start()
