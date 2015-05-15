@@ -23,7 +23,7 @@ application = tornado.web.Application([
     (r"/message/", MessageHandler),
     (r"/message-read/", MessageReadHandler),
     (r"/feed/([\+]?\S+)/", FeedHandler),
-    (r"/feed/([\+]?\S+)/page/([0-9]+", FeedPageHandler),
+    (r"/feed/([\+]?\S+)/page/([0-9]+)/size/([0-9]?)/", FeedPageHandler),
     (r"/push/([\+]?\S+)/", RegisterUserToken),
     (r"/sms-code/", SmsVerifyCodeHandler),
     (r"/verify-user/", VerifyCodeHandler),
