@@ -15,7 +15,7 @@ class TrinketSwiffyHandler(tornado.web.RequestHandler):
         try:
             pool = self.application.settings["db_connection_pool"]
             s = get_swiffy(pool,name)
-            self.write(json.dumps(s))
+            self.write(json.loads(s))
         except Exception,e:
             logging.exception(e)
 
