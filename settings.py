@@ -17,3 +17,4 @@ TWILIO_ACCOUNT_NUMBER="+46769439377"
 IOS_CERT_FILE_PATH=os.path.join(DIRNAME,"tinktime-dev.pem")
 IOS_KEY_FILE_PATH=os.path.join(DIRNAME,"tinktime-devkey.pem")
 ANDROID_API_KEY= 'AIzaSyA3zWzfKgsouxhy4aILaRrAd3GVFKWWhqI'
+TRINKET_IMG_DIR=SERVERNAME + '/static/img/tinks/'

@@ -33,9 +33,11 @@ var swiffy = [];
       reader.readAsDataURL(f);
   }
 
-function make_json( swiffy){
+function make_json(trinketId, groupId, swiffy){
     var result = new Object();
     result.swiffyobject = swiffy;
+    result.trinketId = trinketId;
+    result.groupId = groupId;
     return result;
 }
 
@@ -46,8 +48,10 @@ $(function() {
 
 $(document).on('click', "#save-new-trinket", function(event) {
     event.preventDefault();
-    var name = $('#trinket-name').val().replace(/\s+/g, '');
-    d = make_json(swiffy);
+    var name = $('#trinket-name').val().replace(/\s+/g, ''),
+    trinketId = $('#trinket-id').val().replace(/\s+/g, ''),
+    groupId = $('#trinket-group-id').val().replace(/\s+/g, '');
+    d = make_json(trinketId, groupId, swiffy);
 
     blobFile = $('#trinket-thumbnail')[0].files[0];
     var fd = new FormData();

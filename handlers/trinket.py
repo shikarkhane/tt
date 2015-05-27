@@ -26,7 +26,7 @@ class GetAllTrinketsWithImg(tornado.web.RequestHandler):
             pool = self.application.settings["db_connection_pool"]
             trinkets = get_all_trinkets(pool)
             if trinkets:
-                r = [{t : get_img_url(pool, t)} for t in trinkets]
+                r = [{t : get_img_url(t)} for t in trinkets]
             else:
                 r = []
             self.write(json.dumps(r))

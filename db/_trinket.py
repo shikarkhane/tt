@@ -1,4 +1,4 @@
-from libs.keys_utility import trinket_img_key, trinket_swiffy_key, trinket_list_key
+from libs.keys_utility import trinket_swiffy_key, trinket_list_key, trinket_info_key
 from libs.shards_utility import Shard
 
 
@@ -10,16 +10,15 @@ class Animation():
         tk = trinket_swiffy_key(name)
         tl = trinket_list_key()
         self.r(tk).set( name = tk,value = swiffyobject)
-        self.r(tl).sadd(tl, name)
-    def save_img_url(self, name, img_url):
-        '''save or update trinket image url'''
-        tk = trinket_img_key(name)
+        if not self.r(tl).sismember(tl, name):
+            self.r(tl).sadd(tl, name)
+    def save_detail(self, name, values):
+        '''save or update trinket details like trinketid and groupid in comma concat string'''
+        tk = trinket_info_key(name)
         tl = trinket_list_key()
-        self.r(tk).set( name = tk,value = img_url)
-        self.r(tl).sadd(tl, name)
-    def get_img_url(self, name):
-        tk = trinket_img_key(name)
-        return self.r(tk).get(tk)
+        self.r(tk).set( name = tk,value = ','.join(values))
+        if not self.r(tl).sismember(tl, name):
+            self.r(tl).sadd(tl, name)
     def get_swiffy(self, name):
         tk = trinket_swiffy_key(name)
         return self.r(tk).get(tk)
