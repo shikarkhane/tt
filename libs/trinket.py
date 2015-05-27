@@ -17,6 +17,11 @@ def get_img_url(name):
 def get_swiffy(connection_pool, name):
     return Animation(connection_pool).get_swiffy(name)
 
+def get_details(connection_pool, name):
+    url = get_img_url(name)
+    d = Animation(connection_pool).get_detail(name)
+    return {'name': name, 'label': name, 'thumbnailPath': url, 'trinketId': d.split(',')[0], 'groupId': d.split(',')[1]}
+
 def get_all_trinkets(connection_pool):
     return Animation(connection_pool).get_all()
 

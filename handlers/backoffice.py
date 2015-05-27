@@ -27,8 +27,11 @@ class BOSaveSwiffy(tornado.web.RequestHandler):
         '''save swiffy object for trinket'''
         try:
             d = json.loads(self.request.body)
-            save(self.application.settings["db_connection_pool"], name, d['swiffyobject'], d['trinketId'],
-                        d['groupId'])
+            save( connection_pool = self.application.settings["db_connection_pool"],
+                  name = name,
+                  swiffyobject= d['swiffyobject'],
+                  trinketId= d['trinketId'],
+                  groupId=d['groupId'])
         except Exception,e:
             logging.exception(e)
 class BOSaveImg(tornado.web.RequestHandler):

@@ -12,5 +12,5 @@ def trinket_swiffy_key(name):
     return 'trinket:{0}:swiffy'.format(name)
 def trinket_list_key():
     return 'trinkets'
-def trinket_info_key(name):
+def trinket_detail_key(name):
     return 'trinket:{0}:detail'.format(name)
