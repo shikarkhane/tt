@@ -12,7 +12,10 @@ def save_detail(connection_pool, name, trinketId, groupId):
     Animation(connection_pool).save_detail(name, [trinketId, groupId])
 
 def get_img_url(name):
-    return '{0}{1}.png'.format(settings.TRINKET_IMG_DIR, name)
+    return '{0}{1}{2}.png'.format(settings.SERVERNAME, settings.TRINKET_IMG_DIR, name)
+
+def get_img_filepath(name):
+    return '{0}{1}{2}.png'.format(settings.DIRNAME, settings.TRINKET_IMG_DIR, name)
 
 def get_swiffy(connection_pool, name):
     return Animation(connection_pool).get_swiffy(name)

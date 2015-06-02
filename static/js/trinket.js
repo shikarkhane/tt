@@ -35,7 +35,8 @@ var swiffy = [];
 
 function make_json(trinketId, groupId, swiffy){
     var result = new Object();
-    result.swiffyobject = swiffy;
+
+    result.swiffyobject = JSON.parse(swiffy);
     result.trinketId = trinketId;
     result.groupId = groupId;
     return result;

@@ -2,7 +2,7 @@ import tornado.web
 import settings
 import logging
 import json
-from libs.trinket import get_all_trinkets, save, get_img_url
+from libs.trinket import get_all_trinkets, save, get_img_url, get_img_filepath
 import os
 
 
@@ -39,7 +39,8 @@ class BOSaveImg(tornado.web.RequestHandler):
         '''save img for trinket'''
         try:
             d = self.request.files['thumbnail'][0]['body']
-            with open(get_img_url(name), 'wb') as f:
+            with open(get_img_filepath(name), 'wb') as f:
                 f.write(d)
+            self.write('image was uploaded')
         except Exception,e:
             logging.exception(e)
