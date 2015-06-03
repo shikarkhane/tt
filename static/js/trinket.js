@@ -1,24 +1,3 @@
-var swiffy = [];
-
- function handleSwiffyJson(evt) {
-    var f = evt.target.files[0]; // FileList object
-
-
-      var reader = new FileReader();
-
-      // Closure to capture the file information.
-      reader.onload = (function(theFile) {
-        return function(e) {
-          //console.log(e.target.result);
-          swiffy = e.target.result;
-          $('#save-new-trinket').removeAttr('disabled');
-        };
-      })(f);
-
-      reader.readAsText(f);
-
-  }
-
  function handleImage(evt) {
     var f = evt.target.files[0]; // FileList object
 
@@ -33,17 +12,15 @@ var swiffy = [];
       reader.readAsDataURL(f);
   }
 
-function make_json(trinketId, groupId, swiffy){
+function make_json(trinketId, groupId){
     var result = new Object();
 
-    result.swiffyobject = JSON.parse(swiffy);
     result.trinketId = trinketId;
     result.groupId = groupId;
     return result;
 }
 
 $(function() {
-  document.getElementById('trinket-swiffy').addEventListener('change', handleSwiffyJson, false);
   document.getElementById('trinket-thumbnail').addEventListener('change', handleImage, false);
   });
 
@@ -52,23 +29,25 @@ $(document).on('click', "#save-new-trinket", function(event) {
     var name = $('#trinket-name').val().replace(/\s+/g, ''),
     trinketId = $('#trinket-id').val().replace(/\s+/g, ''),
     groupId = $('#trinket-group-id').val().replace(/\s+/g, '');
-    d = make_json(trinketId, groupId, swiffy);
+    d = make_json(trinketId, groupId);
 
-    blobFile = $('#trinket-thumbnail')[0].files[0];
+    thumbnailFile = $('#trinket-thumbnail')[0].files[0];
+    swiffyFile = $('#trinket-swiffy')[0].files[0];
     var fd = new FormData();
-    fd.append("thumbnail", blobFile);
+    fd.append("thumbnail", thumbnailFile);
+    fd.append("swiffy", swiffyFile);
 
     $.ajax({
                 type: 'POST',
             contentType: 'application/json',
             data: JSON.stringify(d),
             dataType: 'json',
-            url: '/bo/trinket/swiffy/' + name + '/'
+            url: '/bo/trinket/' + name + '/info/'
             }).done(function( response) {
                 log_alert(response);
             });
      $.ajax({
-       url: '/bo/trinket/image/' + name + '/',
+       url: '/bo/trinket/' + name + '/',
        type: "POST",
        data: fd,
        processData: false,

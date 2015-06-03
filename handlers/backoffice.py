@@ -2,7 +2,7 @@ import tornado.web
 import settings
 import logging
 import json
-from libs.trinket import get_all_trinkets, save, get_img_url, get_img_filepath
+from libs.trinket import get_all_trinkets, save, get_img_url, get_img_filepath, get_swiffy_url, get_swiffy_filepath
 import os
 
 
@@ -29,7 +29,6 @@ class BOSaveSwiffy(tornado.web.RequestHandler):
             d = json.loads(self.request.body)
             save( connection_pool = self.application.settings["db_connection_pool"],
                   name = name,
-                  swiffyobject= d['swiffyobject'],
                   trinketId= d['trinketId'],
                   groupId=d['groupId'])
         except Exception,e:
@@ -38,9 +37,12 @@ class BOSaveImg(tornado.web.RequestHandler):
     def post(self, name):
         '''save img for trinket'''
         try:
-            d = self.request.files['thumbnail'][0]['body']
+            thumbnail = self.request.files['thumbnail'][0]['body']
+            swiffyFile = self.request.files['swiffy'][0]['body']
             with open(get_img_filepath(name), 'wb') as f:
-                f.write(d)
+                f.write(thumbnail)
+            with open(get_swiffy_filepath(name), 'wb') as f:
+                f.write(swiffyFile)
             self.write('image was uploaded')
         except Exception,e:
             logging.exception(e)
