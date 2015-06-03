@@ -11,13 +11,13 @@ def get_img_url(name):
     return '{0}{1}{2}.png'.format(settings.SERVERNAME, settings.TRINKET_IMG_DIR, name)
 
 def get_swiffy_url(name):
-    return '{0}{1}{2}.png'.format(settings.SERVERNAME, settings.TRINKET_SWIFFY_DIR, name)
+    return '{0}{1}{2}.html'.format(settings.SERVERNAME, settings.TRINKET_SWIFFY_DIR, name)
 
 def get_img_filepath(name):
     return '{0}{1}{2}.png'.format(settings.DIRNAME, settings.TRINKET_IMG_DIR, name)
 
 def get_swiffy_filepath(name):
-    return '{0}{1}{2}.png'.format(settings.DIRNAME, settings.TRINKET_SWIFFY_DIR, name)
+    return '{0}{1}{2}.html'.format(settings.DIRNAME, settings.TRINKET_SWIFFY_DIR, name)
 
 def get_details(connection_pool, name):
     imgurl = get_img_url(name)
