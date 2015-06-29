@@ -8,4 +8,4 @@ def get_feed_page(connection_pool, to_user, page_number, page_size):
     end = (page_number*page_size) + page_size
     msgs = Message_Data(connection_pool).get_all_for_user(to_user)
     paged_msgs = msgs[start:end]
-    return [(i.__dict__) for i in paged_msgs]
+    return len(msgs), [(i.__dict__) for i in paged_msgs]
