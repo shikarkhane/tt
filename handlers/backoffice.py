@@ -1,7 +1,9 @@
 import tornado.web
+from tornado.escape import xhtml_escape
 import settings
 import logging
 import json
+from backoffice_auth import BaseHandler
 from libs.trinket import get_all_trinkets, save, get_img_url, get_img_filepath, get_swiffy_url, get_swiffy_filepath
 import os
 
@@ -9,9 +11,18 @@ import os
 # Log everything, and send it to stderr.
 logging.basicConfig(filename=settings.DEBUG_LOG,level=logging.ERROR,format='%(asctime)s %(message)s')
 
-class BOGetAllTrinketsHandler(tornado.web.RequestHandler):
+class BOGetAllTrinketsHandler(BaseHandler):
     def get(self):
         '''get all trinkets'''
+        try:
+            email = None
+            if self.current_user:
+                email = xhtml_escape(self.current_user["email"])
+            if not email:
+                self.render("404.html")
+        except Exception, e:
+            logging.exception(e)
+
         try:
             trinkets = get_all_trinkets(self.application.settings["db_connection_pool"])
             if trinkets:
@@ -22,7 +33,7 @@ class BOGetAllTrinketsHandler(tornado.web.RequestHandler):
         except Exception,e:
             logging.exception(e)
 
-class BOSaveSwiffy(tornado.web.RequestHandler):
+class BOSaveSwiffy(BaseHandler):
     def post(self, name):
         '''save swiffy object for trinket'''
         try:
@@ -33,7 +44,7 @@ class BOSaveSwiffy(tornado.web.RequestHandler):
                   groupId=d['groupId'])
         except Exception,e:
             logging.exception(e)
-class BOSaveImg(tornado.web.RequestHandler):
+class BOSaveImg(BaseHandler):
     def post(self, name):
         '''save img for trinket'''
         try:

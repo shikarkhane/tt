@@ -1,21 +1,6 @@
-<!DOCTYPE html>
-<html lang="pt">
+{% extends "base.html" %}
 
-<head>
-
-<meta charset="utf-8" />
-<meta http-equiv="X-UA-Compatible" content="IE=edge" >
-<meta name="Description" content="">
-<meta name="Keywords" content="">
-<title>tinktime</title>
-
-<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-
-<!-- Mobile Devices -->
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"> 
-
-</head>
-<body>
+{% block content %}
 
 <div class="add-new-trinket well well-lg">
 <h3>Add new trinket<small>add name, image and swiffy json</small></h3>
@@ -54,9 +39,4 @@
 </ul>
 </div>
 
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
-<script src="/static/js/utility.js"></script>
-<script src="/static/js/trinket.js"></script>
-</body>
-</html>
+{% end %}
