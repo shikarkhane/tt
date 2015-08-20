@@ -6,6 +6,7 @@ class Contact():
         self.last_name = c['last_name'] if c['last_name'] else ''
         self.phone_number = c['phone_number']
         self.on_tinktime = is_member
+        self.phone_type = c['phone_type']
     def setIsMember(self, f):
         self.on_tinktime = f
 def verified_by_sms_code(connection_pool, user):
