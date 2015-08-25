@@ -8,7 +8,7 @@ from handlers.sms import SmsVerifyCodeHandler, VerifyCodeHandler
 from handlers.user import UserVerificationHandler, UsersOnNetworkHandler, RegisterUserToken
 from handlers.backoffice import BOGetAllTrinketsHandler, BOSaveImg, BOSaveSwiffy
 from handlers.trinket import GetAllTrinketsWithImg
-from handlers.backoffice_auth import GoogleHandler, LoginPage
+from handlers.backoffice_auth import GoogleHandler, LoginPage, GoogleOAuth2LoginHandler
 import redis
 
 pool = [redis.ConnectionPool(host=s["server"], port=s["port"], db=0) for s in settings.REDIS_SHARDS]
@@ -35,9 +35,9 @@ application = tornado.web.Application([
     (r"/bo/trinket/(\S+)/info/",BOSaveSwiffy),
     (r"/bo/trinket/(\S+)/",BOSaveImg),
     (r"/bo/login/",LoginPage),
-    (r"/login/google/",GoogleHandler),
+    (r"/auth",GoogleOAuth2LoginHandler),
 ], debug=settings.DEBUG, static_path = settings.STATIC_PATH, template_path = settings.TEMPLATE_PATH,
-                                      login_url="/bo/login/",
+        login_url="/bo/login/",
         cookie_secret=settings.COOKIE_SECRET, db_connection_pool=pool)
 
 if __name__ == "__main__":

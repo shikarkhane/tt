@@ -12,5 +12,5 @@
 
 	$(document).on('click', "#btngoogle", function(event){
 		event.preventDefault();
-		window.location.replace("/login/google/");
+		window.location.replace("/auth");
 	});
