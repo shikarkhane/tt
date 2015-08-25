@@ -8,7 +8,7 @@ from handlers.sms import SmsVerifyCodeHandler, VerifyCodeHandler
 from handlers.user import UserVerificationHandler, UsersOnNetworkHandler, RegisterUserToken
 from handlers.backoffice import BOGetAllTrinketsHandler, BOSaveImg, BOSaveSwiffy
 from handlers.trinket import GetAllTrinketsWithImg
-from handlers.backoffice_auth import GoogleHandler, LoginPage, GoogleOAuth2LoginHandler
+from handlers.backoffice_auth import LoginPage, GoogleOAuth2LoginHandler
 import redis
 
 pool = [redis.ConnectionPool(host=s["server"], port=s["port"], db=0) for s in settings.REDIS_SHARDS]

@@ -16,26 +16,16 @@ class BaseHandler(tornado.web.RequestHandler):
             l = '/bo/login/?next={0}'.format(urllib.quote_plus(str(self.request.uri)))
             self.redirect(l)
 
-class GoogleHandler(tornado.web.RequestHandler, tornado.auth.GoogleMixin):
-    @tornado.web.asynchronous
-    def get(self):
-        try:
-            if self.get_argument("openid.mode", None):
-                self.get_authenticated_user(self.async_callback(self._on_auth))
-                return
-            self.authenticate_redirect()
-        except Exception,e:
-            logging.exception(e)
-            self.render("404.html")
 class GoogleOAuth2LoginHandler(tornado.web.RequestHandler, tornado.auth.GoogleOAuth2Mixin):
     @tornado.gen.coroutine
     def get(self):
         redirect_uri = "http://localhost:8888/auth"
         if self.get_argument("code", False):
-            yield self.get_authenticated_user(
+            user = yield self.get_authenticated_user(
                 redirect_uri=redirect_uri,
                 code=self.get_argument("code"))
             self.set_secure_cookie(settings.COOKIE_SECRET, str(time.time()))
+            self.set_secure_cookie('user', tornado.escape.json_encode(user))
             self.redirect("/")
         else:
             yield self.authorize_redirect(
