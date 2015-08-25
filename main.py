@@ -37,7 +37,7 @@ application = tornado.web.Application([
     (r"/bo/login/",LoginPage),
     (r"/auth",GoogleOAuth2LoginHandler),
 ], debug=settings.DEBUG, static_path = settings.STATIC_PATH, template_path = settings.TEMPLATE_PATH,
-        login_url="/bo/login/",
+        login_url="/bo/login/", google_oauth= {"key": settings.GOOGLE_CLIENT_ID, "secret": settings.GOOGLE_SECRET},
         cookie_secret=settings.COOKIE_SECRET, db_connection_pool=pool)
 
 if __name__ == "__main__":
