@@ -4,6 +4,7 @@ import urllib
 import logging
 import settings
 import time
+import json
 
 logging.basicConfig(filename=settings.DEBUG_LOG,level=logging.ERROR,format='%(asctime)s %(message)s')
 
@@ -21,9 +22,14 @@ class GoogleOAuth2LoginHandler(tornado.web.RequestHandler, tornado.auth.GoogleOA
     def get(self):
         redirect_uri = "http://localhost:8888/auth"
         if self.get_argument("code", False):
-            user = yield self.get_authenticated_user(
+            access = yield self.get_authenticated_user(
                 redirect_uri=redirect_uri,
                 code=self.get_argument("code"))
+
+            http_client = self.get_auth_http_client()
+            response = yield http_client.fetch('https://www.googleapis.com/oauth2/v1/userinfo?access_token='+access["access_token"])
+            user = json.loads(response.body)["email"]
+
             self.set_secure_cookie(settings.COOKIE_SECRET, str(time.time()))
             self.set_secure_cookie('user', tornado.escape.json_encode(user))
             self.redirect("/")

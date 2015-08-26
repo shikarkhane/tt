@@ -17,7 +17,7 @@ class BOGetAllTrinketsHandler(BaseHandler):
         try:
             email = None
             if self.current_user:
-                email = xhtml_escape(self.current_user["email"])
+                email = xhtml_escape(self.current_user)
             if not email:
                 self.render("404.html")
         except Exception, e:
