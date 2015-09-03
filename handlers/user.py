@@ -1,7 +1,8 @@
 import tornado.web
 import settings
 import logging
-from libs.user import is_user_verified, are_on_network, register_push_token
+from libs.user import is_user_verified, are_on_network, register_push_token, \
+    get_time_split_per_user
 from libs.response_utility import Response
 import json
 
@@ -25,8 +26,12 @@ class UserTimeSplitHandler(tornado.web.RequestHandler):
     def get(self, user):
         ''' get time received and sent by user'''
         try:
-            r = is_user_verified(self.application.settings["db_connection_pool"], user)
-            self.write(json.dumps(Response().only_status(r)))
+            x = False
+            r = get_time_split_per_user(self.application.settings["db_connection_pool"], user)
+            if r:
+                x = json.dumps(r)
+            self.write(x)
+
         except Exception,e:
             logging.exception(e)
 class UsersOnNetworkHandler(tornado.web.RequestHandler):

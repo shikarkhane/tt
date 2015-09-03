@@ -1,4 +1,5 @@
 from db._user import Profile_Data
+from db._timesplit import TimeInAndOut, Timesplit
 
 class Contact():
     def __init__(self, c, is_member = False):
@@ -18,11 +19,47 @@ def is_user_verified(connection_pool, user):
     if p:
         return p.verified
     return False
-def time_split_per_user(connection_pool, user):
-    p = Profile_Data(connection_pool).get(user)
-    if p:
-        return p.verified
-    return False
+
+def get_time_split_per_user(connection_pool, user):
+    return TimeInAndOut(connection_pool).get(user)
+
+def get_time_split_for_pair(connection_pool, user, user_pair):
+    '''user is the one using the app, while user_pair is his/her contact with whom he might have shared time'''
+    io = TimeInAndOut(connection_pool)
+    key, val =   io.get_pair(user, user_pair)
+    pass
+
+
+def add_time_split_per_user(connection_pool, user, time_in, time_out):
+    io = TimeInAndOut(connection_pool)
+    x = io.get(user)
+    if x:
+        ts = Timesplit(x)
+        io.save(user, ts.time_in + time_in, ts.time_out + time_out)
+    else:
+        io.save(user, time_in, time_out)
+
+def add_time_split_for_pair(connection_pool, sender_user, receiver_user, time_in_seconds):
+    '''based on key formation, time_in for user will be time_out for user_pair'''
+    io = TimeInAndOut(connection_pool)
+    key, val = io.get_pair(sender_user, receiver_user)
+
+    if not val:
+        io.save_pair(sender_user, receiver_user, 0, time_in_seconds)
+    else:
+        ts = Timesplit(val)
+        # find who is sender in the key
+        if key.split(':')[1] == sender_user:
+            io.save_pair(sender_user, receiver_user, ts.time_in, ts.time_out + time_in_seconds)
+        else:
+            io.save_pair(sender_user, receiver_user, ts.time_in + time_in_seconds, ts.time_out)
+
+def add_time_split(connection_pool, sender_user, receiver_user, time_in_seconds):
+    add_time_split_per_user(sender_user, 0, time_in_seconds)
+    add_time_split_per_user(receiver_user, time_in_seconds, 0)
+    add_time_split_for_pair(sender_user, receiver_user, time_in_seconds)
+
+
 
 def are_on_network(connection_pool, contacts):
     r = [Contact(c) for c in contacts]
