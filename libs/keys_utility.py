@@ -14,3 +14,7 @@ def trinket_list_key():
     return 'trinkets'
 def trinket_detail_key(name):
     return 'trinket:{0}:detail'.format(name)
+def time_split_key(user):
+    return 'timesplit:{0}'.format(user)
+def time_split_pair_key( user, user_pair):
+    return 'timesplitpair:{0}:{1}'.format(user, user_pair)

@@ -5,6 +5,7 @@ import logging
 import settings
 import time
 import json
+import urllib2
 
 logging.basicConfig(filename=settings.DEBUG_LOG,level=logging.ERROR,format='%(asctime)s %(message)s')
 
@@ -20,7 +21,7 @@ class BaseHandler(tornado.web.RequestHandler):
 class GoogleOAuth2LoginHandler(tornado.web.RequestHandler, tornado.auth.GoogleOAuth2Mixin):
     @tornado.gen.coroutine
     def get(self):
-        redirect_uri = "http://localhost:8888/auth"
+        redirect_uri = settings.GOOGLE_AUTH_REDIRECT_URI
         if self.get_argument("code", False):
             access = yield self.get_authenticated_user(
                 redirect_uri=redirect_uri,
@@ -32,7 +33,11 @@ class GoogleOAuth2LoginHandler(tornado.web.RequestHandler, tornado.auth.GoogleOA
 
             self.set_secure_cookie(settings.COOKIE_SECRET, str(time.time()))
             self.set_secure_cookie('user', tornado.escape.json_encode(user))
-            self.redirect("/")
+
+            if self.get_cookie("mypagebeforelogin"):
+                self.redirect(str(urllib2.unquote(self.get_cookie("mypagebeforelogin"))))
+            else:
+                self.redirect('/')
         else:
             yield self.authorize_redirect(
                 redirect_uri=redirect_uri,

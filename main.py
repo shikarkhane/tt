@@ -5,7 +5,8 @@ from handlers.pa import pa_FeedHandler, pa_Handler, pa_GetFeedHandler
 from handlers.message import QueueListener, QueueWriter, MessageHandler, MessageReadHandler
 from handlers.feed import FeedHandler, FeedPageHandler
 from handlers.sms import SmsVerifyCodeHandler, VerifyCodeHandler
-from handlers.user import UserVerificationHandler, UsersOnNetworkHandler, RegisterUserToken
+from handlers.user import UserVerificationHandler, UsersOnNetworkHandler, RegisterUserToken, \
+    UserTimeSplitHandler
 from handlers.backoffice import BOGetAllTrinketsHandler, BOSaveImg, BOSaveSwiffy
 from handlers.trinket import GetAllTrinketsWithImg
 from handlers.backoffice_auth import LoginPage, GoogleOAuth2LoginHandler
@@ -29,6 +30,7 @@ application = tornado.web.Application([
     (r"/sms-code/", SmsVerifyCodeHandler),
     (r"/verify-user/", VerifyCodeHandler),
     (r"/is-user-verified/([\+]?\S+)/", UserVerificationHandler),
+    (r"/time-split/([\+]?\S+)/", UserTimeSplitHandler),
     (r"/are-on-network/",UsersOnNetworkHandler),
     (r"/trinket-list/",GetAllTrinketsWithImg),
     (r"/bo/trinket/getall/",BOGetAllTrinketsHandler),

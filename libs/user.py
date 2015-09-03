@@ -9,10 +9,16 @@ class Contact():
         self.phone_type = c['phone_type']
     def setIsMember(self, f):
         self.on_tinktime = f
+
 def verified_by_sms_code(connection_pool, user):
     Profile_Data(connection_pool).verified(user)
 
 def is_user_verified(connection_pool, user):
+    p = Profile_Data(connection_pool).get(user)
+    if p:
+        return p.verified
+    return False
+def time_split_per_user(connection_pool, user):
     p = Profile_Data(connection_pool).get(user)
     if p:
         return p.verified

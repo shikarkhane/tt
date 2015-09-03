@@ -18,6 +18,17 @@ class UserVerificationHandler(tornado.web.RequestHandler):
             self.write(json.dumps(Response().only_status(r)))
         except Exception,e:
             logging.exception(e)
+class UserTimeSplitHandler(tornado.web.RequestHandler):
+    '''
+    get time in and out for a user or a pair of users
+    '''
+    def get(self, user):
+        ''' get time received and sent by user'''
+        try:
+            r = is_user_verified(self.application.settings["db_connection_pool"], user)
+            self.write(json.dumps(Response().only_status(r)))
+        except Exception,e:
+            logging.exception(e)
 class UsersOnNetworkHandler(tornado.web.RequestHandler):
     '''
     1. check array of users are on tinktime network
