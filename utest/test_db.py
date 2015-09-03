@@ -55,6 +55,14 @@ class Test_TimeInOut(unittest.TestCase):
             res = Timesplit(io.get(self.user))
             self.assertEqual( res.time_in, self.time_in)
             self.assertEqual( res.time_out, self.time_out)
+    def test_save_get_remove_pair(self):
+        io = self.io
+        io.remove_pair(self.user, self.user_pair)
+        k,v = io.get_pair(self.user, self.user_pair)
+        self.assertEqual( v , False)
+        self.assertEqual(io.save_pair(self.user, self.user_pair, self.time_in, self.time_out), True)
+        k,v =  io.get_pair(self.user, self.user_pair)
+        self.assertNotEqual(v, False)
 
 
 if __name__ == "__main__":
