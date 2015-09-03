@@ -47,7 +47,14 @@ class Test_TimeInOut(unittest.TestCase):
         self.assertEqual( io.get(self.user), False)
         self.assertEqual(io.save(self.user, self.time_in, self.time_out), True)
         self.assertNotEqual( io.get(self.user), False)
-
+    def test_check_saved_value(self):
+        io = self.io
+        io.remove(self.user)
+        self.assertEqual( io.get(self.user), False)
+        if io.save(self.user, self.time_in, self.time_out):
+            res = Timesplit(io.get(self.user))
+            self.assertEqual( res.time_in, self.time_in)
+            self.assertEqual( res.time_out, self.time_out)
 
 
 if __name__ == "__main__":

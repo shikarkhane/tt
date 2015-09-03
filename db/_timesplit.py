@@ -3,16 +3,25 @@ from libs.shards_utility import Shard
 import json
 
 class Timesplit():
-    def __init__(self, time_in = None, time_out = None):
+    def __init__(self, *args):
+        '''allow initizing the object using parameters or a single json '''
+        if len(args) == 2:
+            self.set_by_params(*args)
+        else:
+            self.set_by_json(*args)
+    def set_by_params(self, time_in = None, time_out = None):
         self.time_in = time_in
         self.time_out = time_out
+    def set_by_json(self, x):
+        self.time_in = x['time_in']
+        self.time_out = x['time_out']
 class TimeInAndOut():
     def __init__(self, connection_pool):
         self.r = Shard(connection_pool).get_server
     def save(self, user, time_in, time_out):
         '''save time split for user'''
         k = time_split_key(user)
-        val = Timesplit(time_in=time_in, time_out=time_out)
+        val = Timesplit(time_in, time_out)
         if self.r(k).set( k,json.dumps(val.__dict__)):
             return True
         else:
@@ -26,7 +35,7 @@ class TimeInAndOut():
     def save_pair(self, user, user_pair, time_in, time_out):
         '''save time split between user and another user'''
         k = time_split_pair_key(user, user_pair)
-        val = Timesplit(time_in=time_in, time_out=time_out)
+        val = Timesplit(time_in, time_out)
 
         # check if key exists in some combination
         _key, _res = self.get_pair(user, user_pair)
@@ -50,7 +59,7 @@ class TimeInAndOut():
         '''get time split for pair of users'''
         res = self.r(k).get(k)
         if res:
-            return json.loads(res)
+            return res
         else:
             return False
     def get_pair(self, user, user_pair):
@@ -67,4 +76,7 @@ class TimeInAndOut():
         ''' remove the time split for this user'''
         k = time_split_key(user)
         self.r(k).delete([k])
-
+    def remove_pair(self, user, user_pair):
+        k = time_split_pair_key(user, user_pair)
+        rk = time_split_pair_key( user_pair, user)
+        self.r(k).delete([k, rk])
