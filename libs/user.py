@@ -26,8 +26,18 @@ def get_time_split_per_user(connection_pool, user):
 def get_time_split_for_pair(connection_pool, user, user_pair):
     '''user is the one using the app, while user_pair is his/her contact with whom he might have shared time'''
     io = TimeInAndOut(connection_pool)
-    key, val =   io.get_pair(user, user_pair)
-    pass
+    key, val =  io.get_pair(user, user_pair)
+
+    if not val:
+        return False
+    else:
+        ts = Timesplit(val)
+        # find who is sender in the key
+        if not key.split(':')[1] == user:
+            temp = ts.time_out
+            ts.time_out = ts.time_in
+            ts.time_in = temp
+        return ts
 
 
 def add_time_split_per_user(connection_pool, user, time_in, time_out):

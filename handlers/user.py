@@ -2,7 +2,7 @@ import tornado.web
 import settings
 import logging
 from libs.user import is_user_verified, are_on_network, register_push_token, \
-    get_time_split_per_user
+    get_time_split_per_user, get_time_split_for_pair
 from libs.response_utility import Response
 import json
 
@@ -20,9 +20,6 @@ class UserVerificationHandler(tornado.web.RequestHandler):
         except Exception,e:
             logging.exception(e)
 class UserTimeSplitHandler(tornado.web.RequestHandler):
-    '''
-    get time in and out for a user or a pair of users
-    '''
     def get(self, user):
         ''' get time received and sent by user'''
         try:
@@ -34,6 +31,21 @@ class UserTimeSplitHandler(tornado.web.RequestHandler):
 
         except Exception,e:
             logging.exception(e)
+
+class UserPairTimeSplitHandler(tornado.web.RequestHandler):
+    def get(self, user, user_pair):
+        ''' get time received and sent between user and user_pair'''
+        try:
+            x = False
+            r = get_time_split_for_pair(self.application.settings["db_connection_pool"], user, user_pair)
+            if r:
+                x = json.dumps(r)
+            self.write(x)
+
+        except Exception,e:
+            logging.exception(e)
+
+
 class UsersOnNetworkHandler(tornado.web.RequestHandler):
     '''
     1. check array of users are on tinktime network
