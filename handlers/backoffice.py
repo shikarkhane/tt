@@ -15,16 +15,12 @@ class BOGetAllTrinketsHandler(tornado.web.RequestHandler):
     def get(self):
         '''get all trinkets'''
         try:
-            email = None
-            if self.current_user:
-                email = xhtml_escape(self.current_user)
-            if email:
-                trinkets = get_all_trinkets(self.application.settings["db_connection_pool"])
-                if trinkets:
-                    r = trinkets
-                else:
-                    r = []
-                self.render("backoffice.html", trinkets=r)
+            trinkets = get_all_trinkets(self.application.settings["db_connection_pool"])
+            if trinkets:
+                r = trinkets
+            else:
+                r = []
+            self.render("backoffice.html", trinkets=r)
         except Exception,e:
             logging.exception(e)
 
