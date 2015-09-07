@@ -11,29 +11,24 @@ import os
 # Log everything, and send it to stderr.
 logging.basicConfig(filename=settings.DEBUG_LOG,level=logging.ERROR,format='%(asctime)s %(message)s')
 
-class BOGetAllTrinketsHandler(BaseHandler):
+class BOGetAllTrinketsHandler(tornado.web.RequestHandler):
     def get(self):
         '''get all trinkets'''
         try:
             email = None
             if self.current_user:
                 email = xhtml_escape(self.current_user)
-            if not email:
-                self.render("404.html")
-        except Exception, e:
-            logging.exception(e)
-
-        try:
-            trinkets = get_all_trinkets(self.application.settings["db_connection_pool"])
-            if trinkets:
-                r = trinkets
-            else:
-                r = []
-            self.render("backoffice.html", trinkets=r)
+            if email:
+                trinkets = get_all_trinkets(self.application.settings["db_connection_pool"])
+                if trinkets:
+                    r = trinkets
+                else:
+                    r = []
+                self.render("backoffice.html", trinkets=r)
         except Exception,e:
             logging.exception(e)
 
-class BOSaveSwiffy(BaseHandler):
+class BOSaveSwiffy(tornado.web.RequestHandler):
     def post(self, name):
         '''save swiffy object for trinket'''
         try:
@@ -44,7 +39,7 @@ class BOSaveSwiffy(BaseHandler):
                   groupId=d['groupId'])
         except Exception,e:
             logging.exception(e)
-class BOSaveImg(BaseHandler):
+class BOSaveImg(tornado.web.RequestHandler):
     def post(self, name):
         '''save img for trinket'''
         try:
