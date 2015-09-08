@@ -57,6 +57,17 @@ class UsersOnNetworkHandler(tornado.web.RequestHandler):
             self.write(json.dumps(are_on_network(self.application.settings["db_connection_pool"], d["contacts"])))
         except Exception,e:
             logging.exception(e)
+class UsersOnNetworkPlusTimesplitHandler(tornado.web.RequestHandler):
+    '''
+    1. check array of users are on tinktime network
+    3. return first_name, last_name, phone_number, on_tinktime fields, time split
+    '''
+    def post(self, user):
+        try:
+            d = json.loads(self.request.body)
+            self.write(json.dumps(are_on_network(self.application.settings["db_connection_pool"], d["contacts"])))
+        except Exception,e:
+            logging.exception(e)
 class RegisterUserToken(tornado.web.RequestHandler):
     '''save token from user for push notification
     '''
