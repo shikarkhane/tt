@@ -10,6 +10,18 @@ class Contact():
         self.phone_type = c['phone_type']
     def setIsMember(self, f):
         self.on_tinktime = f
+class ContactWithTimeSplit():
+    def __init__(self, c, is_member = False, ts = None):
+        self.first_name = c['first_name'] if c['first_name'] else ''
+        self.last_name = c['last_name'] if c['last_name'] else ''
+        self.phone_number = c['phone_number']
+        self.on_tinktime = is_member
+        self.phone_type = c['phone_type']
+        self.time_split = ts
+    def setIsMember(self, f):
+        self.on_tinktime = f
+    def setTimeSplit(self, ts):
+        self.time_split = ts
 
 def verified_by_sms_code(connection_pool, user):
     Profile_Data(connection_pool).verified(user)
@@ -29,7 +41,7 @@ def get_time_split_for_pair(connection_pool, user, user_pair):
     key, val =  io.get_pair(user, user_pair)
 
     if not val:
-        return False
+        return Timesplit(0,0)
     else:
         ts = Timesplit(val)
         # find who is sender in the key
@@ -75,6 +87,12 @@ def are_on_network(connection_pool, contacts):
     r = [Contact(c) for c in contacts]
     [i.setIsMember(is_user_verified(connection_pool, i.phone_number)) for i in r if i.phone_number]
     return [(x.__dict__) for x in r]
+def are_on_network_plus_timesplit(connection_pool, user, contacts):
+    r = [ContactWithTimeSplit(c) for c in contacts]
+    [i.setIsMember(is_user_verified(connection_pool, i.phone_number)) for i in r if i.phone_number]
+    [i.setTimeSplit(get_time_split_for_pair(connection_pool, user, i.phone_number).__dict__) for i in r if i.phone_number]
+    return [(x.__dict__) for x in r]
+
 def register_push_token(connection_pool, to_user, token, device_name, device_platform, device_uuid):
     if token:
         Profile_Data(connection_pool).push_token(to_user, token)

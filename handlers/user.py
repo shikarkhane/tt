@@ -2,7 +2,7 @@ import tornado.web
 import settings
 import logging
 from libs.user import is_user_verified, are_on_network, register_push_token, \
-    get_time_split_per_user, get_time_split_for_pair
+    get_time_split_per_user, get_time_split_for_pair, are_on_network_plus_timesplit
 from libs.response_utility import Response
 import json
 
@@ -65,7 +65,7 @@ class UsersOnNetworkPlusTimesplitHandler(tornado.web.RequestHandler):
     def post(self, user):
         try:
             d = json.loads(self.request.body)
-            self.write(json.dumps(are_on_network(self.application.settings["db_connection_pool"], d["contacts"])))
+            self.write(json.dumps(are_on_network_plus_timesplit(self.application.settings["db_connection_pool"], user, d["contacts"])))
         except Exception,e:
             logging.exception(e)
 class RegisterUserToken(tornado.web.RequestHandler):
