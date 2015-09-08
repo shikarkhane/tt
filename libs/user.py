@@ -33,7 +33,7 @@ def get_time_split_for_pair(connection_pool, user, user_pair):
     else:
         ts = Timesplit(val)
         # find who is sender in the key
-        if not key.split(':')[1] == user:
+        if not str(key.split(':')[1]) == str(user):
             temp = ts.time_out
             ts.time_out = ts.time_in
             ts.time_in = temp
@@ -65,9 +65,9 @@ def add_time_split_for_pair(connection_pool, sender_user, receiver_user, time_in
             io.save_pair(sender_user, receiver_user, ts.time_in + time_in_seconds, ts.time_out)
 
 def add_time_split(connection_pool, sender_user, receiver_user, time_in_seconds):
-    add_time_split_per_user(sender_user, 0, time_in_seconds)
-    add_time_split_per_user(receiver_user, time_in_seconds, 0)
-    add_time_split_for_pair(sender_user, receiver_user, time_in_seconds)
+    add_time_split_per_user(connection_pool, sender_user, 0, time_in_seconds)
+    add_time_split_per_user(connection_pool, receiver_user, time_in_seconds, 0)
+    add_time_split_for_pair(connection_pool, sender_user, receiver_user, time_in_seconds)
 
 
 

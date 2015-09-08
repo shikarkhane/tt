@@ -39,7 +39,7 @@ class UserPairTimeSplitHandler(tornado.web.RequestHandler):
             x = False
             r = get_time_split_for_pair(self.application.settings["db_connection_pool"], user, user_pair)
             if r:
-                x = json.dumps(r)
+                x = json.dumps(r.__dict__)
             self.write(x)
 
         except Exception,e:

@@ -50,7 +50,7 @@ class TimeInAndOut():
     def get(self, user):
         '''get time split for user'''
         k = time_split_key(user)
-        res = self.r(k).get( k)
+        res = self.r(k).get(k)
         if res:
             return json.loads(res)
         else:
@@ -59,7 +59,7 @@ class TimeInAndOut():
         '''get time split for pair of users'''
         res = self.r(k).get(k)
         if res:
-            return res
+            return json.loads(res)
         else:
             return False
     def get_pair(self, user, user_pair):
