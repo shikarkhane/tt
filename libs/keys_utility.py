@@ -18,3 +18,7 @@ def time_split_key(user):
     return 'timesplit:{0}'.format(user)
 def time_split_pair_key( user, user_pair):
     return 'timesplitpair:{0}:{1}'.format(user, user_pair)
+def conversation_pair_key( user, user_pair):
+    return 'conversation:{0}:{1}:pair'.format(user, user_pair)
+def grouped_feed_key( user, user_pair):
+    return 'groupedfeed:{0}:{1}:pair'.format(user, user_pair)

@@ -1,5 +1,5 @@
 import json
-from libs.keys_utility import message_key, sender_key, receiver_key
+from libs.keys_utility import message_key, sender_key, receiver_key, conversation_pair_key
 from libs.shards_utility import Shard
 from operator import itemgetter
 
@@ -42,6 +42,8 @@ class Message_Data():
         mk = message_key(msg.from_user, msg.to_user, msg.send_timestamp)
         sk = sender_key(msg.from_user)
         rk = receiver_key(msg.to_user)
+        ck = conversation_pair_key(msg.from_user, msg.to_user)
+        rck = conversation_pair_key(msg.to_user, msg.from_user)
 
         val = Value(trinket_name=msg.trinket_name, text=msg.text, seconds_sent=msg.seconds_sent,
                     unread=msg.unread)
@@ -49,6 +51,8 @@ class Message_Data():
         if self.r(mk).setnx( mk,json.dumps(val.__dict__)):
             self.r(sk).rpush(sk, mk)
             self.r(rk).rpush(rk, mk)
+            if self.r(ck).rpushx(ck,mk) == 0 and self.r(rck).rpushx(rck,mk) == 0:
+                self.r(ck).rpush(ck,mk)
             return mk
         else:
             # if msg exists, just update the msg but dont update the sender or receivers list
@@ -67,4 +71,15 @@ class Message_Data():
             [ self.get_by_key(i) for i in self.r(sk).lrange(sk, 0, scount)]
         newlist = sorted(res, key=lambda l:l.send_timestamp, reverse=True)
         return newlist
+    def get_conversation_for_pair(self, from_user, to_user):
+        ck = conversation_pair_key(from_user, to_user)
+        rck = conversation_pair_key(to_user, from_user)
+        use_key = ck
+        if not self.r(use_key).exists(use_key):
+            use_key = rck
+            if not self.r(use_key).exists(use_key):
+                return []
+
+        rcount = self.r(use_key).llen(use_key)
+        return [ self.get_by_key(i) for i in self.r(use_key).lrange(use_key, 0, rcount)]
 
