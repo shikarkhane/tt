@@ -71,7 +71,7 @@ class Message_Data():
             [ self.get_by_key(i) for i in self.r(sk).lrange(sk, 0, scount)]
         newlist = sorted(res, key=lambda l:l.send_timestamp, reverse=True)
         return newlist
-    def get_conversation_for_pair(self, from_user, to_user):
+    def get_conversation_for_pair(self, from_user, to_user, start, end):
         ck = conversation_pair_key(from_user, to_user)
         rck = conversation_pair_key(to_user, from_user)
         use_key = ck
@@ -81,5 +81,5 @@ class Message_Data():
                 return []
 
         rcount = self.r(use_key).llen(use_key)
-        return [ self.get_by_key(i) for i in self.r(use_key).lrange(use_key, 0, rcount)]
+        return rcount, [ self.get_by_key(i) for i in self.r(use_key).lrange(use_key, start, end)]
 
