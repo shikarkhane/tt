@@ -15,3 +15,6 @@ def get_conversation_page(connection_pool, from_user, to_user, page_number, page
     end = (page_number*page_size) + page_size
     total, msgs = Message_Data(connection_pool).get_conversation_for_pair(from_user, to_user, start, end)
     return total, [(i.__dict__) for i in msgs]
+
+def get_feed_summary(connection_pool, user):
+    return Message_Data(connection_pool).get_feed_summary(user)

@@ -3,7 +3,7 @@ import settings
 from handlers.squeeze import LandingHandler
 from handlers.pa import pa_FeedHandler, pa_Handler, pa_GetFeedHandler
 from handlers.message import QueueListener, QueueWriter, MessageHandler, MessageReadHandler
-from handlers.feed import FeedHandler, FeedPageHandler, FeedBetweenPairHandler
+from handlers.feed import FeedHandler, FeedPageHandler, FeedBetweenPairHandler, FeedSummaryHandler
 from handlers.sms import SmsVerifyCodeHandler, VerifyCodeHandler
 from handlers.user import UserVerificationHandler, UsersOnNetworkHandler, RegisterUserToken, \
     UserTimeSplitHandler, UserPairTimeSplitHandler, UsersOnNetworkPlusTimesplitHandler
@@ -27,6 +27,7 @@ application = tornado.web.Application([
     (r"/feed/([\+]?\S+)/page/([0-9]+)/size/([0-9]?)/", FeedPageHandler),
     (r"/conversation/([\+]?\S+)/between/([\+]?\S+)/page/([0-9]+)/size/([0-9]?)/", FeedBetweenPairHandler),
     (r"/feed/([\+]?\S+)/", FeedHandler),
+    (r"/groupedfeed/([\+]?\S+)/", FeedSummaryHandler),
     (r"/push/([\+]?\S+)/", RegisterUserToken),
     (r"/sms-code/", SmsVerifyCodeHandler),
     (r"/verify-user/", VerifyCodeHandler),
