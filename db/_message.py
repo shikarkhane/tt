@@ -79,6 +79,12 @@ class Message_Data():
             gi = 0
         self.r(gfk).hset(gfk, msg.from_user, int(gi) + 1 )
 
+    def update_unread_count_in_grouped_feed(self, msg):
+        gfk = grouped_feed_key(msg.to_user)
+        gi = self.r(gfk).hget(gfk, msg.from_user)
+        if gi:
+            self.r(gfk).hset(gfk, msg.from_user, int(gi) - 1 )
+
     def get(self, from_user, to_user, send_timestamp):
         k = message_key(from_user, to_user, send_timestamp)
         return self.get_by_key(k)
