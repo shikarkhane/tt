@@ -51,7 +51,7 @@ class Message_Data():
             return mk
         else:
             # if msg exists, just update the msg but dont update the sender or receivers list
-            self.r(mk).set( mk,json.dumps(val.__dict__))
+            return self.r(mk).set( mk,json.dumps(val.__dict__))
 
     def save_to_senders_list(self, msg, message_key):
         '''obsolete after redesign using 99design'''
