@@ -56,9 +56,9 @@ class Message_Data():
                 self.r(ck).rpush(ck,mk)
             #grouped feed
             gi = self.r(gfk).hget(gfk, msg.from_user)
-            if gi:
-                self.r(gfk).hsetnx(gfk, msg.from_user, gi + 1)
-
+            if not gi:
+                gi = 0
+            self.r(gfk).hset(gfk, msg.from_user, int(gi) + 1 )
             return mk
         else:
             # if msg exists, just update the msg but dont update the sender or receivers list
