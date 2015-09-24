@@ -73,11 +73,18 @@ class Message_Data():
     def save_to_grouped_feed(self, msg):
         '''saved to a hashed summary for a user's tinkobox. eg. for user A, a hased summary will store
         each user who has sent a tink to user A and the unread message count.'''
+        # received
         gfk = grouped_feed_key(msg.to_user)
         gi = self.r(gfk).hget(gfk, msg.from_user)
         if not gi:
             gi = 0
         self.r(gfk).hset(gfk, msg.from_user, int(gi) + 1 )
+        #sender
+        a_gfk = grouped_feed_key(msg.from_user)
+        a_gi = self.r(a_gfk).hget(a_gfk, msg.to_user)
+        if not a_gi:
+            a_gi = 0
+        self.r(a_gfk).hset(a_gfk, msg.to_user, int(a_gi) )
 
     def update_unread_count_in_grouped_feed(self, msg):
         gfk = grouped_feed_key(msg.to_user)
