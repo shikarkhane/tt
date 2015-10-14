@@ -1,5 +1,6 @@
 from db._user import Profile_Data
 from db._timesplit import TimeInAndOut, Timesplit
+import settings
 
 class Contact():
     def __init__(self, c, is_member = False):
@@ -50,6 +51,8 @@ def get_time_split_for_pair(connection_pool, user, user_pair):
             ts.time_out = ts.time_in
             ts.time_in = temp
         return ts
+def get_profile_img_url(name):
+    return '{0}{1}{2}.png'.format(settings.SERVERNAME, settings.PROFILE_IMG_DIR, name)
 
 
 def add_time_split_per_user(connection_pool, user, time_in, time_out):

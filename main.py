@@ -6,7 +6,7 @@ from handlers.message import QueueListener, QueueWriter, MessageHandler, Message
 from handlers.feed import FeedHandler, FeedPageHandler, FeedBetweenPairHandler, FeedSummaryHandler
 from handlers.sms import SmsVerifyCodeHandler, VerifyCodeHandler
 from handlers.user import UserVerificationHandler, UsersOnNetworkHandler, RegisterUserToken, \
-    UserTimeSplitHandler, UserPairTimeSplitHandler, UsersOnNetworkPlusTimesplitHandler
+    UserTimeSplitHandler, UserPairTimeSplitHandler, UsersOnNetworkPlusTimesplitHandler, SaveProfilePicture
 from handlers.backoffice import BOGetAllTrinketsHandler, BOSaveImg, BOSaveSwiffy
 from handlers.trinket import GetAllTrinketsWithImg
 from handlers.backoffice_auth import LoginPage, GoogleOAuth2LoginHandler
@@ -38,6 +38,7 @@ application = tornado.web.Application([
     (r"/are-on-network/",UsersOnNetworkHandler),
     (r"/are-on-network-plus-timesplit/([\+]?\S+)/",UsersOnNetworkPlusTimesplitHandler),
     (r"/trinket-list/",GetAllTrinketsWithImg),
+    (r"/profile-picture/([\+]?\S+)/",SaveProfilePicture),
     (r"/bo/trinket/getall/",BOGetAllTrinketsHandler),
     (r"/bo/trinket/(\S+)/info/",BOSaveSwiffy),
     (r"/bo/trinket/(\S+)/",BOSaveImg),

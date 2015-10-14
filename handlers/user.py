@@ -2,7 +2,7 @@ import tornado.web
 import settings
 import logging
 from libs.user import is_user_verified, are_on_network, register_push_token, \
-    get_time_split_per_user, get_time_split_for_pair, are_on_network_plus_timesplit
+    get_time_split_per_user, get_time_split_for_pair, are_on_network_plus_timesplit, get_profile_img_url
 from libs.response_utility import Response
 import json
 
@@ -23,7 +23,7 @@ class UserTimeSplitHandler(tornado.web.RequestHandler):
     def get(self, user):
         ''' get time received and sent by user'''
         try:
-            x = False
+            x = []
             r = get_time_split_per_user(self.application.settings["db_connection_pool"], user)
             if r:
                 x = json.dumps(r)
@@ -77,5 +77,16 @@ class RegisterUserToken(tornado.web.RequestHandler):
             self.write(json.dumps(register_push_token(self.application.settings["db_connection_pool"],
                                                       to_user, d["push_token"], d["device_name"],
                                                       d["device_platform"], d["device_uuid"])))
+        except Exception,e:
+            logging.exception(e)
+
+class SaveProfilePicture(tornado.web.RequestHandler):
+    def post(self, user):
+        '''save profile picture'''
+        try:
+            thumbnail = self.request.files['profile-picture'][0]['body']
+            with open(get_profile_img_url(user), 'wb') as f:
+                f.write(thumbnail)
+            self.write('image was uploaded')
         except Exception,e:
             logging.exception(e)
