@@ -19,6 +19,7 @@ class ContactWithTimeSplit():
         self.on_tinktime = is_member
         self.phone_type = c['phone_type']
         self.time_split = ts
+        self.profile_url = get_profile_img_url(self.phone_number)
     def setIsMember(self, f):
         self.on_tinktime = f
     def setTimeSplit(self, ts):
