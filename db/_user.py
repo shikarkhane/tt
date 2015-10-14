@@ -11,7 +11,7 @@ class Profile(object):
         else:
             self.set_by_values(*args)
     def set_by_values(self, user, verified=False, registration_date=None, ip_address=None, country=None, language=None,
-                      device_name=None, device_platform=None, device_uuid=None, push_token=None):
+                      device_name=None, device_platform=None, device_uuid=None, push_token=None, has_picture=False):
         self.user = user
         self.verified = verified
         self.registration_date = registration_date
@@ -22,6 +22,7 @@ class Profile(object):
         self.device_platform=device_platform
         self.device_uuid =device_uuid
         self.push_token=push_token
+        self.has_picture = has_picture
     def set_by_key_value(self, key, value):
         k = key.split(':')
         v = json.loads(value)
@@ -35,9 +36,10 @@ class Profile(object):
         self.device_platform=v.get("device_platform")
         self.device_uuid=v.get("device_uuid")
         self.push_token=v.get("push_token")
+        self.has_picture = v.get("has_picture")
 class Value(object):
     def __init__(self, verified, registration_date, ip_address, country, language, device_name=None,
-                 device_platform = None, device_uuid = None, push_token = None):
+                 device_platform = None, device_uuid = None, push_token = None, has_picture = False):
         self.verified = verified
         self.registration_date = registration_date
         self.ip_address = ip_address
@@ -47,6 +49,7 @@ class Value(object):
         self.device_platform = device_platform
         self.device_uuid = device_uuid
         self.push_token = push_token
+        self.has_picture = has_picture
 class Profile_Data():
     def __init__(self, connection_pool):
         self.r = Shard(connection_pool).get_server
@@ -58,7 +61,8 @@ class Profile_Data():
         k = user_profile_key(p.user)
         val = Value(verified=p.verified, registration_date=p.registration_date, ip_address=p.ip_address,
                     country=p.country, language=p.language, device_name=p.device_name,
-                    device_platform=p.device_platform, device_uuid=p.device_uuid, push_token=p.push_token)
+                    device_platform=p.device_platform, device_uuid=p.device_uuid, push_token=p.push_token,
+                    has_picture=p.has_picture)
         if self.r(k).set( k,json.dumps(val.__dict__)):
             return True
         else:
@@ -91,4 +95,8 @@ class Profile_Data():
         if not p:
             p = self.new_profile(user)
         p.push_token = token
+        self.save(p)
+    def pic_uploaded(self, user):
+        p = self.get(user)
+        p.has_picture = True
         self.save(p)

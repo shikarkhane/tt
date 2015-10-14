@@ -12,14 +12,17 @@ class Contact():
     def setIsMember(self, f):
         self.on_tinktime = f
 class ContactWithTimeSplit():
-    def __init__(self, c, is_member = False, ts = None):
+    def __init__(self, pool, c, is_member = False, ts = None):
         self.first_name = c['first_name'] if c['first_name'] else ''
         self.last_name = c['last_name'] if c['last_name'] else ''
         self.phone_number = c['phone_number']
         self.on_tinktime = is_member
         self.phone_type = c['phone_type']
         self.time_split = ts
-        self.profile_url = get_profile_img_url(self.phone_number)
+        if is_profile_picture_uploaded(pool, self.phone_number):
+            self.profile_url = get_profile_img_url(self.phone_number)
+        else:
+            self.profile_url = None
     def setIsMember(self, f):
         self.on_tinktime = f
     def setTimeSplit(self, ts):
@@ -85,14 +88,21 @@ def add_time_split(connection_pool, sender_user, receiver_user, time_in_seconds)
     add_time_split_per_user(connection_pool, receiver_user, time_in_seconds, 0)
     add_time_split_for_pair(connection_pool, sender_user, receiver_user, time_in_seconds)
 
+def profile_picture_uploaded(connection_pool, user):
+    Profile_Data(connection_pool).pic_uploaded(user)
 
+def is_profile_picture_uploaded(connection_pool, user):
+    p = Profile_Data(connection_pool).get(user)
+    if p:
+        return p.has_picture
+    return False
 
 def are_on_network(connection_pool, contacts):
     r = [Contact(c) for c in contacts]
     [i.setIsMember(is_user_verified(connection_pool, i.phone_number)) for i in r if i.phone_number]
     return [(x.__dict__) for x in r]
 def are_on_network_plus_timesplit(connection_pool, user, contacts):
-    r = [ContactWithTimeSplit(c) for c in contacts]
+    r = [ContactWithTimeSplit(connection_pool, c) for c in contacts]
     [i.setIsMember(is_user_verified(connection_pool, i.phone_number)) for i in r if i.phone_number]
     [i.setTimeSplit(get_time_split_for_pair(connection_pool, user, i.phone_number).__dict__) for i in r if i.phone_number]
     return [(x.__dict__) for x in r]
