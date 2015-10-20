@@ -82,6 +82,12 @@ class RegisterUserToken(tornado.web.RequestHandler):
             logging.exception(e)
 
 class SaveProfilePicture(tornado.web.RequestHandler):
+    def get(self, user):
+        '''get profile picture url'''
+        try:
+            self.write(get_profile_img_url(user))
+        except Exception,e:
+            logging.exception(e)
     def post(self, user):
         '''save profile picture'''
         try:
