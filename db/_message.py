@@ -110,8 +110,8 @@ class Message_Data():
         return newlist
 
     def get_conversation_for_pair(self, from_user, to_user, start, end):
-        start_eol = (-1) * (start + 1)
-        end_eol = (-1) * (end + 1)
+        end_eol = (-1) * (start + 1)
+        start_eol = (-1) * (end + 1)
         ck = conversation_pair_key(from_user, to_user)
         rck = conversation_pair_key(to_user, from_user)
         use_key = ck
