@@ -110,6 +110,8 @@ class Message_Data():
         return newlist
 
     def get_conversation_for_pair(self, from_user, to_user, start, end):
+        start_eol = (-1) * (start + 1)
+        end_eol = (-1) * (end + 1)
         ck = conversation_pair_key(from_user, to_user)
         rck = conversation_pair_key(to_user, from_user)
         use_key = ck
@@ -119,7 +121,8 @@ class Message_Data():
                 return []
 
         rcount = self.r(use_key).llen(use_key)
-        return rcount, [ self.get_by_key(i) for i in self.r(use_key).lrange(use_key, start, end)]
+        msgs = [ self.get_by_key(i) for i in self.r(use_key).lrange(use_key, start_eol, end_eol)]
+        return rcount, msgs
 
     def get_feed_summary(self, user):
         gfk = grouped_feed_key(user)
