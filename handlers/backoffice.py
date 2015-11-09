@@ -4,7 +4,8 @@ import settings
 import logging
 import json
 from backoffice_auth import BaseHandler
-from libs.trinket import get_all_trinkets, save, get_img_url, get_img_filepath, get_swiffy_url, get_swiffy_filepath
+from libs.trinket import get_all_active_trinkets, save, get_img_url, get_img_filepath, get_swiffy_url, get_swiffy_filepath, \
+    activate_trinket, deactivate_trinket, get_all_inactive_trinkets
 import os
 
 
@@ -15,12 +16,26 @@ class BOGetAllTrinketsHandler(tornado.web.RequestHandler):
     def get(self):
         '''get all trinkets'''
         try:
-            trinkets = get_all_trinkets(self.application.settings["db_connection_pool"])
-            if trinkets:
-                r = trinkets
+            r = s = []
+            a_trinkets = get_all_active_trinkets(self.application.settings["db_connection_pool"])
+            ia_trinkets = get_all_inactive_trinkets(self.application.settings["db_connection_pool"])
+            if a_trinkets:
+                r = a_trinkets
+            if ia_trinkets:
+                s = ia_trinkets
+            self.render("backoffice.html", activetrinkets=r, deactivetrinkets=s )
+        except Exception,e:
+            logging.exception(e)
+class BOActivateDeactivate(tornado.web.RequestHandler):
+    def post(self, name, activate):
+        '''activate or deactivate a trinket'''
+        try:
+            active = int(activate)
+            if active:
+                activate_trinket( connection_pool = self.application.settings["db_connection_pool"], name = name)
             else:
-                r = []
-            self.render("backoffice.html", trinkets=r)
+                deactivate_trinket( connection_pool = self.application.settings["db_connection_pool"], name = name)
+            self.write('activate/deactivate')
         except Exception,e:
             logging.exception(e)
 

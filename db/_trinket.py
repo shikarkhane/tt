@@ -1,4 +1,5 @@
-from libs.keys_utility import trinket_swiffy_key, trinket_list_key, trinket_detail_key
+from libs.keys_utility import trinket_swiffy_key, active_trinket_list_key, trinket_detail_key, \
+    inactive_trinket_list_key
 from libs.shards_utility import Shard
 
 
@@ -8,13 +9,26 @@ class Animation():
     def save_detail(self, name, values):
         '''save or update trinket details like trinketid and groupid in comma concat string'''
         tk = trinket_detail_key(name)
-        tl = trinket_list_key()
+        tl = active_trinket_list_key()
         self.r(tk).set( name = tk,value = ','.join(values))
         if not self.r(tl).sismember(tl, name):
             self.r(tl).sadd(tl, name)
     def get_detail(self, name):
         tk = trinket_detail_key(name)
         return self.r(tk).get(tk)
-    def get_all(self):
-        tl = trinket_list_key()
+    def get_all_active(self):
+        tl = active_trinket_list_key()
         return self.r(tl).smembers(tl)
+    def get_all_inactive(self):
+        tl = inactive_trinket_list_key()
+        return self.r(tl).smembers(tl)
+    def deactivate(self, name):
+        active = active_trinket_list_key()
+        inactive = inactive_trinket_list_key()
+        if self.r(active).sismember(active, name) and not self.r(inactive).sismember(inactive, name):
+            self.r(active).smove(active, inactive, name)
+    def activate(self, name):
+        active = active_trinket_list_key()
+        inactive = inactive_trinket_list_key()
+        if not self.r(active).sismember(active, name) and self.r(inactive).sismember(inactive, name):
+            self.r(active).smove(inactive, active, name)

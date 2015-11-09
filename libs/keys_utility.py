@@ -10,8 +10,10 @@ def sms_verify_key(user):
     return 'smsverify:{0}:user'.format(user)
 def trinket_swiffy_key(name):
     return 'trinket:{0}:swiffy'.format(name)
-def trinket_list_key():
+def active_trinket_list_key():
     return 'trinkets'
+def inactive_trinket_list_key():
+    return 'inactivetrinkets'
 def trinket_detail_key(name):
     return 'trinket:{0}:detail'.format(name)
 def time_split_key(user):

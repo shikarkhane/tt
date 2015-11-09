@@ -60,3 +60,30 @@ $(document).on('click', "#save-new-trinket", function(event) {
        }
     });
 });
+
+
+$(document).on('click', "button.deactivate", function(event) {
+    event.preventDefault();
+    var name = this.nextSibling.nextSibling.innerText;
+    $.ajax({
+                type: 'POST',
+            contentType: 'application/json',
+            url: '/bo/trinket/' + name + '/active/0/'
+            }).done(function( response) {
+                console.log(response);
+            });
+
+});
+
+$(document).on('click', "button.activate", function(event) {
+    event.preventDefault();
+    var name = this.nextSibling.nextSibling.innerText;
+    $.ajax({
+                type: 'POST',
+            contentType: 'application/json',
+            url: '/bo/trinket/' + name + '/active/1/'
+            }).done(function( response) {
+                console.log(response);
+            });
+
+});

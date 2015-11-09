@@ -7,6 +7,11 @@ def save(connection_pool, name, trinketId, groupId):
 def save_detail(connection_pool, name, trinketId, groupId):
     Animation(connection_pool).save_detail(name, [trinketId, groupId])
 
+def activate_trinket(connection_pool, name):
+    Animation(connection_pool).activate(name)
+def deactivate_trinket(connection_pool, name):
+    Animation(connection_pool).deactivate(name)
+
 def get_img_url(name):
     return '{0}{1}{2}.png'.format(settings.SERVERNAME, settings.TRINKET_IMG_DIR, name)
 
@@ -26,7 +31,9 @@ def get_details(connection_pool, name):
     return {'name': name, 'label': name, 'thumbnailPath': imgurl, 'swiffyPath': swiffyurl,
             'trinketId': d.split(',')[0], 'groupId': d.split(',')[1]}
 
-def get_all_trinkets(connection_pool):
-    return Animation(connection_pool).get_all()
+def get_all_active_trinkets(connection_pool):
+    return Animation(connection_pool).get_all_active()
+def get_all_inactive_trinkets(connection_pool):
+    return Animation(connection_pool).get_all_inactive()
 
 

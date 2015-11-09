@@ -29,14 +29,32 @@
 
 </div>
 <div class="existing-trinkets well">
-    <h3>Existing trinkets<small>trinkets available to users</small></h3>
+    <h3>Active trinkets<small>trinkets available to users</small></h3>
 <ul class="list-group">
-    {% for trinket in trinkets %}
-    <li class="list-group-item">{{ trinket }}</li>
+    {% for trinket in activetrinkets %}
+    <li class="list-group-item">
+        <span class="input-group-addon">
+      <button type="button" class="btn btn-default deactivate">Deactivate</button>
+      <span class="label label-success">{{ trinket }}</span>
+      </span>
+    </li>
     {% end %}
-
 
 </ul>
 </div>
 
+<div class="existing-trinkets well">
+    <h3>Inactive trinkets<small>not available to users</small></h3>
+<ul class="list-group">
+    {% for trinket in deactivetrinkets %}
+    <li class="list-group-item">
+        <span class="input-group-addon">
+      <button type="button" class="btn btn-default activate">Activate</button>
+      <span class="label label-success">{{ trinket }}</span>
+      </span>
+    </li>
+    {% end %}
+
+</ul>
+</div>
 {% end %}
