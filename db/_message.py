@@ -79,7 +79,7 @@ class Message_Data():
         if not gi:
             gi = 0
         self.r(gfk).hset(gfk, msg.from_user, int(gi) + 1 )
-        #sender
+        #sender - this is done to show entry in tinkbox for friends who have not tinked-back
         a_gfk = grouped_feed_key(msg.from_user)
         a_gi = self.r(a_gfk).hget(a_gfk, msg.to_user)
         if not a_gi:

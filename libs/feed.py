@@ -1,5 +1,6 @@
 from db._message import Message_Data
 from libs.user import get_time_split_for_pair
+import operator
 
 class ContactSummary():
     def __init__(self, user, unread, tink_in, tink_out):
@@ -27,7 +28,8 @@ def get_conversation_page(connection_pool, from_user, to_user, page_number, page
     return total, [(i.__dict__) for i in msgs]
 
 def get_feed_summary(connection_pool, user):
-    r = Message_Data(connection_pool).get_feed_summary(user)
-    u = [(k, v, get_time_split_for_pair(connection_pool, user, k)) for k,v in r.iteritems() ]
+    p = Message_Data(connection_pool).get_feed_summary(user)
+    r = sorted(p.items(), key=operator.itemgetter(1), reverse=True )
+    u = [(k, v, get_time_split_for_pair(connection_pool, user, k)) for k,v in r ]
     x = [ContactSummary(i[0], i[1], i[2].time_in, i[2].time_out).__dict__ for i in u]
     return x
