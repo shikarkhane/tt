@@ -13,10 +13,20 @@ def deactivate_trinket(connection_pool, name):
     Animation(connection_pool).deactivate(name)
 
 def get_img_url(name):
-    return '{0}{1}{2}.png'.format(settings.SERVERNAME, settings.TRINKET_IMG_DIR, name)
+    i = settings.TRINKET_IMG_DIR
+    cdn_suffix = "/" + "/".join((i.split('/'))[2:])
+    if settings.USE_CDN_SWITCH:
+        return '{0}{1}{2}.png'.format(settings.CDN_DOMAIN_NAME, cdn_suffix, name)
+    else:
+        return '{0}{1}{2}.png'.format(settings.SERVERNAME, settings.TRINKET_IMG_DIR, name)
 
 def get_swiffy_url(name):
-    return '{0}{1}{2}.html'.format(settings.SERVERNAME, settings.TRINKET_SWIFFY_DIR, name)
+    i = settings.TRINKET_SWIFFY_DIR
+    cdn_suffix = "/" + "/".join((i.split('/'))[2:])
+    if settings.USE_CDN_SWITCH:
+        return '{0}{1}{2}.html'.format(settings.SERVERNAME, cdn_suffix, name)
+    else:
+        return '{0}{1}{2}.html'.format(settings.SERVERNAME, settings.TRINKET_SWIFFY_DIR, name)
 
 def get_img_filepath(name):
     return '{0}{1}{2}.png'.format(settings.DIRNAME, settings.TRINKET_IMG_DIR, name)

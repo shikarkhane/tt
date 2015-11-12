@@ -55,8 +55,15 @@ def get_time_split_for_pair(connection_pool, user, user_pair):
             ts.time_out = ts.time_in
             ts.time_in = temp
         return ts
+
 def get_profile_img_url(name):
-    return '{0}{1}{2}.jpeg'.format(settings.SERVERNAME, settings.PROFILE_IMG_DIR, name)
+    i = settings.PROFILE_IMG_DIR
+    cdn_suffix = "/" + "/".join((i.split('/'))[2:])
+    if settings.USE_CDN_SWITCH:
+        return '{0}{1}{2}.jpeg'.format(settings.SERVERNAME, cdn_suffix, name)
+    else:
+        return '{0}{1}{2}.jpeg'.format(settings.SERVERNAME, settings.PROFILE_IMG_DIR, name)
+
 def get_profile_img_local_path(name):
     return '{0}{1}{2}.jpeg'.format(settings.DIRNAME, settings.PROFILE_IMG_DIR, name)
 
