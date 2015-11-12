@@ -24,7 +24,7 @@ def get_swiffy_url(name):
     i = settings.TRINKET_SWIFFY_DIR
     cdn_suffix = "/" + "/".join((i.split('/'))[2:])
     if settings.USE_CDN_SWITCH:
-        return '{0}{1}{2}.html'.format(settings.SERVERNAME, cdn_suffix, name)
+        return '{0}{1}{2}.html'.format(settings.CDN_DOMAIN_NAME, cdn_suffix, name)
     else:
         return '{0}{1}{2}.html'.format(settings.SERVERNAME, settings.TRINKET_SWIFFY_DIR, name)
 
