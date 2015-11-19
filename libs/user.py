@@ -1,6 +1,7 @@
 from db._user import Profile_Data
 from db._timesplit import TimeInAndOut, Timesplit
 import settings
+from operator import itemgetter, attrgetter
 
 class Contact():
     def __init__(self, c, is_member = False):
@@ -110,11 +111,19 @@ def are_on_network(connection_pool, contacts):
     r = [Contact(c) for c in contacts]
     [i.setIsMember(is_user_verified(connection_pool, i.phone_number)) for i in r if i.phone_number]
     return [(x.__dict__) for x in r]
+
 def are_on_network_plus_timesplit(connection_pool, user, contacts):
     r = [ContactWithTimeSplit(connection_pool, c) for c in contacts]
+
+    # find if contact is on tinktime network
     [i.setIsMember(is_user_verified(connection_pool, i.phone_number)) for i in r if i.phone_number]
+
+    # find time split info between user and contact
     [i.setTimeSplit(get_time_split_for_pair(connection_pool, user, i.phone_number).__dict__) for i in r if i.phone_number]
-    return [(x.__dict__) for x in r]
+
+    sorted_r = sorted(r, key=lambda x: (x.on_tinktime, x.time_split["time_out"]), reverse=True )
+
+    return [(x.__dict__) for x in sorted_r]
 
 def register_push_token(connection_pool, to_user, token, device_name, device_platform, device_uuid):
     if token:
