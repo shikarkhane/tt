@@ -36,7 +36,8 @@ class FeedBetweenPairHandler(tornado.web.RequestHandler):
     def get(self, user, selected_friend, page_no, page_size):
         try:
             page_no = int(page_no)
-            page_size = int(page_size)
+            page_size = 1000 #int(page_size)
+
             count, msgs = get_conversation_page(self.application.settings["db_connection_pool"],
                                                 user, selected_friend, page_no, page_size)
             self.write(json.dumps({"totalcount": count, "messages": msgs}))
