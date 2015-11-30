@@ -12,7 +12,7 @@ import os
 # Log everything, and send it to stderr.
 logging.basicConfig(filename=settings.DEBUG_LOG,level=logging.ERROR,format='%(asctime)s %(message)s')
 
-class BOGetAllTrinketsHandler(BaseHandler):
+class BOGetAllTrinketsHandler(tornado.web.RequestHandler):
     def get(self):
         '''get all trinkets'''
         try:
@@ -55,6 +55,7 @@ class BOSaveImg(BaseHandler):
         '''save img for trinket'''
         try:
             thumbnail = self.request.files['thumbnail'][0]['body']
+            # 'content_type' = 'image/png'
             swiffyFile = self.request.files['swiffy'][0]['body']
             with open(get_img_filepath(name), 'wb') as f:
                 f.write(thumbnail)
