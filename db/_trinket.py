@@ -1,5 +1,5 @@
-from libs.keys_utility import trinket_swiffy_key, active_trinket_list_key, trinket_detail_key, \
-    inactive_trinket_list_key
+from libs.keys_utility import active_trinket_list_key, trinket_detail_key, trinket_swiffy_url_key, \
+    inactive_trinket_list_key, trinket_thumbnail_url_key
 from libs.shards_utility import Shard
 
 
@@ -13,6 +13,13 @@ class Animation():
         self.r(tk).set( name = tk,value = ','.join(values))
         if not self.r(tl).sismember(tl, name):
             self.r(tl).sadd(tl, name)
+    def save_thumbnail_url(self, name, url):
+        '''save or update thumbnail url related to trinket'''
+        tk = trinket_thumbnail_url_key(name)
+        self.r(tk).set( name = tk,value = url)
+    def save_swiffy_url(self, name, url):
+        tk = trinket_swiffy_url_key(name)
+        self.r(tk).set( name = tk,value = url)
     def get_detail(self, name):
         tk = trinket_detail_key(name)
         return self.r(tk).get(tk)

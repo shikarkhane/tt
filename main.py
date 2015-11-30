@@ -51,5 +51,5 @@ application = tornado.web.Application([
 
 if __name__ == "__main__":
     #create config file
-    application.listen(80)
+    application.listen(8888)
     tornado.ioloop.IOLoop.instance().start()
