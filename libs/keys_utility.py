@@ -24,3 +24,9 @@ def conversation_pair_key( user, user_pair):
     return 'conversation:{0}:{1}:pair'.format(user, user_pair)
 def grouped_feed_key( user):
     return 'groupedfeed:{0}:pair'.format(user)
+def trinket_thumbnail_url_key(trinket_name):
+    return 'url:trinket:{0}:thumbnail'.format(trinket_name)
+def user_profile_img_url_key(user):
+    return 'url:profile:{0}:image'.format(user)
+def trinket_swiffy_url_key(trinket_name):
+    return 'url:trinket:{0}:swiffy'.format(trinket_name)
