@@ -3,7 +3,7 @@ import settings
 import logging
 from libs.user import is_user_verified, are_on_network, register_push_token, \
     get_time_split_per_user, get_time_split_for_pair, are_on_network_plus_timesplit, get_profile_img_url,\
-    profile_picture_uploaded, get_profile_img_local_path
+    profile_picture_uploaded, get_profile_img_local_path, save_profile_img
 from libs.response_utility import Response
 import json
 
@@ -85,15 +85,17 @@ class SaveProfilePicture(tornado.web.RequestHandler):
     def get(self, user):
         '''get profile picture url'''
         try:
-            self.write(get_profile_img_url(user))
+            self.write(get_profile_img_url(self.application.settings["db_connection_pool"], user))
         except Exception,e:
             logging.exception(e)
     def post(self, user):
         '''save profile picture'''
         try:
             thumbnail = self.request.files['profile-picture'][0]['body']
-            with open(get_profile_img_local_path(user), 'wb') as f:
-                f.write(thumbnail)
+            thumbnail_content_type = self.request.files['profile-picture'][0]['content_type']
+
+            save_profile_img(self.application.settings["db_connection_pool"], user, thumbnail, thumbnail_content_type)
+
             profile_picture_uploaded(self.application.settings["db_connection_pool"], user)
             self.write('image was uploaded')
         except Exception,e:

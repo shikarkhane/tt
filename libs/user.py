@@ -2,6 +2,7 @@ from db._user import Profile_Data
 from db._timesplit import TimeInAndOut, Timesplit
 import settings
 from operator import itemgetter, attrgetter
+from libs import s3_utility
 
 class Contact():
     def __init__(self, c, is_member = False):
@@ -57,14 +58,8 @@ def get_time_split_for_pair(connection_pool, user, user_pair):
             ts.time_in = temp
         return ts
 
-def get_profile_img_url(name):
-    i = settings.PROFILE_IMG_DIR
-    cdn_suffix = "/" + "/".join((i.split('/'))[2:])
-    if settings.USE_CDN_SWITCH:
-        return '{0}{1}{2}.jpeg'.format(settings.CDN_DOMAIN_NAME, cdn_suffix, name)
-    else:
-        return '{0}{1}{2}.jpeg'.format(settings.SERVERNAME, settings.PROFILE_IMG_DIR, name)
-
+def get_profile_img_url(pool, user):
+    return Profile_Data(pool).get_thumbnail_url(user)
 def get_profile_img_local_path(name):
     return '{0}{1}{2}.jpeg'.format(settings.DIRNAME, settings.PROFILE_IMG_DIR, name)
 
@@ -137,3 +132,16 @@ def get_push_token(connection_pool, user):
     if p:
         return p.push_token
     return False
+
+def save_profile_img(pool, user, content, content_type):
+    bucketname = settings.S3_BUCKET_TRINKET_USER_PROFILE
+    filename = "{0}.{1}".format(user, content_type.split('/')[1])
+    if settings.USE_CDN_SWITCH:
+        r = s3_utility.save(bucketname, content, filename, content_type)
+        url = settings.CDN_DOMAIN_NAME_USER_PROFILE + '/' + filename
+    else:
+        with open('{0}{1}{2}'.format(settings.DIRNAME, settings.PROFILE_IMG_DIR, filename), 'wb') as f:
+            f.write(content)
+            url = '{0}{1}{2}'.format(settings.SERVERNAME, settings.PROFILE_IMG_DIR, filename)
+    if url:
+        Profile_Data(pool).save_thumbnail_url(user, url)

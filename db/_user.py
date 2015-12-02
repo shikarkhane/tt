@@ -1,5 +1,5 @@
 import json
-from libs.keys_utility import user_profile_key
+from libs.keys_utility import user_profile_key, user_profile_img_url_key
 from libs.shards_utility import Shard
 from libs.utility import Date
 
@@ -100,3 +100,10 @@ class Profile_Data():
         p = self.get(user)
         p.has_picture = True
         self.save(p)
+    def save_thumbnail_url(self, user, url):
+        '''save or update thumbnail url related to user profile'''
+        tk = user_profile_img_url_key(user)
+        self.r(tk).set( name = tk,value = url)
+    def get_thumbnail_url(self, user):
+        tk = user_profile_img_url_key(user)
+        return self.r(tk).get( name = tk)

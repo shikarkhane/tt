@@ -44,7 +44,7 @@ def save_swiffy(pool, name, content, content_type):
             f.write(content)
             url = '{0}{1}{2}'.format(settings.SERVERNAME, settings.TRINKET_SWIFFY_DIR, filename)
     if url:
-        Animation(pool).save_thumbnail_url(name, url)
+        Animation(pool).save_swiffy_url(name, url)
 
 def get_details(connection_pool, name):
     ac = Animation(connection_pool)
