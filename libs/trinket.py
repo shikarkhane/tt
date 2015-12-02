@@ -1,5 +1,6 @@
 from db._trinket import Animation
 import settings
+from libs import s3_utility
 
 def save(connection_pool, name, trinketId, groupId):
     save_detail(connection_pool, name, trinketId, groupId)
@@ -12,32 +13,44 @@ def activate_trinket(connection_pool, name):
 def deactivate_trinket(connection_pool, name):
     Animation(connection_pool).deactivate(name)
 
-def get_img_url(name):
-    i = settings.TRINKET_IMG_DIR
-    cdn_suffix = "/" + "/".join((i.split('/'))[2:])
-    if settings.USE_CDN_SWITCH:
-        return '{0}{1}{2}.png'.format(settings.CDN_DOMAIN_NAME, cdn_suffix, name)
-    else:
-        return '{0}{1}{2}.png'.format(settings.SERVERNAME, settings.TRINKET_IMG_DIR, name)
-
-def get_swiffy_url(name):
-    i = settings.TRINKET_SWIFFY_DIR
-    cdn_suffix = "/" + "/".join((i.split('/'))[2:])
-    if settings.USE_CDN_SWITCH:
-        return '{0}{1}{2}.html'.format(settings.CDN_DOMAIN_NAME, cdn_suffix, name)
-    else:
-        return '{0}{1}{2}.html'.format(settings.SERVERNAME, settings.TRINKET_SWIFFY_DIR, name)
-
 def get_img_filepath(name):
     return '{0}{1}{2}.png'.format(settings.DIRNAME, settings.TRINKET_IMG_DIR, name)
 
 def get_swiffy_filepath(name):
     return '{0}{1}{2}.html'.format(settings.DIRNAME, settings.TRINKET_SWIFFY_DIR, name)
 
+def save_img(pool, name, content, content_type):
+    url = None
+    bucketname = settings.S3_BUCKET_TRINKET_IMG
+    filename = "{0}.{1}".format(name, content_type.split('/')[1])
+    if settings.USE_CDN_SWITCH:
+        r = s3_utility.save(bucketname, content, filename, content_type)
+        url = settings.CDN_DOMAIN_NAME_TRINKET_IMG + '/' + filename
+    else:
+        with open('{0}{1}{2}'.format(settings.DIRNAME, settings.TRINKET_IMG_DIR, filename), 'wb') as f:
+            f.write(content)
+            url = '{0}{1}{2}'.format(settings.SERVERNAME, settings.TRINKET_IMG_DIR, filename)
+    if url:
+        Animation(pool).save_thumbnail_url(name, url)
+
+def save_swiffy(pool, name, content, content_type):
+    bucketname = settings.S3_BUCKET_TRINKET_SWIFFY
+    filename = "{0}.{1}".format(name, content_type.split('/')[1])
+    if settings.USE_CDN_SWITCH:
+        r = s3_utility.save(bucketname, content, filename, content_type)
+        url = settings.CDN_DOMAIN_NAME_TRINKET_SWIFFY + '/' + filename
+    else:
+        with open('{0}{1}{2}'.format(settings.DIRNAME, settings.TRINKET_SWIFFY_DIR, filename), 'wb') as f:
+            f.write(content)
+            url = '{0}{1}{2}'.format(settings.SERVERNAME, settings.TRINKET_SWIFFY_DIR, filename)
+    if url:
+        Animation(pool).save_thumbnail_url(name, url)
+
 def get_details(connection_pool, name):
-    imgurl = get_img_url(name)
-    swiffyurl = get_swiffy_url(name)
-    d = Animation(connection_pool).get_detail(name)
+    ac = Animation(connection_pool)
+    imgurl = ac.get_img_url(name)
+    swiffyurl = ac.get_swiffy_url(name)
+    d = ac.get_detail(name)
     return {'name': name, 'label': name, 'thumbnailPath': imgurl, 'swiffyPath': swiffyurl,
             'trinketId': d.split(',')[0], 'groupId': d.split(',')[1]}
 

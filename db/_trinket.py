@@ -17,9 +17,15 @@ class Animation():
         '''save or update thumbnail url related to trinket'''
         tk = trinket_thumbnail_url_key(name)
         self.r(tk).set( name = tk,value = url)
+    def get_img_url(self, name):
+        tk = trinket_thumbnail_url_key(name)
+        return self.r(tk).get( name = tk)
     def save_swiffy_url(self, name, url):
         tk = trinket_swiffy_url_key(name)
         self.r(tk).set( name = tk,value = url)
+    def get_swiffy_url(self, name):
+        tk = trinket_swiffy_url_key(name)
+        return self.r(tk).get( name = tk)
     def get_detail(self, name):
         tk = trinket_detail_key(name)
         return self.r(tk).get(tk)
