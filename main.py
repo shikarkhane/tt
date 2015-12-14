@@ -10,24 +10,22 @@ from handlers.user import UserVerificationHandler, UsersOnNetworkHandler, Regist
 from handlers.backoffice import BOGetAllTrinketsHandler, BOSaveImg, BOSaveSwiffy, BOActivateDeactivate
 from handlers.trinket import GetAllTrinketsWithImg
 from handlers.backoffice_auth import LoginPage, GoogleOAuth2LoginHandler
-import redis
+#import redis
+from rediscluster import StrictRedisCluster
 
-pool = [redis.ConnectionPool(host=s["server"], port=s["port"], db=0) for s in settings.REDIS_SHARDS]
+#pool = [redis.ConnectionPool(host=s["server"], port=s["port"], db=0) for s in settings.REDIS_SHARDS]
+startup_nodes = [{"host": settings.REDIS_CLUSTER["server"], "port": settings.REDIS_CLUSTER["port"]}]
+pool = StrictRedisCluster(startup_nodes=startup_nodes, decode_responses=True)
+
 
 application = tornado.web.Application([
     (r"/", LandingHandler),
     (r"/subscribe/(\w+[\.]?\w+[@]\w+[\.]\w+)/", LandingHandler),
-    (r"/pre-alpha/1618/", pa_Handler),
-    (r"/pre-alpha/feed/8161/", pa_FeedHandler),
-    (r"/pre-alpha/feed/8161/(\S+)/", pa_GetFeedHandler),
     (r"/message-queue/", QueueWriter),
     (r"/message-listener/", QueueListener),
     (r"/message/", MessageHandler),
-    (r"/message-read/", MessageReadHandler),
     (r"/message-read-v2/", MessageReadHandlerV2),
-    (r"/feed/([\+]?\S+)/page/([0-9]+)/size/([0-9]?)/", FeedPageHandler),
     (r"/conversation/([\+]?\S+)/between/([\+]?\S+)/page/([0-9]+)/size/([0-9]?)/", FeedBetweenPairHandler),
-    (r"/feed/([\+]?\S+)/", FeedHandler),
     (r"/groupedfeed/([\+]?\S+)/", FeedSummaryHandler),
     (r"/push/([\+]?\S+)/", RegisterUserToken),
     (r"/sms-code/", SmsVerifyCodeHandler),
@@ -35,7 +33,6 @@ application = tornado.web.Application([
     (r"/is-user-verified/([\+]?\S+)/", UserVerificationHandler),
     (r"/time-split/([\+]?\S+)/", UserTimeSplitHandler),
     (r"/time-split-pair/([\+]?\S+)/([\+]?\S+)/", UserPairTimeSplitHandler),
-    (r"/are-on-network/",UsersOnNetworkHandler),
     (r"/are-on-network-plus-timesplit/([\+]?\S+)/",UsersOnNetworkPlusTimesplitHandler),
     (r"/trinket-list/",GetAllTrinketsWithImg),
     (r"/profile-picture/([\+]?\S+)/",SaveProfilePicture),

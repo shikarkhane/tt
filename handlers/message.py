@@ -9,17 +9,6 @@ from libs.push import generic
 # Log everything, and send it to stderr.
 logging.basicConfig(filename=settings.DEBUG_LOG,level=logging.ERROR,format='%(asctime)s %(message)s')
 
-class MessageReadHandler(tornado.web.RequestHandler):
-    '''
-    old version - messages marked as read
-    '''
-    def post(self):
-        try:
-            d = json.loads(self.request.body)
-            r = obsolete_message_read(self.application.settings["db_connection_pool"], d)
-            self.write("msg is read")
-        except Exception,e:
-            logging.exception(e)
 class MessageReadHandlerV2(tornado.web.RequestHandler):
     '''
     messages marked as read

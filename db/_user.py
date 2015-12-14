@@ -1,6 +1,5 @@
 import json
 from libs.keys_utility import user_profile_key, user_profile_img_url_key
-from libs.shards_utility import Shard
 from libs.utility import Date
 
 class Profile(object):
@@ -52,7 +51,7 @@ class Value(object):
         self.has_picture = has_picture
 class Profile_Data():
     def __init__(self, connection_pool):
-        self.r = Shard(connection_pool).get_server
+        self.r = connection_pool
     def new_profile(self, user):
         # todo: fill in registration date and other specifics
         return Profile(user, False, Date().get_utcnow_number(), None, None, None)
@@ -63,7 +62,7 @@ class Profile_Data():
                     country=p.country, language=p.language, device_name=p.device_name,
                     device_platform=p.device_platform, device_uuid=p.device_uuid, push_token=p.push_token,
                     has_picture=p.has_picture)
-        if self.r(k).set( k,json.dumps(val.__dict__)):
+        if self.r.set( k,json.dumps(val.__dict__)):
             return True
         else:
             return False
@@ -71,7 +70,7 @@ class Profile_Data():
         k = user_profile_key(user)
         return self.get_by_key(k)
     def get_by_key(self, k):
-        r = self.r(k).get(k)
+        r = self.r.get(k)
         if r:
             return Profile(k, r)
         else:
@@ -103,7 +102,7 @@ class Profile_Data():
     def save_thumbnail_url(self, user, url):
         '''save or update thumbnail url related to user profile'''
         tk = user_profile_img_url_key(user)
-        self.r(tk).set( name = tk,value = url)
+        self.r.set( name = tk,value = url)
     def get_thumbnail_url(self, user):
         tk = user_profile_img_url_key(user)
-        return self.r(tk).get( name = tk)
+        return self.r.get( name = tk)

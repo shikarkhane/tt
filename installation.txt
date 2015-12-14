@@ -2,5 +2,6 @@ boto
 tornado==4.0.2
 redis==2.10.3
 twilio==3.6.12
+redis-py-cluster==1.1.0
 apns
 gcm

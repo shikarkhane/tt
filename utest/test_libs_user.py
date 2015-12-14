@@ -5,11 +5,13 @@ Created on Feb 12, 2015
 '''
 import unittest
 from libs.user import are_on_network_plus_timesplit
-import redis
+#import redis
 import settings
-import json
+from rediscluster import StrictRedisCluster
 
-pool = [redis.ConnectionPool(host=s["server"], port=s["port"], db=0) for s in settings.REDIS_SHARDS]
+#pool = [redis.ConnectionPool(host=s["server"], port=s["port"], db=0) for s in settings.REDIS_SHARDS]
+startup_nodes = [{"host": settings.REDIS_CLUSTER["server"], "port": settings.REDIS_CLUSTER["port"]}]
+pool = StrictRedisCluster(startup_nodes=startup_nodes, decode_responses=True)
 
 class Test_User(unittest.TestCase):
     def setUp(self):

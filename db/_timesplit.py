@@ -1,5 +1,4 @@
 from libs.keys_utility import time_split_key, time_split_pair_key
-from libs.shards_utility import Shard
 import json
 
 class Timesplit():
@@ -17,18 +16,18 @@ class Timesplit():
         self.time_out = x['time_out']
 class TimeInAndOut():
     def __init__(self, connection_pool):
-        self.r = Shard(connection_pool).get_server
+        self.r = connection_pool
     def save(self, user, time_in, time_out):
         '''save time split for user'''
         k = time_split_key(user)
         val = Timesplit(time_in, time_out)
-        if self.r(k).set( k,json.dumps(val.__dict__)):
+        if self.r.set( k,json.dumps(val.__dict__)):
             return True
         else:
             return False
     def _save_pair(self, k, val):
         '''save time split between user and another user'''
-        if self.r(k).set( k,json.dumps(val.__dict__)):
+        if self.r.set( k,json.dumps(val.__dict__)):
             return True
         else:
             return False
@@ -50,14 +49,14 @@ class TimeInAndOut():
     def get(self, user):
         '''get time split for user'''
         k = time_split_key(user)
-        res = self.r(k).get(k)
+        res = self.r.get(k)
         if res:
             return json.loads(res)
         else:
             return False
     def _get_pair(self, k):
         '''get time split for pair of users'''
-        res = self.r(k).get(k)
+        res = self.r.get(k)
         if res:
             return json.loads(res)
         else:
@@ -75,8 +74,8 @@ class TimeInAndOut():
     def remove(self, user):
         ''' remove the time split for this user'''
         k = time_split_key(user)
-        self.r(k).delete([k])
+        self.r.delete([k])
     def remove_pair(self, user, user_pair):
         k = time_split_pair_key(user, user_pair)
         rk = time_split_pair_key( user_pair, user)
-        self.r(k).delete([k, rk])
+        self.r.delete([k, rk])
