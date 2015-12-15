@@ -2,8 +2,8 @@ import tornado.ioloop
 import settings
 from handlers.squeeze import LandingHandler
 from handlers.pa import pa_FeedHandler, pa_Handler, pa_GetFeedHandler
-from handlers.message import QueueListener, QueueWriter, MessageHandler, MessageReadHandler, MessageReadHandlerV2
-from handlers.feed import FeedHandler, FeedPageHandler, FeedBetweenPairHandler, FeedSummaryHandler
+from handlers.message import QueueListener, QueueWriter, MessageHandler, MessageReadHandlerV2
+from handlers.feed import  FeedBetweenPairHandler, FeedSummaryHandler
 from handlers.sms import SmsVerifyCodeHandler, VerifyCodeHandler
 from handlers.user import UserVerificationHandler, UsersOnNetworkHandler, RegisterUserToken, \
     UserTimeSplitHandler, UserPairTimeSplitHandler, UsersOnNetworkPlusTimesplitHandler, SaveProfilePicture
