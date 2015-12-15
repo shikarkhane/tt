@@ -1,19 +1,16 @@
 import tornado.ioloop
 import settings
 from handlers.squeeze import LandingHandler
-from handlers.pa import pa_FeedHandler, pa_Handler, pa_GetFeedHandler
 from handlers.message import QueueListener, QueueWriter, MessageHandler, MessageReadHandlerV2
 from handlers.feed import  FeedBetweenPairHandler, FeedSummaryHandler
 from handlers.sms import SmsVerifyCodeHandler, VerifyCodeHandler
-from handlers.user import UserVerificationHandler, UsersOnNetworkHandler, RegisterUserToken, \
+from handlers.user import UserVerificationHandler, RegisterUserToken, \
     UserTimeSplitHandler, UserPairTimeSplitHandler, UsersOnNetworkPlusTimesplitHandler, SaveProfilePicture
 from handlers.backoffice import BOGetAllTrinketsHandler, BOSaveImg, BOSaveSwiffy, BOActivateDeactivate
 from handlers.trinket import GetAllTrinketsWithImg
 from handlers.backoffice_auth import LoginPage, GoogleOAuth2LoginHandler
-#import redis
 from rediscluster import StrictRedisCluster
 
-#pool = [redis.ConnectionPool(host=s["server"], port=s["port"], db=0) for s in settings.REDIS_SHARDS]
 startup_nodes = [{"host": settings.REDIS_CLUSTER["server"], "port": settings.REDIS_CLUSTER["port"]}]
 pool = StrictRedisCluster(startup_nodes=startup_nodes, decode_responses=True)
 
