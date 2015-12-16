@@ -8,4 +8,6 @@ def save(bucketname, content, filename, content_type):
     k = Key(bucket)
     k.key = filename
     k.content_type = content_type
-    return k.set_contents_from_string(content)
+    x = k.set_contents_from_string(content)
+    k.set_acl('public-read')
+    return x
