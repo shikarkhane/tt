@@ -10,7 +10,7 @@ from libs.trinket import get_all_active_trinkets, save, save_img, save_swiffy, \
 # Log everything, and send it to stderr.
 logging.basicConfig(filename=settings.DEBUG_LOG,level=logging.ERROR,format='%(asctime)s %(message)s')
 
-class BOGetAllTrinketsHandler(BaseHandler):
+class BOGetAllTrinketsHandler(tornado.web.RequestHandler):
     def get(self):
         '''get all trinkets'''
         try:
@@ -24,7 +24,7 @@ class BOGetAllTrinketsHandler(BaseHandler):
             self.render("backoffice.html", activetrinkets=r, deactivetrinkets=s )
         except Exception,e:
             logging.exception(e)
-class BOActivateDeactivate(BaseHandler):
+class BOActivateDeactivate(tornado.web.RequestHandler):
     def post(self, name, activate):
         '''activate or deactivate a trinket'''
         try:
@@ -37,7 +37,7 @@ class BOActivateDeactivate(BaseHandler):
         except Exception,e:
             logging.exception(e)
 
-class BOSaveSwiffy(BaseHandler):
+class BOSaveSwiffy(tornado.web.RequestHandler):
     def post(self, name):
         '''save swiffy object for trinket'''
         try:
@@ -48,7 +48,7 @@ class BOSaveSwiffy(BaseHandler):
                   groupId=d['groupId'])
         except Exception,e:
             logging.exception(e)
-class BOSaveImg(BaseHandler):
+class BOSaveImg(tornado.web.RequestHandler):
     def post(self, name):
         '''save img for trinket'''
         try:
