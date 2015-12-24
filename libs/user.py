@@ -137,8 +137,7 @@ def save_profile_img(pool, user, content, content_type):
     bucketname = settings.S3_BUCKET_TRINKET_USER_PROFILE
     filename = "{0}.{1}".format(user, content_type.split('/')[1])
     if settings.USE_CDN_SWITCH:
-        r = s3_utility.save(bucketname, content, filename, content_type)
-        url = settings.CDN_DOMAIN_NAME_USER_PROFILE + '/' + filename
+        url = s3_utility.save(bucketname, content, filename, content_type)
     else:
         with open('{0}{1}{2}'.format(settings.DIRNAME, settings.PROFILE_IMG_DIR, filename), 'wb') as f:
             f.write(content)

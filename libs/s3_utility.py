@@ -20,7 +20,8 @@ def save(bucketname, content, filename, content_type):
     k.content_type = content_type
     x = k.set_contents_from_string(content)
     k.set_acl('public-read')
-    return x
+    url = k.generate_url(expires_in=0, query_auth=False)
+    return url
 
 
 def s3_upload_policy_document(bucketname):
