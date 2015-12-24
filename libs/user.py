@@ -22,7 +22,7 @@ class ContactWithTimeSplit():
         self.phone_type = c['phone_type']
         self.time_split = ts
         if is_profile_picture_uploaded(pool, self.phone_number):
-            self.profile_url = get_profile_img_url(self.phone_number)
+            self.profile_url = get_profile_img_url(pool, self.phone_number)
         else:
             self.profile_url = None
     def setIsMember(self, f):
