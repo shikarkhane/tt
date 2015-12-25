@@ -47,6 +47,7 @@ class BOSaveSwiffy(tornado.web.RequestHandler):
                   trinketId= d['trinketId'],
                   groupId=d['groupId'])
         except Exception,e:
+            self.write(e)
             logging.exception(e)
 class BOSaveImg(tornado.web.RequestHandler):
     def post(self, name):

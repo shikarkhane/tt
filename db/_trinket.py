@@ -9,9 +9,11 @@ class Animation():
         '''save or update trinket details like trinketid and groupid in comma concat string'''
         tk = trinket_detail_key(name)
         tl = active_trinket_list_key()
-        self.r.set( name = tk,value = ','.join(values))
         if not self.r.sismember(tl, name):
             self.r.sadd(tl, name)
+            self.r.set( name = tk,value = ','.join(values))
+        else:
+            raise ValueError('Trinket:{0} already exits'.format(name))
     def save_thumbnail_url(self, name, url):
         '''save or update thumbnail url related to trinket'''
         tk = trinket_thumbnail_url_key(name)
