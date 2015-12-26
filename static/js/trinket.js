@@ -20,9 +20,32 @@ function make_json(trinketId, groupId){
     return result;
 }
 
+function read_folders(){
+    var dir = "Src/themes/base/images/";
+    var fileextension = ".png";
+    $.ajax({
+        //This will retrieve the contents of the folder if the folder is configured as 'browsable'
+        url: dir,
+        success: function (data) {
+            //List all .png file names in the page
+            $(data).find("a:contains(" + fileextension + ")").each(function () {
+                var filename = this.href.replace(window.location.host, "").replace("http://", "");
+                $("body").append("<img src='" + dir + filename + "'>");
+            });
+        }
+    });
+}
+
 $(function() {
   document.getElementById('trinket-thumbnail').addEventListener('change', handleImage, false);
   });
+
+
+$(document).on('click', "#save-multiple-trinkets", function(event) {
+    event.preventDefault();
+    console.log('directory check');
+    $('#thumbnail_directory')
+    });
 
 $(document).on('click', "#save-new-trinket", function(event) {
     event.preventDefault();

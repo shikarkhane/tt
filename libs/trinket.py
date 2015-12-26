@@ -58,5 +58,11 @@ def get_all_active_trinkets(connection_pool):
     return Animation(connection_pool).get_all_active()
 def get_all_inactive_trinkets(connection_pool):
     return Animation(connection_pool).get_all_inactive()
-
+def get_all_trinkets_with_details(pool, only_active):
+    trinkets = []
+    if only_active:
+        trinkets = get_all_active_trinkets(pool)
+    else:
+        trinkets = get_all_inactive_trinkets(pool)
+    return [(get_details(pool,t)) for t in trinkets]
 

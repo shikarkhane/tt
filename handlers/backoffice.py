@@ -3,7 +3,7 @@ import settings
 import logging
 import json
 from backoffice_auth import BaseHandler
-from libs.trinket import get_all_active_trinkets, save, save_img, save_swiffy, \
+from libs.trinket import get_all_trinkets_with_details, save, save_img, save_swiffy, \
     activate_trinket, deactivate_trinket, get_all_inactive_trinkets
 
 
@@ -15,8 +15,9 @@ class BOGetAllTrinketsHandler(tornado.web.RequestHandler):
         '''get all trinkets'''
         try:
             r = s = []
-            a_trinkets = get_all_active_trinkets(self.application.settings["db_connection_pool"])
-            ia_trinkets = get_all_inactive_trinkets(self.application.settings["db_connection_pool"])
+            pool = self.application.settings["db_connection_pool"]
+            a_trinkets = get_all_trinkets_with_details(pool=pool, only_active=True)
+            ia_trinkets = get_all_trinkets_with_details(pool=pool, only_active=False)
             if a_trinkets:
                 r = a_trinkets
             if ia_trinkets:
