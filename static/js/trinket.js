@@ -24,7 +24,18 @@ function read_folders(){
     thumbs = $('#thumbnail_directory')[0].files;
     swiffys = $('#swiffy_directory')[0].files;
     for (i = 0; i < thumbs.length; i++) {
-        console.log(thumbs[i].name);
+        t = thumbs[i];
+        if (t.type == 'image/png'){
+            for( var s in swiffys){
+                var q = swiffys[s];
+                if( q.type == 'text/html'){
+                    if( t.name.split('.')[0] == q.name.split('.')[0]){
+                        console.log(t.name);
+                        upload_trinket(t.name.split('.')[0], t, q);
+                    }
+                }
+            }
+        }
     }
 }
 
@@ -72,7 +83,7 @@ $(document).on('click', "#save-new-trinket", function(event) {
 
 $(document).on('click', "button.deactivate", function(event) {
     event.preventDefault();
-    var name = this.nextSibling.nextSibling.innerText;
+    var name = $(this).siblings('span.trinketname')[0].innerText;
     $.ajax({
                 type: 'POST',
             contentType: 'application/json',
@@ -85,7 +96,7 @@ $(document).on('click', "button.deactivate", function(event) {
 
 $(document).on('click', "button.activate", function(event) {
     event.preventDefault();
-    var name = this.nextSibling.nextSibling.innerText;
+    var name = $(this).siblings('span.trinketname')[0].innerText;
     $.ajax({
                 type: 'POST',
             contentType: 'application/json',
@@ -95,3 +106,17 @@ $(document).on('click', "button.activate", function(event) {
             });
 
 });
+$(document).on('click', "button.preview", function(event) {
+    event.preventDefault();
+    var name = $(this).siblings('span.trinketname')[0].innerText;
+    document.getElementById('tinkcontainer-'+name).contentWindow.tt_start_animation();
+
+});
+$(document).on('click', "button.closepreview", function(event) {
+    event.preventDefault();
+    var name = $(this).siblings('span.trinketname')[0].innerText;
+    document.getElementById('tinkcontainer-'+name).contentWindow.tt_stop_animation();
+
+});
+//Ext.getDom('tinkcontainer').contentWindow.tt_start_animation();
+//Ext.getDom('tinkcontainer').contentWindow.tt_stop_animation();

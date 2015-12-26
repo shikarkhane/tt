@@ -39,10 +39,10 @@ class Animation():
     def deactivate(self, name):
         active = active_trinket_list_key()
         inactive = inactive_trinket_list_key()
-        if self.r.sismember(active, name) and not self.r(inactive).sismember(inactive, name):
+        if self.r.sismember(active, name) and not self.r.sismember(inactive, name):
             self.r.smove(active, inactive, name)
     def activate(self, name):
         active = active_trinket_list_key()
         inactive = inactive_trinket_list_key()
-        if not self.r.sismember(active, name) and self.r(inactive).sismember(inactive, name):
+        if not self.r.sismember(active, name) and self.r.sismember(inactive, name):
             self.r.smove(inactive, active, name)

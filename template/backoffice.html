@@ -42,8 +42,11 @@
     <li class="list-group-item">
         <span class="input-group-addon">
       <button type="button" class="btn btn-default deactivate">Deactivate</button>
+      <span class="label label-success trinketname">{{ trinket['name'] }}</span>
             <img src="{{ trinket['thumbnailPath'] }}"/>
-      <span class="label label-success">{{ trinket['name'] }}</span>
+            <button type="button" class="btn btn-default preview">Preview</button>
+            <button type="button" class="btn btn-default closepreview">ClosePreview</button>
+            <iframe id="tinkcontainer-{{ trinket['name'] }}" class="tinkanimation" src="{{ trinket['swiffyPath'] }}"></iframe>
       </span>
     </li>
     {% end %}
@@ -58,7 +61,8 @@
     <li class="list-group-item">
         <span class="input-group-addon">
       <button type="button" class="btn btn-default activate">Activate</button>
-      <span class="label label-success">{{ trinket['name'] }}</span>
+      <span class="label label-success trinketname">{{ trinket['name'] }}</span>
+            <img src="{{ trinket['thumbnailPath'] }}"/>
       </span>
     </li>
     {% end %}
