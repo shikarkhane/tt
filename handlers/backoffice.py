@@ -4,7 +4,8 @@ import logging
 import json
 from backoffice_auth import BaseHandler
 from libs.trinket import get_all_trinkets_with_details, save, save_img, save_swiffy, \
-    activate_trinket, deactivate_trinket, get_all_inactive_trinkets
+    activate_trinket, deactivate_trinket
+import time
 
 
 # Log everything, and send it to stderr.
@@ -38,30 +39,22 @@ class BOActivateDeactivate(tornado.web.RequestHandler):
         except Exception,e:
             logging.exception(e)
 
-class BOSaveSwiffy(tornado.web.RequestHandler):
-    def post(self, name):
-        '''save swiffy object for trinket'''
-        try:
-            d = json.loads(self.request.body)
-            save( connection_pool = self.application.settings["db_connection_pool"],
-                  name = name,
-                  trinketId= d['trinketId'],
-                  groupId=d['groupId'])
-        except Exception,e:
-            self.write(e)
-            logging.exception(e)
 class BOSaveImg(tornado.web.RequestHandler):
     def post(self, name):
         '''save img for trinket'''
         try:
+            pool = self.application.settings["db_connection_pool"]
             thumbnail = self.request.files['thumbnail'][0]['body']
             thumbnail_content_type = self.request.files['thumbnail'][0]['content_type']
             swiffyFile = self.request.files['swiffy'][0]['body']
             swiffyFile_content_type = self.request.files['swiffy'][0]['content_type']
+            trinketId = int(time.time())
 
-            save_img(self.application.settings["db_connection_pool"], name, thumbnail, thumbnail_content_type)
-            save_swiffy(self.application.settings["db_connection_pool"], name, swiffyFile, swiffyFile_content_type)
+            save(connection_pool=pool, name=name, trinketId=str(trinketId), groupId=str(1))
+            save_img(pool, name, thumbnail, thumbnail_content_type)
+            save_swiffy(pool, name, swiffyFile, swiffyFile_content_type)
 
             self.write('image was uploaded')
         except Exception,e:
+            self.write(str(e))
             logging.exception(e)

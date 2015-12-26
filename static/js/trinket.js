@@ -21,19 +21,11 @@ function make_json(trinketId, groupId){
 }
 
 function read_folders(){
-    var dir = "Src/themes/base/images/";
-    var fileextension = ".png";
-    $.ajax({
-        //This will retrieve the contents of the folder if the folder is configured as 'browsable'
-        url: dir,
-        success: function (data) {
-            //List all .png file names in the page
-            $(data).find("a:contains(" + fileextension + ")").each(function () {
-                var filename = this.href.replace(window.location.host, "").replace("http://", "");
-                $("body").append("<img src='" + dir + filename + "'>");
-            });
-        }
-    });
+    thumbs = $('#thumbnail_directory')[0].files;
+    swiffys = $('#swiffy_directory')[0].files;
+    for (i = 0; i < thumbs.length; i++) {
+        console.log(thumbs[i].name);
+    }
 }
 
 $(function() {
@@ -44,44 +36,37 @@ $(function() {
 $(document).on('click', "#save-multiple-trinkets", function(event) {
     event.preventDefault();
     console.log('directory check');
-    $('#thumbnail_directory')
+    read_folders();
     });
+
+function upload_trinket(trinketName, thumbnailFile, swiffyFile){
+    var fd = new FormData();
+        fd.append("thumbnail", thumbnailFile);
+        fd.append("swiffy", swiffyFile);
+
+         $.ajax({
+           url: '/bo/trinket/' + trinketName + '/',
+           type: "POST",
+           data: fd,
+           processData: false,
+           contentType: false,
+           success: function(response) {
+               console.log(response);
+           },
+           error: function(jqXHR, textStatus, errorMessage) {
+               console.log(errorMessage); // Optional
+           }
+        });
+}
 
 $(document).on('click', "#save-new-trinket", function(event) {
     event.preventDefault();
-    var name = $('#trinket-name').val().replace(/\s+/g, ''),
-    trinketId = $('#trinket-id').val().replace(/\s+/g, ''),
-    groupId = $('#trinket-group-id').val().replace(/\s+/g, '');
-    d = make_json(trinketId, groupId);
+    var name = $('#trinket-name').val().replace(/\s+/g, '');
 
     thumbnailFile = $('#trinket-thumbnail')[0].files[0];
     swiffyFile = $('#trinket-swiffy')[0].files[0];
-    var fd = new FormData();
-    fd.append("thumbnail", thumbnailFile);
-    fd.append("swiffy", swiffyFile);
 
-    $.ajax({
-                type: 'POST',
-            contentType: 'application/json',
-            data: JSON.stringify(d),
-            dataType: 'json',
-            url: '/bo/trinket/' + name + '/info/'
-            }).done(function( response) {
-                log_alert(response);
-            });
-     $.ajax({
-       url: '/bo/trinket/' + name + '/',
-       type: "POST",
-       data: fd,
-       processData: false,
-       contentType: false,
-       success: function(response) {
-           console.log("image uploaded successfully!");
-       },
-       error: function(jqXHR, textStatus, errorMessage) {
-           console.log(errorMessage); // Optional
-       }
-    });
+    upload_trinket(name, thumbnailFile, swiffyFile);
 });
 
 
