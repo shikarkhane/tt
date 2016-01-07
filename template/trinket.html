@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div data-role="tabs" id="tabs">
+    <div data-role="navbar">
+        <ul>
+            <li><a href="#single" data-ajax="false">Upload</a></li>
+            <li><a href=#multi" data-ajax="false">Multi upload</a></li>
+        </ul>
+
+    </div>
+<div id="single" class="ui-body-d ui-content">
+
+    <div class="add-new-trinket well well-lg">
+    <h3>Add new trinket<small>add name, image and swiffy json</small></h3>
+        <div class="input-group">
+          <span class="input-group-addon" id="basic-addon1">Name</span>
+          <input id="trinket-name" type="text" class="form-control" placeholder="trinket name, should be unique" aria-describedby="basic-addon1">
+        </div>
+        <div class="input-group">
+          <span class="input-group-addon" id="basic-addon2">Thumbnail file(only .png)</span>
+          <input type="file" id="trinket-thumbnail" class="form-control" placeholder="trinket thumbnail 100*100px, should be in (kb)" aria-describedby="basic-addon2">
+            <img id="trinket-img-preview" src="#"/>
+        </div>
+         <div class="input-group">
+          <span class="input-group-addon" id="basic-addon3">Swiffy file(html)</span>
+          <input type="file" id="trinket-swiffy" class="form-control" placeholder="swiffy html" aria-describedby="basic-addon3">
+        </div>
+        <button id="save-new-trinket" type="button" class="btn btn-default" >Save trinket</button>
+
+    </div>
+
+</div>
+
+<div id="multi">
+<div class="add-new-trinket well well-lg">
+<h3>Add trinkets from directory<small>provide thumbnail and swiffy.html file directory. Matching names will be picked.</small></h3>
+    <div class="input-group">
+      <span class="input-group-addon" id="basic-addon2">Thumbnail directory(only .png)</span>
+      <input type="file" id="thumbnail_directory" webkitdirectory directory multiple/>
+
+    </div>
+     <div class="input-group">
+      <span class="input-group-addon" id="basic-addon3">Swiffy directory(html)</span>
+      <input type="file" id="swiffy_directory" webkitdirectory directory multiple/>
+    </div>
+    <button id="save-multiple-trinkets" type="button" class="btn btn-default" >Save trinket</button>
+
+</div>
+
+</div>
+</div>
+
+<div data-role="tabs" id="tabs">
+    <div data-role="navbar">
+        <ul>
+            <li><a href="#active" data-ajax="false">Active</a></li>
+            <li><a href=#inactive" data-ajax="false">Inactive</a></li>
+        </ul>
+
+    </div>
+<div id="active" class="ui-body-d ui-content">
+
+    <div class="existing-trinkets well">
+    <h3>Active trinkets<small>trinkets available to users</small></h3>
+    <ul class="list-group">
+        {% for trinket in activetrinkets %}
+        <li class="list-group-item">
+            <span class="input-group-addon">
+          <button type="button" class="btn btn-default deactivate">Deactivate</button>
+          <span class="label label-success trinketname">{{ trinket['name'] }}</span>
+                <img src="{{ trinket['thumbnailPath'] }}"/>
+                <button type="button" class="btn btn-default preview">Preview</button>
+                <button type="button" class="btn btn-default closepreview">ClosePreview</button>
+                <iframe id="tinkcontainer-{{ trinket['name'] }}" class="tinkanimation" src="{{ trinket['swiffyPath'] }}"></iframe>
+          </span>
+        </li>
+        {% end %}
+
+    </ul>
+    </div>
+
+</div>
+    <div id="inactive" >
+
+        <div class="existing-trinkets well">
+    <h3>Inactive trinkets<small>not available to users</small></h3>
+<ul class="list-group">
+    {% for trinket in deactivetrinkets %}
+    <li class="list-group-item">
+        <span class="input-group-addon">
+      <button type="button" class="btn btn-default activate">Activate</button>
+      <span class="label label-success trinketname">{{ trinket['name'] }}</span>
+            <img src="{{ trinket['thumbnailPath'] }}"/>
+      </span>
+    </li>
+    {% end %}
+
+</ul>
+</div>
+
+</div>
+
+
+
+    </div>
+
+{% end %}

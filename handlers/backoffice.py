@@ -11,6 +11,20 @@ import time
 # Log everything, and send it to stderr.
 logging.basicConfig(filename=settings.DEBUG_LOG,level=logging.ERROR,format='%(asctime)s %(message)s')
 
+class BOTinktimeUserProfile(tornado.web.RequestHandler):
+    def get(self):
+        '''get tinktime user profile'''
+        try:
+            self.render("user_tinktime.html" )
+        except Exception,e:
+            logging.exception(e)
+class BOCommunication(tornado.web.RequestHandler):
+    def get(self):
+        '''communicate with users'''
+        try:
+            self.render("communication.html" )
+        except Exception,e:
+            logging.exception(e)
 class BOGetAllTrinketsHandler(tornado.web.RequestHandler):
     def get(self):
         '''get all trinkets'''
@@ -23,7 +37,7 @@ class BOGetAllTrinketsHandler(tornado.web.RequestHandler):
                 r = a_trinkets
             if ia_trinkets:
                 s = ia_trinkets
-            self.render("backoffice.html", activetrinkets=r, deactivetrinkets=s )
+            self.render("trinket.html", activetrinkets=r, deactivetrinkets=s )
         except Exception,e:
             logging.exception(e)
 class BOActivateDeactivate(tornado.web.RequestHandler):

@@ -6,7 +6,8 @@ from handlers.feed import  FeedBetweenPairHandler, FeedSummaryHandler
 from handlers.sms import SmsVerifyCodeHandler, VerifyCodeHandler
 from handlers.user import UserVerificationHandler, RegisterUserToken, \
     UserTimeSplitHandler, UserPairTimeSplitHandler, UsersOnNetworkPlusTimesplitHandler, SaveProfilePicture
-from handlers.backoffice import BOGetAllTrinketsHandler, BOSaveImg, BOActivateDeactivate
+from handlers.backoffice import BOGetAllTrinketsHandler, BOSaveImg, BOActivateDeactivate,\
+    BOCommunication, BOTinktimeUserProfile
 from handlers.trinket import GetAllTrinketsWithImg
 from handlers.backoffice_auth import LoginPage, GoogleOAuth2LoginHandler
 from rediscluster import StrictRedisCluster
@@ -33,9 +34,11 @@ application = tornado.web.Application([
     (r"/are-on-network-plus-timesplit/([\+]?\S+)/",UsersOnNetworkPlusTimesplitHandler),
     (r"/trinket-list/",GetAllTrinketsWithImg),
     (r"/profile-picture/([\+]?\S+)/",SaveProfilePicture),
-    (r"/bo/trinket/getall/",BOGetAllTrinketsHandler),
     (r"/bo/trinket/(\S+)/active/([0-1]?)/",BOActivateDeactivate),
     (r"/bo/trinket/(\S+)/",BOSaveImg),
+    (r"/bo/trinket/",BOGetAllTrinketsHandler),
+    (r"/bo/profile/",BOTinktimeUserProfile),
+    (r"/bo/communicate/",BOCommunication),
     (r"/bo/login/",LoginPage),
     (r"/auth",GoogleOAuth2LoginHandler),
 ], debug=settings.DEBUG, static_path = settings.STATIC_PATH, template_path = settings.TEMPLATE_PATH,
