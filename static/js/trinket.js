@@ -94,6 +94,7 @@ $(document).on('click', "button.deactivate", function(event) {
 
 });
 
+
 $(document).on('click', "button.activate", function(event) {
     event.preventDefault();
     var name = $(this).siblings('span.trinketname')[0].innerText;
