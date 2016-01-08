@@ -22,3 +22,7 @@ class Date():
 
 def get_sms_code(digits=4):
     return random.randint( pow(10,digits), pow(10,(digits+1))-1)
+
+def scaledown_image(path, format, size):
+    '''todo: this method should scale the file mentioned at path and save it at the same path'''
+    return True
