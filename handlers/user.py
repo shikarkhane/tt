@@ -16,7 +16,11 @@ class UserVerificationHandler(tornado.web.RequestHandler):
     '''
     def get(self, user):
         try:
-            r = is_user_verified(self.application.settings["db_connection_pool"], user)
+            # if its demo account, authentication not needed
+            if user in settings.DEMO_ACCOUNTS:
+                r = True
+            else:
+                r = is_user_verified(self.application.settings["db_connection_pool"], user)
             self.write(json.dumps(Response().only_status(r)))
         except Exception,e:
             logging.exception(e)

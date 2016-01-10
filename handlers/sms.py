@@ -13,7 +13,9 @@ class SmsVerifyCodeHandler(tornado.web.RequestHandler):
         '''sms verification code to user'''
         try:
             d = json.loads(self.request.body)
-            send_sms_verfication_code(self.application.settings["db_connection_pool"],d["to_user"])
+            # dont bother if its a demo account
+            if not d["to_user"] in settings.DEMO_ACCOUNTS:
+                send_sms_verfication_code(self.application.settings["db_connection_pool"],d["to_user"])
         except Exception,e:
             logging.exception(e)
 class VerifyCodeHandler(tornado.web.RequestHandler):
@@ -21,7 +23,11 @@ class VerifyCodeHandler(tornado.web.RequestHandler):
         '''verify user using code'''
         try:
             d = json.loads(self.request.body)
-            o = verify_sms_verfication_code(self.application.settings["db_connection_pool"],d["to_user"], d["code"])
+            # dont bother if its a demo account
+            if d["to_user"] in settings.DEMO_ACCOUNTS:
+                o = True
+            else:
+                o = verify_sms_verfication_code(self.application.settings["db_connection_pool"],d["to_user"], d["code"])
             self.write(json.dumps(Response().only_status(o)))
         except Exception,e:
             logging.exception(e)

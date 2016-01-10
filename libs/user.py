@@ -113,6 +113,9 @@ def are_on_network_plus_timesplit(connection_pool, user, contacts):
     # find if contact is on tinktime network
     [i.setIsMember(is_user_verified(connection_pool, i.phone_number)) for i in r if i.phone_number]
 
+    #add community manager as a contact by default
+    r.append(ContactWithTimeSplit(connection_pool,settings.COMMUNITY_MANAGER, True) )
+
     # find time split info between user and contact
     [i.setTimeSplit(get_time_split_for_pair(connection_pool, user, i.phone_number).__dict__) for i in r if i.phone_number]
 
