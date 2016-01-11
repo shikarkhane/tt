@@ -1,10 +1,23 @@
 {% extends "base.html" %}
 
 {% block content-profile %}
+ <div id="tab-trinket-single" class="ui-body-d ui-content">
+<form>
+    <label for="txtPhoneNumber">Phone number:</label>
+    <input type="text" name="txtPhoneNumber" id="txtPhoneNumber" value="" placeholder="+46000000001">
+    <label for="imgCurrentPic">Current Picture:</label>
+    <img name="imgCurrentPic" id="imgCurrentPic" src="#">
 
-<h3>profile</h3>
+    <p>
+        <span>Change profile pic (only .png)</span>
+        <input type="file" id="profile_thumbnail"/>
+    <img id="profile-img-preview" src="#"/></p>
+    <button id="saveProfile" class="ui-btn">Save</button>
+</form>
+</div>
+
 {% end %}
 
 {% block afterincludejs %}
-
+    <script src="/static/js/profile.js"></script>
 {% end %}

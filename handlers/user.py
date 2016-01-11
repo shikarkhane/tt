@@ -89,7 +89,10 @@ class SaveProfilePicture(tornado.web.RequestHandler):
     def get(self, user):
         '''get profile picture url'''
         try:
-            self.write(get_profile_img_url(self.application.settings["db_connection_pool"], user))
+            r = get_profile_img_url(self.application.settings["db_connection_pool"], user)
+            if not r:
+                r = ''
+            self.write(r)
         except Exception,e:
             logging.exception(e)
     def post(self, user):
