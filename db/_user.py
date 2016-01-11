@@ -97,6 +97,9 @@ class Profile_Data():
         self.save(p)
     def pic_uploaded(self, user):
         p = self.get(user)
+        if not p:
+            self.new_profile(user)
+            p = self.get(user)
         p.has_picture = True
         self.save(p)
     def save_thumbnail_url(self, user, url):
