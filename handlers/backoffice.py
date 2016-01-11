@@ -11,21 +11,21 @@ import time
 # Log everything, and send it to stderr.
 logging.basicConfig(filename=settings.DEBUG_LOG,level=logging.ERROR,format='%(asctime)s %(message)s')
 
-class BOTinktimeUserProfile(BaseHandler):
+class BOTinktimeUserProfile(tornado.web.RequestHandler):
     def get(self):
         '''get tinktime user profile'''
         try:
             self.render("user_tinktime.html" )
         except Exception,e:
             logging.exception(e)
-class BOCommunication(BaseHandler):
+class BOCommunication(tornado.web.RequestHandler):
     def get(self):
         '''communicate with users'''
         try:
             self.render("communication.html" )
         except Exception,e:
             logging.exception(e)
-class BOGetAllTrinketsHandler(BaseHandler):
+class BOGetAllTrinketsHandler(tornado.web.RequestHandler):
     def get(self):
         '''get all trinkets'''
         try:
@@ -40,7 +40,7 @@ class BOGetAllTrinketsHandler(BaseHandler):
             self.render("trinket.html", activetrinkets=r, deactivetrinkets=s )
         except Exception,e:
             logging.exception(e)
-class BOActivateDeactivate(BaseHandler):
+class BOActivateDeactivate(tornado.web.RequestHandler):
     def post(self, name, activate):
         '''activate or deactivate a trinket'''
         try:
@@ -53,7 +53,7 @@ class BOActivateDeactivate(BaseHandler):
         except Exception,e:
             logging.exception(e)
 
-class BOSaveImg(BaseHandler):
+class BOSaveImg(tornado.web.RequestHandler):
     def post(self, name):
         '''save img for trinket'''
         try:
