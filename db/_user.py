@@ -98,7 +98,8 @@ class Profile_Data():
     def pic_uploaded(self, user):
         p = self.get(user)
         if not p:
-            self.new_profile(user)
+            i = self.new_profile(user)
+            self.save(i)
             p = self.get(user)
         p.has_picture = True
         self.save(p)
