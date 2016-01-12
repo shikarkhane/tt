@@ -35,7 +35,7 @@ class MessageHandler(tornado.web.RequestHandler):
         try:
             d = json.loads(self.request.body)
             r = save_message(self.application.settings["db_connection_pool"], d)
-            self.write("writing msg to receiver feed")
+            #self.write("writing msg to receiver feed")
         except Exception,e:
             logging.exception(e)
     @gen.coroutine
@@ -54,7 +54,7 @@ class QueueWriter(tornado.web.RequestHandler):
             data = json.loads(self.request.body)
             # todo : write to queue, till then pass it on to listener
             http_call('/message-listener/', data, 'POST', True)
-            self.write("writing msg to queue")
+            #self.write("writing msg to queue")
         except Exception,e:
             logging.exception(e)
 class QueueListener(tornado.web.RequestHandler):
@@ -69,6 +69,6 @@ class QueueListener(tornado.web.RequestHandler):
             http_call('/message/', data, 'POST', True)
             # todo: queue push notification
             generic(self.application.settings["db_connection_pool"], data["to_user"])
-            self.write("on call back from queue, will call messagehandler.post and push notify reciever phone")
+            #self.write("on call back from queue, will call messagehandler.post and push notify reciever phone")
         except Exception,e:
             logging.exception(e)
