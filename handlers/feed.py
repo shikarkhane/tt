@@ -2,7 +2,7 @@ import tornado.web
 import settings
 import logging
 import json
-from libs.feed import get_feed, get_feed_page, get_conversation_page, get_feed_summary
+from libs.feed import get_conversation_page, get_feed_summary
 
 # Log everything, and send it to stderr.
 logging.basicConfig(filename=settings.DEBUG_LOG,level=logging.ERROR,format='%(asctime)s %(message)s')

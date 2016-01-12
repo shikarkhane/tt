@@ -1,5 +1,5 @@
 import json
-from libs.keys_utility import message_key, sender_key, receiver_key, conversation_pair_key, grouped_feed_key
+from libs.keys_utility import message_key, conversation_pair_key, grouped_feed_key
 
 class Message(object):
     def __init__(self, *args):
@@ -42,24 +42,12 @@ class Message_Data():
                     unread=msg.unread)
 
         if self.r.setnx( mk,json.dumps(val.__dict__)):
-            self.save_to_senders_list(msg, mk)
-            self.save_to_receivers_list(msg, mk)
             self.save_to_conversation(msg, mk)
             self.save_to_grouped_feed(msg)
             return mk
         else:
             # if msg exists, just update the msg but dont update the sender or receivers list
             return self.r.set( mk,json.dumps(val.__dict__))
-
-    def save_to_senders_list(self, msg, message_key):
-        '''obsolete after redesign using 99design'''
-        sk = sender_key(msg.from_user)
-        self.r.rpush(sk, message_key)
-
-    def save_to_receivers_list(self, msg, message_key):
-        '''obsolete after redesign using 99design'''
-        rk = receiver_key(msg.to_user)
-        self.r.rpush(rk, message_key)
 
     def save_to_conversation(self, msg, message_key):
         ''' save into conversation list between the users. to be used to only show chat between 2 users'''
@@ -96,16 +84,6 @@ class Message_Data():
 
     def get_by_key(self, k):
         return Message(k, self.r.get(k))
-
-    def get_all_for_user(self, to_user):
-        rk = receiver_key(to_user)
-        sk = sender_key(to_user)
-        rcount = self.r.llen(rk)
-        scount = self.r.llen(sk)
-        res = [ self.get_by_key(i) for i in self.r.lrange(rk, 0, rcount)] + \
-            [ self.get_by_key(i) for i in self.r.lrange(sk, 0, scount)]
-        newlist = sorted(res, key=lambda l:l.send_timestamp, reverse=True)
-        return newlist
 
     def get_conversation_for_pair(self, from_user, to_user, start, end):
         end_eol = (-1) * (start + 1)
