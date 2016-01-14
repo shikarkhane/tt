@@ -1,8 +1,8 @@
 from db._user import Profile_Data
 from db._timesplit import TimeInAndOut, Timesplit
 import settings
-from operator import itemgetter, attrgetter
 from libs import s3_utility
+from libs.utility import get_scaledown_image_in_content
 
 class Contact():
     def __init__(self, c, is_member = False):
@@ -136,6 +136,9 @@ def get_push_token(connection_pool, user):
         return p.push_token
     return False
 
+def save_profile_img_wrapper(pool, user, content, content_type, size):
+    content = get_scaledown_image_in_content(content, content_type, size)
+    save_profile_img(pool, user, content, content_type)
 def save_profile_img(pool, user, content, content_type):
     bucketname = settings.S3_BUCKET_TRINKET_USER_PROFILE
     filename = "{0}.{1}".format(user, content_type.split('/')[1])

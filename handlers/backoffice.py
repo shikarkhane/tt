@@ -3,7 +3,7 @@ import settings
 import logging
 import json
 from backoffice_auth import BaseHandler
-from libs.trinket import get_all_trinkets_with_details, save, save_img, save_swiffy, \
+from libs.trinket import get_all_trinkets_with_details, save, save_img_wrapper, save_swiffy, \
     activate_trinket, deactivate_trinket
 import time
 
@@ -11,21 +11,21 @@ import time
 # Log everything, and send it to stderr.
 logging.basicConfig(filename=settings.DEBUG_LOG,level=logging.ERROR,format='%(asctime)s %(message)s')
 
-class BOTinktimeUserProfile(BaseHandler):
+class BOTinktimeUserProfile(tornado.web.RequestHandler):
     def get(self):
         '''get tinktime user profile'''
         try:
             self.render("user_tinktime.html" )
         except Exception,e:
             logging.exception(e)
-class BOCommunication(BaseHandler):
+class BOCommunication(tornado.web.RequestHandler):
     def get(self):
         '''communicate with users'''
         try:
             self.render("communication.html" )
         except Exception,e:
             logging.exception(e)
-class BOGetAllTrinketsHandler(BaseHandler):
+class BOGetAllTrinketsHandler(tornado.web.RequestHandler):
     def get(self):
         '''get all trinkets'''
         try:
@@ -40,7 +40,7 @@ class BOGetAllTrinketsHandler(BaseHandler):
             self.render("trinket.html", activetrinkets=r, deactivetrinkets=s )
         except Exception,e:
             logging.exception(e)
-class BOActivateDeactivate(BaseHandler):
+class BOActivateDeactivate(tornado.web.RequestHandler):
     def post(self, name, activate):
         '''activate or deactivate a trinket'''
         try:
@@ -53,7 +53,7 @@ class BOActivateDeactivate(BaseHandler):
         except Exception,e:
             logging.exception(e)
 
-class BOSaveImg(BaseHandler):
+class BOSaveImg(tornado.web.RequestHandler):
     def post(self, name):
         '''save img for trinket'''
         try:
@@ -65,7 +65,7 @@ class BOSaveImg(BaseHandler):
             trinketId = int(time.time())
 
             save(connection_pool=pool, name=name, trinketId=str(trinketId), groupId=str(1))
-            save_img(pool, name, thumbnail, thumbnail_content_type)
+            save_img_wrapper(pool, name, thumbnail, thumbnail_content_type, (128,128))
             save_swiffy(pool, name, swiffyFile, swiffyFile_content_type)
 
             self.write('image was uploaded')

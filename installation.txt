@@ -14,3 +14,4 @@ six==1.10.0
 tornado==4.3
 twilio==5.1.0
 wheel==0.24.0
+Pillow==3.1.0

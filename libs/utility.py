@@ -2,7 +2,8 @@ import random
 import calendar
 from datetime import datetime, timedelta
 import settings
-
+from PIL import Image
+import StringIO
 
 class Date():
     '''to keep the same format all over the site'''
@@ -23,6 +24,22 @@ class Date():
 def get_sms_code(digits=4):
     return random.randint( pow(10,digits), pow(10,(digits+1))-1)
 
-def scaledown_image(path, format, size):
-    '''todo: this method should scale the file mentioned at path and save it at the same path'''
-    return True
+def scaledown_image_at_path(path, format, size):
+    im = Image.open(path)
+    im.thumbnail(size)
+    im.save(path, format)
+
+def get_scaledown_image_in_content(content, content_type, size):
+    '''read image from string, scale down, return image as string'''
+    format = content_type.split('/')[1]
+    if not format:
+        format = 'JPEG'
+    o = StringIO.StringIO()
+    im = Image.open(StringIO.StringIO(content))
+    im.thumbnail(size)
+    im.save(o, format)
+    result = o.getvalue()
+    o.close()
+    return result
+
+

@@ -1,6 +1,7 @@
 from db._trinket import Animation
 import settings
 from libs import s3_utility
+from libs.utility import get_scaledown_image_in_content
 
 def save(connection_pool, name, trinketId, groupId):
     save_detail(connection_pool, name, trinketId, groupId)
@@ -18,6 +19,11 @@ def get_img_filepath(name):
 
 def get_swiffy_filepath(name):
     return '{0}{1}{2}.html'.format(settings.DIRNAME, settings.TRINKET_SWIFFY_DIR, name)
+
+def save_img_wrapper(pool, name, content, content_type, size):
+    '''scale down a image if needed, than save'''
+    content = get_scaledown_image_in_content(content, content_type, size)
+    save_img(pool, name, content, content_type)
 
 def save_img(pool, name, content, content_type):
     url = None
