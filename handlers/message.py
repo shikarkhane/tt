@@ -3,7 +3,7 @@ import settings
 import logging
 import json
 from libs.http_utility import http_call
-from libs.message import save_message, message_read, obsolete_message_read
+from libs.message import save_message, message_read
 from libs.push import generic
 
 # Log everything, and send it to stderr.

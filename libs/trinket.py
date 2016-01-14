@@ -72,3 +72,7 @@ def get_all_trinkets_with_details(pool, only_active):
         trinkets = get_all_inactive_trinkets(pool)
     return [(get_details(pool,t)) for t in trinkets]
 
+def get_random_active_trinket(pool):
+    return Animation(pool).get_random_active()
+
+

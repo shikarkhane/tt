@@ -5,6 +5,7 @@ Created on Nov 12, 2014
 '''
 import unittest
 from db._message import Message
+from db._trinket import Animation
 from random import randint
 from db._timesplit import TimeInAndOut, Timesplit
 import json
@@ -16,6 +17,14 @@ from rediscluster import StrictRedisCluster
 startup_nodes = [{"host": settings.REDIS_CLUSTER["server"], "port": settings.REDIS_CLUSTER["port"]}]
 pool = StrictRedisCluster(startup_nodes=startup_nodes, decode_responses=True)
 
+class Test_Trinket(unittest.TestCase):
+    def setUp(self):
+        pass
+    def tearDown(self):
+        pass
+    def test_random_active(self):
+        t = Animation(pool).get_random_active()
+        self.assertNotEqual(t, None)
 class Test_Message(unittest.TestCase):
     def setUp(self):
         pass

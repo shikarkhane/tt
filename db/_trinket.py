@@ -33,6 +33,9 @@ class Animation():
     def get_all_active(self):
         tl = active_trinket_list_key()
         return self.r.smembers(tl)
+    def get_random_active(self):
+        tl = active_trinket_list_key()
+        return self.r.srandmember(tl)
     def get_all_inactive(self):
         tl = inactive_trinket_list_key()
         return self.r.smembers(tl)
