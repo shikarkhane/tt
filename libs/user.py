@@ -24,7 +24,7 @@ class ContactWithTimeSplit():
         if is_profile_picture_uploaded(pool, self.phone_number):
             self.profile_url = get_profile_img_url(pool, self.phone_number)
         else:
-            self.profile_url = Profile_Data().get_random_thumbnail_url()
+            self.profile_url = Profile_Data(pool).get_random_thumbnail_url()
     def setIsMember(self, f):
         self.on_tinktime = f
     def setTimeSplit(self, ts):
@@ -150,3 +150,8 @@ def save_profile_img(pool, user, content, content_type):
             url = '{0}{1}{2}'.format(settings.SERVERNAME, settings.PROFILE_IMG_DIR, filename)
     if url:
         Profile_Data(pool).save_thumbnail_url(user, url)
+
+def save_random_profile_url(pool, url):
+    Profile_Data(pool).save_random_thumbnail_url(url)
+def get_all_random_profile_urls(pool):
+    return Profile_Data(pool).get_all_random_thumbnail_url()

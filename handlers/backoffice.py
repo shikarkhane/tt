@@ -5,8 +5,9 @@ import json
 from backoffice_auth import BaseHandler
 from libs.trinket import get_all_trinkets_with_details, save, save_img_wrapper, save_swiffy, \
     activate_trinket, deactivate_trinket
+from libs.user import get_all_random_profile_urls, save_random_profile_url
 import time
-
+import json
 
 # Log everything, and send it to stderr.
 logging.basicConfig(filename=settings.DEBUG_LOG,level=logging.ERROR,format='%(asctime)s %(message)s')
@@ -18,6 +19,14 @@ class BOTinktimeUserProfile(BaseHandler):
             self.render("user_tinktime.html" )
         except Exception,e:
             logging.exception(e)
+class BORandomProfileThumbnail(BaseHandler):
+    def get(self):
+        '''get all random profile thumbnail urls'''
+        self.write(json.dumps(get_all_random_profile_urls(self.application.settings["db_connection_pool"])))
+    def post(self):
+        '''save a photo to S3 and add url to random profile url list'''
+        pass
+
 class BOCommunication(BaseHandler):
     def get(self):
         '''communicate with users'''
