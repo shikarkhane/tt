@@ -55,7 +55,24 @@ class Message_Data():
         rck = conversation_pair_key(msg.to_user, msg.from_user)
         if self.r.rpushx(ck, message_key) == 0 and self.r.rpushx(rck, message_key) == 0:
                 self.r.rpush(ck, message_key)
+    def trim_conversation(self, msg, limit):
+        '''keep conversation list size limited'''
+        actual_key = None
+        ck = conversation_pair_key(msg.from_user, msg.to_user)
+        rck = conversation_pair_key(msg.to_user, msg.from_user)
+        if self.r.llen(ck) > 0:
+            actual_key = ck
+        if self.r.llen(rck) > 0:
+            actual_key = rck
 
+        if actual_key:
+            while self.r.llen(actual_key) > limit:
+                # pop oldest msg from conversation, decrement unread count if needed and delete actual msg
+                first_msg_key = self.r.lpop(actual_key)
+                first_msg = Message( first_msg_key, self.get_by_key(first_msg_key))
+                if first_msg.unread:
+                    self.update_unread_count_in_grouped_feed(first_msg)
+                self.r.delete([first_msg_key])
     def save_to_grouped_feed(self, msg):
         '''saved to a hashed summary for a user's tinkobox. eg. for user A, a hased summary will store
         each user who has sent a tink to user A and the unread message count.'''
@@ -84,6 +101,7 @@ class Message_Data():
 
     def get_by_key(self, k):
         return Message(k, self.r.get(k))
+
 
     def get_conversation_for_pair(self, from_user, to_user, start, end):
         end_eol = (-1) * (start + 1)

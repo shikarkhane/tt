@@ -1,7 +1,7 @@
 from db._message import Message, Message_Data
 from libs.user import add_time_split
 from random import randint
-from settings import COMMUNITY_MANAGER
+from settings import COMMUNITY_MANAGER, CONVERSATION_LENGTH_LIMIT
 from libs.trinket import get_random_active_trinket
 import time
 import custom_text
@@ -11,6 +11,7 @@ def save_message(connection_pool, data):
                 data["seconds_sent"], data["unread"])
     if Message_Data(connection_pool).save(m):
         add_time_split(connection_pool, m.from_user, m.to_user, m.seconds_sent)
+        Message_Data(connection_pool).trim_conversation(m, CONVERSATION_LENGTH_LIMIT )
         return True
     else:
         return False
