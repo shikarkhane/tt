@@ -3,7 +3,7 @@ from utility import get_sms_code
 from user import verified_by_sms_code
 import settings
 from libs.decision import send_welcome_message
-
+import custom_text
 from twilio.rest import TwilioRestClient
 
 class twilio_provider():
@@ -14,10 +14,10 @@ class twilio_provider():
         self.ACCOUNT_NUMBER= settings.TWILIO_ACCOUNT_NUMBER
     def send_code(self, to_user, code):
         client = TwilioRestClient(self.ACCOUNT_SID, self.AUTH_TOKEN)
-        client.messages.create( to=to_user, from_=self.ACCOUNT_NUMBER, body="From Tinktime: Enter verification code:{0}".format(code))
+        client.messages.create( to=to_user, from_=self.ACCOUNT_NUMBER, body=custom_text.SMS["SendCode"].format(code))
     def send_welcome(self, to_user):
         client = TwilioRestClient(self.ACCOUNT_SID, self.AUTH_TOKEN)
-        client.messages.create( to=to_user, from_=self.ACCOUNT_NUMBER, body="Welcome to Tinktime! You registered successfully. Happy tinking.")
+        client.messages.create( to=to_user, from_=self.ACCOUNT_NUMBER, body=custom_text.SMS["Welcome"])
 
 def send_sms_verfication_code(connection_pool, user):
     code = get_sms_code()

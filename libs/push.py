@@ -3,6 +3,7 @@ from apns import APNs, Frame, Payload
 from db._user import Profile_Data
 from gcm import GCM
 import settings
+import custom_text
 
 class Ios():
     def __init__(self):
@@ -22,7 +23,7 @@ def generic(connection_pool, to_user):
     # todo find device info and token for to_user
     p = Profile_Data(connection_pool).get(to_user)
     device = p.device_platform
-    msg = "You have received a tink"
+    msg = custom_text.PUSH["Basic"]
     token = p.push_token
     if token:
         if device == 'ios':
