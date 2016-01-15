@@ -26,3 +26,5 @@ def user_profile_img_url_key(user):
     return 'url:profile:{0}:image'.format(user)
 def trinket_swiffy_url_key(trinket_name):
     return 'url:trinket:{0}:swiffy'.format(trinket_name)
+def random_profile_img_url_key():
+    return 'url:profile:random:images'

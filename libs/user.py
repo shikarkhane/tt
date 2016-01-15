@@ -24,7 +24,7 @@ class ContactWithTimeSplit():
         if is_profile_picture_uploaded(pool, self.phone_number):
             self.profile_url = get_profile_img_url(pool, self.phone_number)
         else:
-            self.profile_url = None
+            self.profile_url = Profile_Data().get_random_thumbnail_url()
     def setIsMember(self, f):
         self.on_tinktime = f
     def setTimeSplit(self, ts):
