@@ -51,7 +51,19 @@ function loadRandomPictures(){
             url: '/bo/random-profile-picture/'
             }).done(function( response) {
                 console.log(response);
-
+                var links = jQuery.parseJSON(response);
+                var l = $('#list-random_images');
+                for ( i=0; i < links.length; i=i+3){
+                    if ( links[i]){
+                        l.append('<div class="ui-block-a"><div class="ui-bar ui-bar-a" style="height:60px"><img src="' + links[i] + '"></div></div>');
+                    }
+                    if ( links[i+1]){
+                        l.append('<div class="ui-block-b"><div class="ui-bar ui-bar-a" style="height:60px"><img src="' + links[i+1] + '"></div></div>');
+                    }
+                    if ( links[i]){
+                        l.append('<div class="ui-block-c"><div class="ui-bar ui-bar-a" style="height:60px"><img src="' + links[i+2] + '"></div></div>');
+                    }
+                }
             });
 }
 $(function() {
