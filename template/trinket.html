@@ -56,6 +56,16 @@
 
             <div class="existing-trinkets well">
                 <h3>Active trinkets<small>trinkets available to users</small></h3>
+                <div class="ui-grid-a">
+                    {% for trinket in activetrinkets %}
+                    <div class="ui-block-a"><div class="ui-bar ui-bar-a" style="height:60px">{{ trinket['name'] }}</div></div>
+                    <div class="ui-block-a"><div class="ui-bar ui-bar-a" style="height:60px"> <img src="{{ trinket['thumbnailPath'] }}"/></div></div>
+                    <div class="ui-block-a"><div class="ui-bar ui-bar-a" style="height:60px"><button type="button" class="deactivate">Deactivate</button></div></div>
+                    <div class="ui-block-b"><div class="ui-bar ui-bar-a" style="height:60px"><button type="button" class="preview">Preview</button></div></div>
+                    <div class="ui-block-b"><iframe id="tinkcontainer-{{ trinket['name'] }}" class="tinkanimation" src="{{ trinket['swiffyPath'] }}"></iframe></div>
+                    <div class="ui-block-b"><div class="ui-bar ui-bar-a" style="height:60px"><button type="button" class="closepreview">ClosePreview</button></div></div>
+                    {% end %}
+                </div>
                 <ul class="list-group">
                     {% for trinket in activetrinkets %}
                     <li class="list-group-item">
