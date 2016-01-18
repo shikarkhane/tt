@@ -22,3 +22,6 @@ def save_random_profile_img(pool, randomname, content, content_type):
 def get_all_random_profile_urls(pool):
     return CommonImage(pool).get_all_random_thumbnail_url()
 
+def get_random_profile_url(pool):
+    return CommonImage(pool).get_random_thumbnail_url()
+

@@ -22,16 +22,23 @@ class BOTinktimeUserProfile(BaseHandler):
 class BORandomProfileThumbnail(BaseHandler):
     def get(self):
         '''get all random profile thumbnail urls'''
-        self.write(json.dumps(get_all_random_profile_urls(self.application.settings["db_connection_pool"])))
+        try:
+            r = json.dumps(list(get_all_random_profile_urls(self.application.settings["db_connection_pool"])))
+            self.write(r)
+        except Exception,e:
+            logging.exception(e)
     def post(self):
         '''save a photo to S3 and add url to random profile url list'''
-        pool = self.application.settings["db_connection_pool"]
-        thumbnail = self.request.files['thumbnail'][0]['body']
-        thumbnail_content_type = self.request.files['thumbnail'][0]['content_type']
-        random_name = "RandomProfileImage-{0}".format(int(time.time()))
-        save_random_profile_img_wrapper(pool, random_name, thumbnail, thumbnail_content_type, (400, 244))
+        try:
+            pool = self.application.settings["db_connection_pool"]
+            thumbnail = self.request.files['thumbnail'][0]['body']
+            thumbnail_content_type = self.request.files['thumbnail'][0]['content_type']
+            random_name = "RandomProfileImage-{0}".format(int(time.time()))
+            save_random_profile_img_wrapper(pool, random_name, thumbnail, thumbnail_content_type, (400, 244))
 
-        self.write('random image was uploaded')
+            self.write('random image was uploaded')
+        except Exception,e:
+            logging.exception(e)
 
 class BOCommunication(BaseHandler):
     def get(self):

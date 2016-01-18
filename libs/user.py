@@ -3,6 +3,8 @@ from db._timesplit import TimeInAndOut, Timesplit
 import settings
 from libs import s3_utility
 from libs.utility import get_scaledown_image_in_content
+from libs.content import get_random_profile_url
+
 
 class Contact():
     def __init__(self, c, is_member = False):
@@ -24,7 +26,7 @@ class ContactWithTimeSplit():
         if is_profile_picture_uploaded(pool, self.phone_number):
             self.profile_url = get_profile_img_url(pool, self.phone_number)
         else:
-            self.profile_url = Profile_Data(pool).get_random_thumbnail_url()
+            self.profile_url = get_random_profile_url(pool)
     def setIsMember(self, f):
         self.on_tinktime = f
     def setTimeSplit(self, ts):
