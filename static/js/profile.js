@@ -80,7 +80,7 @@ $(document).on('focusout', "#txtPhoneNumber", function(event) {
             contentType: 'application/json',
             url: '/profile-picture/' + phn + '/'
             }).done(function( response) {
-                console.log(response);
+                //console.log(response);
                 $('#imgCurrentPic').attr("src", response);
             });
     }
