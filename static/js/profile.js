@@ -50,7 +50,7 @@ function loadRandomPictures(){
             contentType: 'application/json',
             url: '/bo/random-profile-picture/'
             }).done(function( response) {
-                console.log(response);
+                //console.log(response);
                 var links = jQuery.parseJSON(response);
                 var l = $('#list-random_images');
                 for ( i=0; i < links.length; i=i+3){
