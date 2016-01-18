@@ -29,7 +29,7 @@ class BORandomProfileThumbnail(BaseHandler):
         thumbnail = self.request.files['thumbnail'][0]['body']
         thumbnail_content_type = self.request.files['thumbnail'][0]['content_type']
         random_name = "RandomProfileImage-{0}".format(int(time.time()))
-        save_img_wrapper(pool, random_name, thumbnail, thumbnail_content_type, (400, 244))
+        save_random_profile_img_wrapper(pool, random_name, thumbnail, thumbnail_content_type, (400, 244))
 
         self.write('random image was uploaded')
 

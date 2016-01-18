@@ -1,19 +1,42 @@
 {% extends "base.html" %}
 
 {% block content-profile %}
- <div id="tab-trinket-single" class="ui-body-d ui-content">
-<form>
-    <label for="txtPhoneNumber">Phone number:</label>
-    <input type="text" name="txtPhoneNumber" id="txtPhoneNumber" value="" placeholder="+46000000001">
-    <label for="imgCurrentPic">Current Picture:</label>
-    <img name="imgCurrentPic" id="imgCurrentPic" src="#">
 
-    <p>
-        <span>Change profile pic (only .png)</span>
-        <input type="file" id="profile_thumbnail"/>
-    <img id="profile-img-preview" src="#"/></p>
-    <button id="saveProfile" class="ui-btn">Save</button>
-</form>
+<div data-role="tabs" id="tabs-upload">
+    <div data-role="navbar">
+            <ul>
+                <li><a href="#tab-profile-picture" data-ajax="false">Thumbnail</a></li>
+                <li><a href="#tab-profile-random" data-ajax="false">Random</a></li>
+            </ul>
+    </div>
+
+    <div id="tab-profile-picture" class="ui-body-d ui-content">
+        <form>
+            <label for="txtPhoneNumber">Phone number:</label>
+            <input type="text" name="txtPhoneNumber" id="txtPhoneNumber" value="" placeholder="+46000000001">
+            <label for="imgCurrentPic">Current Picture:</label>
+            <img name="imgCurrentPic" id="imgCurrentPic" src="#">
+
+            <p>
+                <span>Change profile pic (only .png)</span>
+                <input type="file" id="profile_thumbnail"/>
+            <img id="profile-img-preview" src="#"/></p>
+            <button id="saveProfile" class="ui-btn">Save</button>
+        </form>
+    </div>
+
+    <div id="tab-profile-random" class="ui-body-d ui-content">
+        <div class="add-new-random well well-lg">
+            <h3>Add random pictures from directory<small>provide thumbnail file directory. </small></h3>
+            <div class="input-group">
+                <span class="input-group-addon" id="basic-addon2">Thumbnail directory</span>
+                <input type="file" id="thumbnail_directory" webkitdirectory directory multiple/>
+            </div>
+            <button id="save-multiple-random_pictures" type="button" class="btn btn-default" >Save</button>
+        </div>
+
+    </div>
+
 </div>
 
 {% end %}
