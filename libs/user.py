@@ -150,8 +150,3 @@ def save_profile_img(pool, user, content, content_type):
             url = '{0}{1}{2}'.format(settings.SERVERNAME, settings.PROFILE_IMG_DIR, filename)
     if url:
         Profile_Data(pool).save_thumbnail_url(user, url)
-
-def save_random_profile_url(pool, url):
-    Profile_Data(pool).save_random_thumbnail_url(url)
-def get_all_random_profile_urls(pool):
-    return Profile_Data(pool).get_all_random_thumbnail_url()

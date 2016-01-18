@@ -7,7 +7,7 @@ from handlers.sms import SmsVerifyCodeHandler, VerifyCodeHandler
 from handlers.user import UserVerificationHandler, RegisterUserToken, \
     UserTimeSplitHandler, UserPairTimeSplitHandler, UsersOnNetworkPlusTimesplitHandler, SaveProfilePicture
 from handlers.backoffice import BOGetAllTrinketsHandler, BOSaveImg, BOActivateDeactivate,\
-    BOCommunication, BOTinktimeUserProfile
+    BOCommunication, BOTinktimeUserProfile, BORandomProfileThumbnail
 from handlers.trinket import GetAllTrinketsWithImg
 from handlers.backoffice_auth import LoginPage, GoogleOAuth2LoginHandler
 from rediscluster import StrictRedisCluster
@@ -38,6 +38,7 @@ application = tornado.web.Application([
     (r"/bo/trinket/(\S+)/",BOSaveImg),
     (r"/bo/trinket/",BOGetAllTrinketsHandler),
     (r"/bo/profile/",BOTinktimeUserProfile),
+    (r"/bo/random-profile-picture/",BORandomProfileThumbnail),
     (r"/bo/communicate/",BOCommunication),
     (r"/bo/login/",LoginPage),
     (r"/auth",GoogleOAuth2LoginHandler),

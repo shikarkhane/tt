@@ -5,7 +5,7 @@ import json
 from backoffice_auth import BaseHandler
 from libs.trinket import get_all_trinkets_with_details, save, save_img_wrapper, save_swiffy, \
     activate_trinket, deactivate_trinket
-from libs.user import get_all_random_profile_urls, save_random_profile_url
+from libs.content import get_all_random_profile_urls, save_random_profile_img_wrapper
 import time
 import json
 
@@ -25,7 +25,13 @@ class BORandomProfileThumbnail(BaseHandler):
         self.write(json.dumps(get_all_random_profile_urls(self.application.settings["db_connection_pool"])))
     def post(self):
         '''save a photo to S3 and add url to random profile url list'''
-        pass
+        pool = self.application.settings["db_connection_pool"]
+        thumbnail = self.request.files['thumbnail'][0]['body']
+        thumbnail_content_type = self.request.files['thumbnail'][0]['content_type']
+        random_name = "RandomProfileImage-{0}".format(int(time.time()))
+        save_img_wrapper(pool, random_name, thumbnail, thumbnail_content_type, (400, 244))
+
+        self.write('random image was uploaded')
 
 class BOCommunication(BaseHandler):
     def get(self):
