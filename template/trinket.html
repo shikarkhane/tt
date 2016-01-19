@@ -58,29 +58,20 @@
                 <h3>Active trinkets<small>trinkets available to users</small></h3>
                 <div class="ui-grid-a">
                     {% for trinket in activetrinkets %}
-                    <div class="ui-block-a"><div class="ui-bar ui-bar-a" style="height:60px">{{ trinket['name'] }}</div></div>
-                    <div class="ui-block-a"><div class="ui-bar ui-bar-a" style="height:60px"> <img src="{{ trinket['thumbnailPath'] }}"/></div></div>
-                    <div class="ui-block-a"><div class="ui-bar ui-bar-a" style="height:60px"><button type="button" class="deactivate">Deactivate</button></div></div>
-                    <div class="ui-block-b"><div class="ui-bar ui-bar-a" style="height:60px"><button type="button" class="preview">Preview</button></div></div>
-                    <div class="ui-block-b"><iframe id="tinkcontainer-{{ trinket['name'] }}" class="tinkanimation" src="{{ trinket['swiffyPath'] }}"></iframe></div>
-                    <div class="ui-block-b"><div class="ui-bar ui-bar-a" style="height:60px"><button type="button" class="closepreview">ClosePreview</button></div></div>
+                    <div class="ui-block-a">
+                        <figure>
+                          <img src="{{ trinket['thumbnailPath'] }}"/>
+                          <figcaption>{{ trinket['name'] }}</figcaption>
+                        </figure>
+
+                    </div>
+                    <div class="ui-block-b">
+                        <button type="button" class="deactivate" data-trinketname="{{ trinket['name'] }}">Deactivate</button>
+                        <button type="button" class="preview" data-trinketname="{{ trinket['name'] }}" data-swiffyurl="{{ trinket['swiffyPath'] }}">Preview</button>
+
+                    </div>
                     {% end %}
                 </div>
-                <ul class="list-group">
-                    {% for trinket in activetrinkets %}
-                    <li class="list-group-item">
-            <span class="input-group-addon">
-          <button type="button" class="btn btn-default deactivate">Deactivate</button>
-          <span class="label label-success trinketname">{{ trinket['name'] }}</span>
-                <img src="{{ trinket['thumbnailPath'] }}"/>
-                <button type="button" class="btn btn-default preview">Preview</button>
-                <button type="button" class="btn btn-default closepreview">ClosePreview</button>
-                <iframe id="tinkcontainer-{{ trinket['name'] }}" class="tinkanimation" src="{{ trinket['swiffyPath'] }}"></iframe>
-          </span>
-                    </li>
-                    {% end %}
-
-                </ul>
             </div>
 
         </div>
@@ -88,18 +79,21 @@
 
             <div class="existing-trinkets well">
                 <h3>Inactive trinkets<small>not available to users</small></h3>
-                <ul class="list-group">
+                  <div class="ui-grid-a">
                     {% for trinket in deactivetrinkets %}
-                    <li class="list-group-item">
-        <span class="input-group-addon">
-      <button type="button" class="btn btn-default activate">Activate</button>
-      <span class="label label-success trinketname">{{ trinket['name'] }}</span>
-            <img src="{{ trinket['thumbnailPath'] }}"/>
-      </span>
-                    </li>
+                    <div class="ui-block-a">
+                        <figure>
+                          <img src="{{ trinket['thumbnailPath'] }}"/>
+                          <figcaption>{{ trinket['name'] }}</figcaption>
+                        </figure>
+                    </div>
+                    <div class="ui-block-b">
+                        <button type="button" class="deactivate" data-trinketname="{{ trinket['name'] }}">Activate</button>
+                        <button type="button" class="preview" data-trinketname="{{ trinket['name'] }}" data-swiffyurl="{{ trinket['swiffyPath'] }}">Preview</button>
+                    </div>
                     {% end %}
+                  </div>
 
-                </ul>
             </div>
 
         </div>
