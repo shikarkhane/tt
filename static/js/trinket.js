@@ -128,8 +128,8 @@ function createPopup(tname, sUrl){
     var popup = $("<div/>", {
         "data-role": "popup"
     }).css({
-        "width": $(window).width() / 1.5 + "px",
-        "height": $(window).height() / 1.5 + "px"
+        "width": $(window).width() / 2 + "px",
+        "height": $(window).height() / 3 + "px"
     }).append(closeBtn).append(content);
 
     // Append it to active page
