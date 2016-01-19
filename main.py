@@ -8,7 +8,7 @@ from handlers.user import UserVerificationHandler, RegisterUserToken, \
     UserTimeSplitHandler, UserPairTimeSplitHandler, UsersOnNetworkPlusTimesplitHandler, SaveProfilePicture
 from handlers.backoffice import BOGetAllTrinketsHandler, BOSaveImg, BOActivateDeactivate,\
     BOCommunication, BOTinktimeUserProfile, BORandomProfileThumbnail
-from handlers.trinket import GetAllTrinketsWithImg
+from handlers.trinket import GetAllTrinketsWithImg, GetAllTrinketsWithImgByCountry
 from handlers.backoffice_auth import LoginPage, GoogleOAuth2LoginHandler
 from rediscluster import StrictRedisCluster
 
@@ -32,6 +32,7 @@ application = tornado.web.Application([
     (r"/time-split/([\+]?\S+)/", UserTimeSplitHandler),
     (r"/time-split-pair/([\+]?\S+)/([\+]?\S+)/", UserPairTimeSplitHandler),
     (r"/are-on-network-plus-timesplit/([\+]?\S+)/",UsersOnNetworkPlusTimesplitHandler),
+    (r"/trinket-list/country/([\+]?\S+)/",GetAllTrinketsWithImgByCountry),
     (r"/trinket-list/",GetAllTrinketsWithImg),
     (r"/profile-picture/([\+]?\S+)/",SaveProfilePicture),
     (r"/bo/trinket/(\S+)/active/([0-1]?)/",BOActivateDeactivate),
