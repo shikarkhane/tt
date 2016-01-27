@@ -7,7 +7,7 @@ import custom_text
 
 class Ios():
     def __init__(self):
-        self.apns = APNs(use_sandbox=True, cert_file=settings.IOS_CERT_FILE_PATH,
+        self.apns = APNs(use_sandbox=False, cert_file=settings.IOS_CERT_FILE_PATH,
             key_file=settings.IOS_KEY_FILE_PATH)
     def send_msg(self, token, msg):
         token_hex = token
