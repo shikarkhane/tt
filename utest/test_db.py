@@ -4,8 +4,9 @@ Created on Nov 12, 2014
 @author: nikhil
 '''
 import unittest
-from db._message import Message
+from db._message import Message, Message_Data
 from db._trinket import Animation
+from libs.message import save_message
 from random import randint
 from db._timesplit import TimeInAndOut, Timesplit
 import json
@@ -25,6 +26,18 @@ class Test_Trinket(unittest.TestCase):
     def test_random_active(self):
         t = Animation(pool).get_random_active()
         self.assertNotEqual(t, None)
+class Test_Message_data(unittest.TestCase):
+    def setUp(self):
+        pass
+    def tearDown(self):
+        pass
+    def test_trim_conversation(self):
+        a,b,c,d,e,f,g = 'user-A','user-B',20141112101018,23,"hello",14,False
+        data = {"from_user" : a, "to_user" : b, "send_timestamp" : c, "trinket_name": d, "text": e,
+                "seconds_sent": f, "unread" : g }
+        save_message(pool, data)
+
+        self.assertEqual(0, 1)
 class Test_Message(unittest.TestCase):
     def setUp(self):
         pass

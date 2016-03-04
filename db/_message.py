@@ -69,7 +69,7 @@ class Message_Data():
             while self.r.llen(actual_key) > limit:
                 # pop oldest msg from conversation, decrement unread count if needed and delete actual msg
                 first_msg_key = self.r.lpop(actual_key)
-                first_msg = Message( first_msg_key, self.get_by_key(first_msg_key))
+                first_msg = self.get_by_key(first_msg_key)
                 if first_msg.unread:
                     self.update_unread_count_in_grouped_feed(first_msg)
                 self.r.delete([first_msg_key])
