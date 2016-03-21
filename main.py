@@ -11,7 +11,7 @@ from handlers.backoffice import BOGetAllTrinketsHandler, BOSaveImg, BOActivateDe
 from handlers.trinket import GetAllTrinketsWithImg, GetAllTrinketsWithImgByCountry
 from handlers.backoffice_auth import LoginPage, GoogleOAuth2LoginHandler
 from rediscluster import StrictRedisCluster
-
+from social import Sharing
 startup_nodes = [{"host": settings.REDIS_CLUSTER["server"], "port": settings.REDIS_CLUSTER["port"]}]
 pool = StrictRedisCluster(startup_nodes=startup_nodes, decode_responses=True)
 
@@ -35,6 +35,7 @@ application = tornado.web.Application([
     (r"/trinket-list/country/([\+]?\S+)/",GetAllTrinketsWithImgByCountry),
     (r"/trinket-list/",GetAllTrinketsWithImg),
     (r"/profile-picture/([\+]?\S+)/",SaveProfilePicture),
+    (r"/social/(\S+)/",Sharing),
     (r"/bo/trinket/(\S+)/active/([0-1]?)/",BOActivateDeactivate),
     (r"/bo/trinket/(\S+)/",BOSaveImg),
     (r"/bo/trinket/",BOGetAllTrinketsHandler),
