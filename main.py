@@ -11,7 +11,7 @@ from handlers.backoffice import BOGetAllTrinketsHandler, BOSaveImg, BOActivateDe
 from handlers.trinket import GetAllTrinketsWithImg, GetAllTrinketsWithImgByCountry
 from handlers.backoffice_auth import LoginPage, GoogleOAuth2LoginHandler
 from rediscluster import StrictRedisCluster
-from social import Sharing
+from handlers.social import Sharing
 startup_nodes = [{"host": settings.REDIS_CLUSTER["server"], "port": settings.REDIS_CLUSTER["port"]}]
 pool = StrictRedisCluster(startup_nodes=startup_nodes, decode_responses=True)
 
