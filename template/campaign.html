@@ -1,20 +1,70 @@
 {% extends "base.html" %}
 
 {% block content-campaign %}
+<div class="ui-grid-b">
+    <div class="ui-block-a"><div class="ui-bar ui-bar-a" >
+        <div id="tab-campaign-twitter" class="ui-body-d ui-content">
+            <form>
+                <label for="txtCampaignName" id="snTwitter">twitter</label>
+                <input type="text" name="txtCampaignName" id="txtCampaignName" value="{{ twitter.name if twitter != None else '' }}" placeholder="FirstFacebookCampaign">
+                <label for="txtCurrentPic">Image url:</label>
+                <input type="text" name="txtImageUrl" id="txtCurrentPic" value="{{ twitter.imgurl if twitter != None else '' }}" placeholder="No Image url">
+                <img name="imgCurrentPic" width="100px" height="100px" id="imgCurrentPic" src="{{ twitter.imgurl if twitter != None else '' }}">
+                <label for="txtCurrentUrl">Web url:</label>
+                <input type="text" name="txtUrl" id="txtCurrentUrl" value="{{ twitter.url if twitter != None else '' }}" placeholder="No url">
+                <iframe width="100px" height="100px" name="imgCurrentUrl" id="imgCurrentUrl" src="{{ twitter.url if twitter != None else '' }}">
+                    </iframe>
+
+                <button id="savetwitter" class="ui-btn">Save</button>
+            </form>
+
+        </div>
+    </div>
+    </div>
+    <div class="ui-block-b"><div class="ui-bar ui-bar-a" >
 
     <div id="tab-campaign-facebook" class="ui-body-d ui-content">
     <form>
         <label for="txtCampaignName" id="snTwitter">facebook</label>
-        <input type="text" name="txtCampaignName" id="txtCampaignName" value="{{fb.name}}" placeholder="FirstFacebookCampaign">
-        <label for="imgCurrentPic">Image:</label>
-        <img name="imgCurrentPic" id="imgCurrentPic" src="{{fb.imgurl}}">
-        <label for="imgCurrentUrl">Web url:</label>
-        <iframe width="100px" height="100px" name="imgCurrentUrl" id="imgCurrentUrl" src="{{fb.url}}"/>
+        <input type="text" name="txtCampaignName" id="txtCampaignName" value="{{ fb.name if fb != None else '' }}" placeholder="FirstFacebookCampaign">
+        <label for="txtCurrentPic">Image url:</label>
+        <input type="text" name="txtImageUrl" id="txtCurrentPic" value="{{ fb.imgurl if fb != None else '' }}" placeholder="No Image url">
+        <img name="imgCurrentPic" width="100px" height="100px" id="imgCurrentPic" src="{{ fb.imgurl if fb != None else '' }}">
+        <label for="txtCurrentUrl">Web url:</label>
+        <input type="text" name="txtUrl" id="txtCurrentUrl" value="{{ fb.url if fb != None else '' }}" placeholder="No url">
+        <iframe width="100px" height="100px" name="imgCurrentUrl" id="imgCurrentUrl" src="{{ fb.url if fb != None else '' }}">
+            </iframe>
 
         <button id="savefb" class="ui-btn">Save</button>
     </form>
 
 </div>
+
+
+</div></div>
+<div class="ui-block-c"><div class="ui-bar ui-bar-a" >
+
+    <div id="tab-campaign-instagram" class="ui-body-d ui-content">
+    <form>
+        <label for="txtCampaignName" id="snTwitter">Instagram</label>
+        <input type="text" name="txtCampaignName" id="txtCampaignName" value="{{ insta.name if insta != None else '' }}" placeholder="FirstFacebookCampaign">
+        <label for="txtCurrentPic">Image url:</label>
+        <input type="text" name="txtImageUrl" id="txtCurrentPic" value="{{ insta.imgurl if insta != None else '' }}" placeholder="No Image url">
+        <img name="imgCurrentPic" width="100px" height="100px" id="imgCurrentPic" src="{{ insta.imgurl if insta != None else '' }}">
+        <label for="txtCurrentUrl">Web url:</label>
+        <input type="text" name="txtUrl" id="txtCurrentUrl" value="{{ insta.url if insta != None else '' }}" placeholder="No url">
+        <iframe width="100px" height="100px" name="imgCurrentUrl" id="imgCurrentUrl" src="{{ insta.url if insta != None else '' }}">
+            </iframe>
+
+        <button id="saveinsta" class="ui-btn">Save</button>
+    </form>
+
+</div>
+
+
+</div></div>
+
+</div><!-- /grid-a -->
 
 {% end %}
 

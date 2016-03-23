@@ -30,7 +30,7 @@ $(function() {
         hightlightElement = '#base-tab-communicate';
     }
     else if ( window.location.pathname == '/bo/campaign/'){
-        index = 3;
+        index = 4;
         hightlightElement = '#base-tab-campaign';
     }
 
