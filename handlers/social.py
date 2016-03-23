@@ -25,6 +25,6 @@ class SharingV2(tornado.web.RequestHandler):
     def get(self, social_network):
         try:
             r = Campaign(self.application.settings["db_connection_pool"], social_network).get()
-            self.write(json.dumps(r))
+            self.write(json.dumps(r.__dict__))
         except Exception,e:
             logging.exception(e)
