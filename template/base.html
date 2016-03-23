@@ -31,6 +31,7 @@
             <li><a id="base-tab-trinket" href="#tab-trinket" data-ajax="false">Trinket</a></li>
             <li><a id="base-tab-profile" href="#tab-profile" data-ajax="false">Profile</a></li>
             <li><a id="base-tab-communicate" href="#tab-communicate" data-ajax="false">Communication</a></li>
+            <li><a id="base-tab-campaign" href="#tab-campaign" data-ajax="false">Campaign</a></li>
         </ul>
     </div>
     <div id="tab-base">
@@ -48,6 +49,11 @@
         {% block content-communicate %}
         {% end %}
     </div>
+    <div id="tab-campaign" >
+        {% block content-campaign %}
+        {% end %}
+    </div>
+
 </div>
 
 <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>

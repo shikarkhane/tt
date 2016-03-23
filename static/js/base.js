@@ -10,7 +10,10 @@ $('#base-tab-communicate').click(function () {
     event.preventDefault();
     location.replace('/bo/communicate/');
 });
-
+$('#base-tab-campaign').click(function () {
+    event.preventDefault();
+    location.replace('/bo/campaign/');
+});
 $(function() {
     var index = 0,
         hightlightElement = '#base-tab-trinket';
@@ -26,6 +29,11 @@ $(function() {
         index = 3;
         hightlightElement = '#base-tab-communicate';
     }
+    else if ( window.location.pathname == '/bo/campaign/'){
+        index = 3;
+        hightlightElement = '#base-tab-campaign';
+    }
+
     else{
         index = 0;
     }

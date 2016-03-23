@@ -28,3 +28,5 @@ def trinket_swiffy_url_key(trinket_name):
     return 'url:trinket:{0}:swiffy'.format(trinket_name)
 def random_profile_img_url_key():
     return 'url:profile:random:images'
+def campaign_key(network):
+    return 'campaign:{0}'.format(network)

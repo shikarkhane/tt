@@ -7,11 +7,11 @@ from handlers.sms import SmsVerifyCodeHandler, VerifyCodeHandler
 from handlers.user import UserVerificationHandler, RegisterUserToken, \
     UserTimeSplitHandler, UserPairTimeSplitHandler, UsersOnNetworkPlusTimesplitHandler, SaveProfilePicture
 from handlers.backoffice import BOGetAllTrinketsHandler, BOSaveImg, BOActivateDeactivate,\
-    BOCommunication, BOTinktimeUserProfile, BORandomProfileThumbnail
+    BOCommunication, BOTinktimeUserProfile, BORandomProfileThumbnail, BOCampaign
 from handlers.trinket import GetAllTrinketsWithImg, GetAllTrinketsWithImgByCountry
 from handlers.backoffice_auth import LoginPage, GoogleOAuth2LoginHandler
 from rediscluster import StrictRedisCluster
-from handlers.social import Sharing
+from handlers.social import Sharing, SharingV2
 startup_nodes = [{"host": settings.REDIS_CLUSTER["server"], "port": settings.REDIS_CLUSTER["port"]}]
 pool = StrictRedisCluster(startup_nodes=startup_nodes, decode_responses=True)
 
@@ -36,12 +36,14 @@ application = tornado.web.Application([
     (r"/trinket-list/",GetAllTrinketsWithImg),
     (r"/profile-picture/([\+]?\S+)/",SaveProfilePicture),
     (r"/social/(\S+)/",Sharing),
+    (r"/socialv2/(\S+)/",SharingV2),
     (r"/bo/trinket/(\S+)/active/([0-1]?)/",BOActivateDeactivate),
     (r"/bo/trinket/(\S+)/",BOSaveImg),
     (r"/bo/trinket/",BOGetAllTrinketsHandler),
     (r"/bo/profile/",BOTinktimeUserProfile),
     (r"/bo/random-profile-picture/",BORandomProfileThumbnail),
     (r"/bo/communicate/",BOCommunication),
+    (r"/bo/campaign/",BOCampaign),
     (r"/bo/login/",LoginPage),
     (r"/auth",GoogleOAuth2LoginHandler),
 ], debug=settings.DEBUG, static_path = settings.STATIC_PATH, template_path = settings.TEMPLATE_PATH,

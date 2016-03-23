@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block content-campaign %}
+
+    <div id="tab-campaign-facebook" class="ui-body-d ui-content">
+    <form>
+        <label for="txtCampaignName" id="snTwitter">facebook</label>
+        <input type="text" name="txtCampaignName" id="txtCampaignName" value="{{fb.name}}" placeholder="FirstFacebookCampaign">
+        <label for="imgCurrentPic">Image:</label>
+        <img name="imgCurrentPic" id="imgCurrentPic" src="{{fb.imgurl}}">
+        <label for="imgCurrentUrl">Web url:</label>
+        <iframe width="100px" height="100px" name="imgCurrentUrl" id="imgCurrentUrl" src="{{fb.url}}"/>
+
+        <button id="savefb" class="ui-btn">Save</button>
+    </form>
+
+</div>
+
+{% end %}
+
+{% block afterincludejs %}
+    <script src="/static/js/campaign.js"></script>
+{% end %}

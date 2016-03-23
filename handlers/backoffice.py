@@ -8,6 +8,7 @@ from libs.trinket import get_all_trinkets_with_details, save, save_img_wrapper, 
 from libs.content import get_all_random_profile_urls, save_random_profile_img_wrapper
 import time
 import json
+from libs.social import Campaign
 
 # Log everything, and send it to stderr.
 logging.basicConfig(filename=settings.DEBUG_LOG,level=logging.ERROR,format='%(asctime)s %(message)s')
@@ -16,7 +17,7 @@ class BOTinktimeUserProfile(BaseHandler):
     def get(self):
         '''get tinktime user profile'''
         try:
-            self.render("user_tinktime.html" )
+            self.render("user_tinktime.html")
         except Exception,e:
             logging.exception(e)
 class BORandomProfileThumbnail(BaseHandler):
@@ -91,6 +92,26 @@ class BOSaveImg(BaseHandler):
             save_swiffy(pool, name, swiffyFile, swiffyFile_content_type)
 
             self.write('image was uploaded')
+        except Exception,e:
+            self.write(str(e))
+            logging.exception(e)
+
+class BOCampaign(BaseHandler):
+    def get(self):
+        try:
+            fb = Campaign(self.application.settings["db_connection_pool"], 'facebook').get()
+            insta = Campaign(self.application.settings["db_connection_pool"], 'instagram').get()
+            twitter = Campaign(self.application.settings["db_connection_pool"], 'twitter').get()
+
+            self.render("campaign.html", fb=fb, insta=insta, twitter = twitter)
+        except Exception,e:
+            self.write(str(e))
+            logging.exception(e)
+    def post(self, network, name):
+        try:
+            d = json.loads(self.request.body)
+            r = Campaign(self.application.settings["db_connection_pool"], network).save(name, d["url"], d["imgurl"])
+            self.write('campaign was updated')
         except Exception,e:
             self.write(str(e))
             logging.exception(e)
