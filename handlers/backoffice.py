@@ -107,10 +107,10 @@ class BOCampaign(BaseHandler):
         except Exception,e:
             self.write(str(e))
             logging.exception(e)
-    def post(self, network, name):
+    def post(self):
         try:
             d = json.loads(self.request.body)
-            r = Campaign(self.application.settings["db_connection_pool"], network).save(name, d["url"], d["imgurl"])
+            r = Campaign(self.application.settings["db_connection_pool"], d["network"]).save(d["name"], d["url"], d["imgurl"])
             self.write('campaign was updated')
         except Exception,e:
             self.write(str(e))

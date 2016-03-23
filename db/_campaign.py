@@ -24,7 +24,7 @@ class Marketing():
         k = campaign_key(network)
         y = self.r.get(k)
         if y:
-            c = json.loads(c)
+            c = json.loads(y)
+            return Campaign(c['socialnetwork'], c['name'], c['url'], c['imgurl'])
         else:
-            return c
-        return Campaign(c['socialnetwork'], c['name'], c['url'], c['imgurl'])
+            return None
