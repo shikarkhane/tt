@@ -87,6 +87,8 @@ class RegisterUserToken(tornado.web.RequestHandler):
             self.write(json.dumps(register_push_token(self.application.settings["db_connection_pool"],
                                                       to_user, d["push_token"], d["device_name"],
                                                       d["device_platform"], d["device_uuid"])))
+            d["user"] = to_user
+            ls_logger.info('register', extra={'tt-type': 'register', 'register': d})
         except Exception,e:
             ls_logger.error(e, extra={'tt-type': 'tt-error'})
 
