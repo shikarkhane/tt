@@ -24,3 +24,4 @@ six==1.10.0
 tornado==4.3
 twilio==5.2.0
 wheel==0.26.0
+python-logstash==0.4.6

@@ -3,9 +3,14 @@ import json
 import settings
 from tornado.httpclient import AsyncHTTPClient
 import logging
+import logstash
+
+ls_logger = logging.getLogger('python-logstash-logger')
+ls_logger.setLevel(logging.INFO)
+ls_logger.addHandler(logstash.TCPLogstashHandler(settings.LOGSTASH_SERVER, settings.LOGSTASH_PORT, version=1))
 
 # Log everything, and send it to stderr.
-logging.basicConfig(filename=settings.DEBUG_LOG,level=logging.ERROR,format='%(asctime)s %(message)s')
+# logging.basicConfig(filename=settings.DEBUG_LOG,level=logging.ERROR,format='%(asctime)s %(message)s')
 
 def http_get(url):
     req = urllib2.Request(url)
@@ -31,9 +36,7 @@ def http_call(url, data = None, method = 'GET', async=True):
             return async_http_delete(url)
 def handle_request(response):
     if response.error:
-        print "Error:", response.error
-        logging.exception(response.error)
+        ls_logger.error(response.error, extra={'tt-type': 'tt-error'})
     else:
-        print response.body
-        logging.exception(response.body)
+        ls_logger.error(response.body, extra={'tt-type': 'tt-error'})
 

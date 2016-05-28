@@ -6,9 +6,14 @@ from libs.user import is_user_verified, are_on_network, register_push_token, \
     profile_picture_uploaded, save_profile_img_wrapper
 from libs.response_utility import Response
 import json
+import logstash
+
+ls_logger = logging.getLogger('python-logstash-logger')
+ls_logger.setLevel(logging.INFO)
+ls_logger.addHandler(logstash.TCPLogstashHandler(settings.LOGSTASH_SERVER, settings.LOGSTASH_PORT, version=1))
 
 # Log everything, and send it to stderr.
-logging.basicConfig(filename=settings.DEBUG_LOG,level=logging.ERROR,format='%(asctime)s %(message)s')
+# logging.basicConfig(filename=settings.DEBUG_LOG,level=logging.ERROR,format='%(asctime)s %(message)s')
 
 class UserVerificationHandler(tornado.web.RequestHandler):
     '''
@@ -23,7 +28,7 @@ class UserVerificationHandler(tornado.web.RequestHandler):
                 r = is_user_verified(self.application.settings["db_connection_pool"], user)
             self.write(json.dumps(Response().only_status(r)))
         except Exception,e:
-            logging.exception(e)
+            ls_logger.error(e, extra={'tt-type': 'tt-error'})
 class UserTimeSplitHandler(tornado.web.RequestHandler):
     def get(self, user):
         ''' get time received and sent by user'''
@@ -35,7 +40,7 @@ class UserTimeSplitHandler(tornado.web.RequestHandler):
             self.write(x)
 
         except Exception,e:
-            logging.exception(e)
+            ls_logger.error(e, extra={'tt-type': 'tt-error'})
 
 class UserPairTimeSplitHandler(tornado.web.RequestHandler):
     def get(self, user, user_pair):
@@ -48,7 +53,7 @@ class UserPairTimeSplitHandler(tornado.web.RequestHandler):
             self.write(x)
 
         except Exception,e:
-            logging.exception(e)
+            ls_logger.error(e, extra={'tt-type': 'tt-error'})
 
 
 class UsersOnNetworkHandler(tornado.web.RequestHandler):
@@ -61,7 +66,7 @@ class UsersOnNetworkHandler(tornado.web.RequestHandler):
             d = json.loads(self.request.body)
             self.write(json.dumps(are_on_network(self.application.settings["db_connection_pool"], d["contacts"])))
         except Exception,e:
-            logging.exception(e)
+            ls_logger.error(e, extra={'tt-type': 'tt-error'})
 class UsersOnNetworkPlusTimesplitHandler(tornado.web.RequestHandler):
     '''
     1. check array of users are on tinktime network
@@ -72,7 +77,7 @@ class UsersOnNetworkPlusTimesplitHandler(tornado.web.RequestHandler):
             d = json.loads(self.request.body)
             self.write(json.dumps(are_on_network_plus_timesplit(self.application.settings["db_connection_pool"], user, d["contacts"])))
         except Exception,e:
-            logging.exception(e)
+            ls_logger.error(e, extra={'tt-type': 'tt-error'})
 class RegisterUserToken(tornado.web.RequestHandler):
     '''save token from user for push notification
     '''
@@ -83,7 +88,7 @@ class RegisterUserToken(tornado.web.RequestHandler):
                                                       to_user, d["push_token"], d["device_name"],
                                                       d["device_platform"], d["device_uuid"])))
         except Exception,e:
-            logging.exception(e)
+            ls_logger.error(e, extra={'tt-type': 'tt-error'})
 
 class SaveProfilePicture(tornado.web.RequestHandler):
     def get(self, user):
@@ -94,7 +99,7 @@ class SaveProfilePicture(tornado.web.RequestHandler):
                 r = ''
             self.write(r)
         except Exception,e:
-            logging.exception(e)
+            ls_logger.error(e, extra={'tt-type': 'tt-error'})
     def post(self, user):
         '''save profile picture'''
         try:
@@ -107,4 +112,4 @@ class SaveProfilePicture(tornado.web.RequestHandler):
             profile_picture_uploaded(self.application.settings["db_connection_pool"], user)
             self.write('image was uploaded')
         except Exception,e:
-            logging.exception(e)
+            ls_logger.error(e, extra={'tt-type': 'tt-error'})
