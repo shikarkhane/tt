@@ -37,6 +37,4 @@ def http_call(url, data = None, method = 'GET', async=True):
 def handle_request(response):
     if response.error:
         ls_logger.error(response.error, extra={'tt-type': 'tt-error'})
-    else:
-        ls_logger.error(response.body, extra={'tt-type': 'tt-error'})
 
