@@ -12,6 +12,14 @@ from handlers.trinket import GetAllTrinketsWithImg, GetAllTrinketsWithImgByCount
 from handlers.backoffice_auth import LoginPage, GoogleOAuth2LoginHandler
 from rediscluster import StrictRedisCluster
 from handlers.social import Sharing, SharingV2
+
+import logstash
+import logging
+
+ls_logger = logging.getLogger('python-logstash-logger')
+ls_logger.setLevel(logging.INFO)
+ls_logger.addHandler(logstash.TCPLogstashHandler(settings.LOGSTASH_SERVER, settings.LOGSTASH_PORT, version=1))
+
 startup_nodes = [{"host": settings.REDIS_CLUSTER["server"], "port": settings.REDIS_CLUSTER["port"]}]
 pool = StrictRedisCluster(startup_nodes=startup_nodes, decode_responses=True)
 
@@ -48,7 +56,7 @@ application = tornado.web.Application([
     (r"/auth",GoogleOAuth2LoginHandler),
 ], debug=settings.DEBUG, static_path = settings.STATIC_PATH, template_path = settings.TEMPLATE_PATH,
         login_url="/bo/login/", google_oauth= {"key": settings.GOOGLE_CLIENT_ID, "secret": settings.GOOGLE_SECRET},
-        cookie_secret=settings.COOKIE_SECRET, db_connection_pool=pool)
+        cookie_secret=settings.COOKIE_SECRET, db_connection_pool=pool, ls_logger=ls_logger)
 
 if __name__ == "__main__":
     #create config file
