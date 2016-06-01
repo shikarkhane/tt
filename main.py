@@ -18,7 +18,8 @@ import logging
 
 ls_logger = logging.getLogger('python-logstash-logger')
 ls_logger.setLevel(logging.INFO)
-ls_logger.addHandler(logstash.TCPLogstashHandler(settings.LOGSTASH_SERVER, settings.LOGSTASH_PORT, version=1))
+if len(ls_logger.handlers) == 0:
+    ls_logger.addHandler(logstash.TCPLogstashHandler(settings.LOGSTASH_SERVER, settings.LOGSTASH_PORT, version=1))
 
 startup_nodes = [{"host": settings.REDIS_CLUSTER["server"], "port": settings.REDIS_CLUSTER["port"]}]
 pool = StrictRedisCluster(startup_nodes=startup_nodes, decode_responses=True)
