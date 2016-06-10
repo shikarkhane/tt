@@ -83,7 +83,7 @@ $(document).on('click', "#save-new-trinket", function(event) {
 
 $(document).on('click', "button.deactivate", function(event) {
     event.preventDefault();
-    var name = $(this).siblings('span.trinketname')[0].innerText;
+    var name = $(this).attr('data-trinketname');
     $.ajax({
                 type: 'POST',
             contentType: 'application/json',
