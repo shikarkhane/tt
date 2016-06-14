@@ -2,7 +2,7 @@ from db._trinket import Animation
 import settings
 from libs import s3_utility
 from libs.utility import get_scaledown_image_in_content
-
+from operator import itemgetter
 def save(connection_pool, name, trinketId, groupId):
     save_detail(connection_pool, name, trinketId, groupId)
 
@@ -70,7 +70,8 @@ def get_all_trinkets_with_details(pool, only_active):
         trinkets = get_all_active_trinkets(pool)
     else:
         trinkets = get_all_inactive_trinkets(pool)
-    return [(get_details(pool,t)) for t in trinkets]
+    stage = [(get_details(pool,t)) for t in trinkets]
+    return sorted(stage, key=itemgetter('trinketId'), reverse=True)
 
 def get_random_active_trinket(pool):
     return Animation(pool).get_random_active()
