@@ -1,9 +1,8 @@
 from db._message import Message, Message_Data
 from libs.user import add_time_split
-from libs.sms import twilio_provider as sms_provider
+from libs.sms_provider import twilio_provider as sms_provider
 from random import randint
 from settings import COMMUNITY_MANAGER, CONVERSATION_LENGTH_LIMIT
-from libs.trinket import get_random_active_trinket
 import time
 import custom_text
 import settings
