@@ -6,5 +6,6 @@ COMMUNICATE = {
 }
 SMS = {
     "SendCode" : "From Tinktime: Enter verification code:{0}",
-    "Welcome" : "Welcome to Tinktime! You registered successfully. Happy tinking."
+    "Welcome" : "Welcome to Tinktime! You registered successfully. Happy tinking.",
+    "TINK_VIA_SMS" : "{0} was thinking about you for {1} secs. Download app tinktime.com to view the personal message."
 }

@@ -18,6 +18,11 @@ class twilio_provider():
     def send_welcome(self, to_user):
         client = TwilioRestClient(self.ACCOUNT_SID, self.AUTH_TOKEN)
         client.messages.create( to=to_user, from_=self.ACCOUNT_NUMBER, body=custom_text.SMS["Welcome"])
+    def send_tink_via_sms(self, to_user, from_user, time_in_seconds):
+        client = TwilioRestClient(self.ACCOUNT_SID, self.AUTH_TOKEN)
+        client.messages.create( to=to_user, from_=self.ACCOUNT_NUMBER,
+                                body=custom_text.SMS["TINK_VIA_SMS"].format(from_user, time_in_seconds))
+
 
 def send_sms_verfication_code(connection_pool, user):
     code = get_sms_code()
