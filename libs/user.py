@@ -109,7 +109,8 @@ def are_on_network(connection_pool, contacts):
     [i.setIsMember(is_user_verified(connection_pool, i.phone_number)) for i in r if i.phone_number]
     return [(x.__dict__) for x in r]
 
-def are_on_network_plus_timesplit(connection_pool, user, contacts):
+def are_on_network_plus_timesplit(connection_pool, user, contacts_with_duplicates):
+    contacts = list(set(contacts_with_duplicates))
     r = [ContactWithTimeSplit(connection_pool, c) for c in contacts]
 
     # find if contact is on tinktime network
