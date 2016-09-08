@@ -110,7 +110,7 @@ def are_on_network(connection_pool, contacts):
     return [(x.__dict__) for x in r]
 
 def are_on_network_plus_timesplit(connection_pool, user, contacts_with_duplicates):
-    contacts = list(set(contacts_with_duplicates))
+    contacts = [dict(tupleized) for tupleized in set(tuple(item.items()) for item in contacts_with_duplicates)]
     r = [ContactWithTimeSplit(connection_pool, c) for c in contacts]
 
     # find if contact is on tinktime network
